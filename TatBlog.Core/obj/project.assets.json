@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj",
+      "projectUniqueName": "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.Core\\TatBlog.Core.csproj",
       "projectName": "TatBlog.Core",
-      "projectPath": "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj",
+      "projectPath": "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.Core\\TatBlog.Core.csproj",
       "packagesPath": "C:\\Users\\truon\\.nuget\\packages\\",
-      "outputPath": "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.Core\\obj\\",
+      "outputPath": "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.Core\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

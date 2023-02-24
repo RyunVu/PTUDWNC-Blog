@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "LXEx+ERVIiG2D308jsED5IOIYeEFu98q87PypekJAC95WdINK1I751drXzshm6armAe8yFQfopvLYJWNetSofw==",
+  "dgSpecHash": "ZpYj6II58Sv9TWg93l9n4tRsYJsqjHlRqKJLv81tInzP9ol+BKPV6VItnSomfmxubUBqx//pK7OADJnR2of3GA==",
   "success": true,
-  "projectFilePath": "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.WinApp\\TatBlog.WinApp.csproj",
+  "projectFilePath": "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.WinApp\\TatBlog.WinApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\truon\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\truon\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",

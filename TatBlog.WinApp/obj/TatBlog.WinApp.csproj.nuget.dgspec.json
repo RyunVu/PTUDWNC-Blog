@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.WinApp\\TatBlog.WinApp.csproj": {}
+    "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.WinApp\\TatBlog.WinApp.csproj": {}
   },
   "projects": {
-    "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj": {
+    "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.Core\\TatBlog.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj",
+        "projectUniqueName": "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.Core\\TatBlog.Core.csproj",
         "projectName": "TatBlog.Core",
-        "projectPath": "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj",
+        "projectPath": "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.Core\\TatBlog.Core.csproj",
         "packagesPath": "C:\\Users\\truon\\.nuget\\packages\\",
-        "outputPath": "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.Core\\obj\\",
+        "outputPath": "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -64,14 +64,14 @@
         }
       }
     },
-    "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj": {
+    "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.Data\\TatBlog.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj",
+        "projectUniqueName": "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.Data\\TatBlog.Data.csproj",
         "projectName": "TatBlog.Data",
-        "projectPath": "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj",
+        "projectPath": "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.Data\\TatBlog.Data.csproj",
         "packagesPath": "C:\\Users\\truon\\.nuget\\packages\\",
-        "outputPath": "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.Data\\obj\\",
+        "outputPath": "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.Data\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -93,8 +93,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj": {
-                "projectPath": "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj"
+              "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.Core\\TatBlog.Core.csproj": {
+                "projectPath": "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.Core\\TatBlog.Core.csproj"
               }
             }
           }
@@ -138,14 +138,14 @@
         }
       }
     },
-    "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.Services\\TatBlog.Services.csproj": {
+    "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.Services\\TatBlog.Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.Services\\TatBlog.Services.csproj",
+        "projectUniqueName": "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.Services\\TatBlog.Services.csproj",
         "projectName": "TatBlog.Services",
-        "projectPath": "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.Services\\TatBlog.Services.csproj",
+        "projectPath": "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.Services\\TatBlog.Services.csproj",
         "packagesPath": "C:\\Users\\truon\\.nuget\\packages\\",
-        "outputPath": "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.Services\\obj\\",
+        "outputPath": "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.Services\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -167,11 +167,11 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj": {
-                "projectPath": "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj"
+              "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.Core\\TatBlog.Core.csproj": {
+                "projectPath": "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.Core\\TatBlog.Core.csproj"
               },
-              "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj": {
-                "projectPath": "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj"
+              "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.Data\\TatBlog.Data.csproj": {
+                "projectPath": "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.Data\\TatBlog.Data.csproj"
               }
             }
           }
@@ -205,14 +205,14 @@
         }
       }
     },
-    "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.WinApp\\TatBlog.WinApp.csproj": {
+    "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.WinApp\\TatBlog.WinApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.WinApp\\TatBlog.WinApp.csproj",
+        "projectUniqueName": "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.WinApp\\TatBlog.WinApp.csproj",
         "projectName": "TatBlog.WinApp",
-        "projectPath": "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.WinApp\\TatBlog.WinApp.csproj",
+        "projectPath": "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.WinApp\\TatBlog.WinApp.csproj",
         "packagesPath": "C:\\Users\\truon\\.nuget\\packages\\",
-        "outputPath": "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.WinApp\\obj\\",
+        "outputPath": "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.WinApp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -234,14 +234,14 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj": {
-                "projectPath": "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj"
+              "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.Core\\TatBlog.Core.csproj": {
+                "projectPath": "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.Core\\TatBlog.Core.csproj"
               },
-              "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj": {
-                "projectPath": "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj"
+              "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.Data\\TatBlog.Data.csproj": {
+                "projectPath": "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.Data\\TatBlog.Data.csproj"
               },
-              "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.Services\\TatBlog.Services.csproj": {
-                "projectPath": "D:\\School\\Year 3\\HK2\\Web\\_2014508_NguyenTruongVu_Lab01\\TipsAndTricks\\TatBlog.Services\\TatBlog.Services.csproj"
+              "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.Services\\TatBlog.Services.csproj": {
+                "projectPath": "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.Services\\TatBlog.Services.csproj"
               }
             }
           }

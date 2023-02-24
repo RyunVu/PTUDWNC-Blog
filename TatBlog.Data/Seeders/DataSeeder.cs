@@ -35,6 +35,24 @@ namespace TatBlog.Data.Seeders {
                     UrlSlug = "jessica-wonder",
                     Email = "jessica665@motip.com",
                     JoinedDate = new DateTime(2022,4,19)
+                },
+                new() {
+                    FullName = "Fuji Kaze",
+                    UrlSlug = "fuji-kaze",
+                    Email = "fuji@gmail.com",
+                    JoinedDate = new DateTime(2023, 01, 21)
+                },
+                new() {
+                    FullName = "Chillies",
+                    UrlSlug = "chillies",
+                    Email = "chillies@gmail.com",
+                    JoinedDate = new DateTime(2022, 12, 19)
+                },
+                new() {
+                    FullName = "Mizuki Rin",
+                    UrlSlug = "mizuki-rin",
+                    Email = "mizukirinka@gmail.com",
+                    JoinedDate = new DateTime(2022, 6, 19)
                 }
             };
 
@@ -109,6 +127,86 @@ namespace TatBlog.Data.Seeders {
                     Tags = new List<Tag>()
                     {
                         tags[0]
+                    }
+                },
+                new() {
+                    Title = "10 Web Development Trends in 2023",
+                    ShortDescription = "Robin Wieruch",
+                    Description = "The most popular meta framework called Next.js comes on top of React.js. " +
+                                  "SSR is all over the place when working with JavaScript frameworks these days.",
+                    Meta = "Robin Wieruch",
+                    UrlSlug = "10-web-development-trends-in-2023",
+                    Published = true,
+                    PostedDate = new DateTime(2022, 9, 30, 10, 20, 0),
+                    ModifiedDate = null,
+                    ViewCount = 10,
+                    Author = authors[1],
+                    Category = categories[0],
+                    Tags = new List<Tag>()
+                    {
+                        tags[15],
+                        tags[16],
+                        tags[17],
+                    }
+                },
+                new() {
+                    Title = "Creating a resume builder with React, NodeJS and AI",
+                    ShortDescription = "Resume builder with AI",
+                    Description = "OpenAI GPT-3 is a type of artificial intelligence program developed by OpenAI " +
+                                  "that is really good at understanding and processing human language.",
+                    Meta = "Resume builder with AI",
+                    UrlSlug = "creating-a-resume-builder-with-react-node-js-and-ai",
+                    Published = true,
+                    PostedDate = new DateTime(2022, 9, 20, 10, 20, 0),
+                    ModifiedDate = null,
+                    ViewCount = 20,
+                    Author = authors[2],
+                    Category = categories[1],
+                    Tags = new List<Tag>()
+                    {
+                        tags[7],
+                        tags[9],
+                        tags[3],
+                    }
+                },
+                new() {
+                    Title = "LazyWeb",
+                    ShortDescription = "The ultimate resource for developers",
+                    Description = "\"Your feedback is incredibly valuable to me as I'm constantly looking for ways to make" +
+                                    " Lazyweb the best resource solution for developers. So please don't hesitate to share your thoughts " +
+                                    "and help shape the future of this platform,\" says developer.",
+                    Meta = "The ultimate resource for developers",
+                    UrlSlug = "lazy-web",
+                    Published = true,
+                    PostedDate = new DateTime(2022, 12, 23, 10, 20, 0),
+                    ModifiedDate = null,
+                    ViewCount = 12,
+                    Author = authors[4],
+                    Category = categories[2],
+                    Tags = new List<Tag>()
+                    {
+                        tags[7],
+                        tags[9],
+                        tags[3],
+                    }
+                },
+                new() {
+                    Title = "Custom ScrollBar",
+                    ShortDescription = "Custom ScrollBar with Pure CSS",
+                    Description = "We must first understand the various components of a scrollbar because each component must be styled separately.",
+                    Meta = "Custom ScrollBar with Pure CSS",
+                    UrlSlug = "custom-scrollBar",
+                    Published = true,
+                    PostedDate = new DateTime(2022, 3, 3, 10, 20, 0),
+                    ModifiedDate = null,
+                    ViewCount = 15,
+                    Author = authors[3],
+                    Category = categories[4],
+                    Tags = new List<Tag>()
+                    {
+                        tags[7],
+                        tags[9],
+                        tags[3],
                     }
                 }
             };
