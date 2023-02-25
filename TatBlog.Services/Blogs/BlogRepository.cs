@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
+using TatBlog.Core.Contracts;
+using TatBlog.Core.DTO;
 using TatBlog.Core.Entities;
 using TatBlog.Data.Contexts;
+using TatBlog.Services.Extensions;
 
 namespace TatBlog.Services.Blogs {
     public class BlogRepository : IBlogRepository {
@@ -51,5 +54,37 @@ namespace TatBlog.Services.Blogs {
                     p.SetProperty(x => x.ViewCount, x => x.ViewCount + 1), cancellationToken);
         }
 
+        public async Task<IList<CategoryItem>> GetCategoriesAsync(bool showOnMenu = false, CancellationToken cancellationToken = default) {
+            IQueryable<Category> categories = _context.Set<Category>();
+
+            if (showOnMenu) {
+                categories = categories.Where(x => x.ShowOnMenu);
+            }
+            return await categories
+                .OrderBy(x => x.Name)
+                .Select(x => new CategoryItem() {
+                    Id = x.Id,
+                    Name = x.Name,
+                    UrlSlug= x.UrlSlug,
+                    Description = x.Description,
+                    ShowOnMenu = x.ShowOnMenu,
+                    PostCount = x.Posts.Count(p => p.Published)
+                })
+                .ToListAsync();
+        }
+
+        public async Task<IPageList<TagItem>> GetPagedTagsAsync(IPagingParams pagingParams, CancellationToken cancellationToken = default) {
+            var tagQuery = _context.Set<Tag>()
+                .Select(x => new TagItem() {
+                    Id = x.Id,
+                    Name = x.Name,
+                    UrlSlug = x.UrlSlug,
+                    Description = x.Description,
+                    PostCount = x.Posts.Count(p => p.Published)
+                });
+
+            return await tagQuery
+                .ToPagedListAsync(pagingParams, cancellationToken);
+        }
     }
 }

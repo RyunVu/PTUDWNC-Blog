@@ -146,3 +146,4 @@ D:\School\Year 3\HK2\WebNangCao\TipsAndTricks\PTUDWNC-Blog\TatBlog.WinApp\obj\De
 D:\School\Year 3\HK2\WebNangCao\TipsAndTricks\PTUDWNC-Blog\TatBlog.WinApp\obj\Debug\net7.0\TatBlog.WinApp.pdb
 D:\School\Year 3\HK2\WebNangCao\TipsAndTricks\PTUDWNC-Blog\TatBlog.WinApp\obj\Debug\net7.0\TatBlog.WinApp.genruntimeconfig.cache
 D:\School\Year 3\HK2\WebNangCao\TipsAndTricks\PTUDWNC-Blog\TatBlog.WinApp\obj\Debug\net7.0\ref\TatBlog.WinApp.dll
+D:\School\Year 3\HK2\WebNangCao\TipsAndTricks\PTUDWNC-Blog\TatBlog.WinApp\bin\Debug\net7.0\System.Linq.Dynamic.Core.dll

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ZpYj6II58Sv9TWg93l9n4tRsYJsqjHlRqKJLv81tInzP9ol+BKPV6VItnSomfmxubUBqx//pK7OADJnR2of3GA==",
+  "dgSpecHash": "L5a4VhbtWdeUR5g2xKYnR6dPh6A6rszKgB8hu6O7XlRsy+X2XF1pXiCKQLhzr4qWuMPBJ/RchbzcjS1bG2PvAw==",
   "success": true,
   "projectFilePath": "D:\\School\\Year 3\\HK2\\WebNangCao\\TipsAndTricks\\PTUDWNC-Blog\\TatBlog.WinApp\\TatBlog.WinApp.csproj",
   "expectedPackageFiles": [
@@ -51,6 +51,7 @@
     "C:\\Users\\truon\\.nuget\\packages\\system.globalization\\4.3.0\\system.globalization.4.3.0.nupkg.sha512",
     "C:\\Users\\truon\\.nuget\\packages\\system.identitymodel.tokens.jwt\\6.21.0\\system.identitymodel.tokens.jwt.6.21.0.nupkg.sha512",
     "C:\\Users\\truon\\.nuget\\packages\\system.io\\4.3.0\\system.io.4.3.0.nupkg.sha512",
+    "C:\\Users\\truon\\.nuget\\packages\\system.linq.dynamic.core\\1.2.25\\system.linq.dynamic.core.1.2.25.nupkg.sha512",
     "C:\\Users\\truon\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
     "C:\\Users\\truon\\.nuget\\packages\\system.memory.data\\1.0.2\\system.memory.data.1.0.2.nupkg.sha512",
     "C:\\Users\\truon\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",

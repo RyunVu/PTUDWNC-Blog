@@ -1,7 +1,9 @@
-﻿using TatBlog.Core.Entities;
+﻿using TatBlog.Core.Contracts;
+using TatBlog.Core.DTO;
+using TatBlog.Core.Entities;
 
 namespace TatBlog.Services.Blogs {
-    public  interface IBlogRepository {
+    public interface IBlogRepository {
 
         // Tìm bài viết có tên định danh là 'slug' và được đăng vào tháng 'month' năm 'year'
         Task<Post> GetPostAsync(
@@ -23,6 +25,16 @@ namespace TatBlog.Services.Blogs {
         // Tăng số lượt xem của một bài viết
         Task IncreaseViewCountAsync(
             int postId,
+            CancellationToken cancellationToken = default);
+
+        // Lấy danh sách chuyên mục và số lượng bài viết nằm thuộc từng chuyên mục/chủ đề
+        Task<IList<CategoryItem>> GetCategoriesAsync(
+            bool showOnMenu = false,
+            CancellationToken cancellationToken = default);
+
+        //Lấy danh sácch từ khóa/thẻ và phân trang theo các tham số pagingParams
+        Task<IPageList<TagItem>> GetPagedTagsAsync(
+            IPagingParams pagingParams,
             CancellationToken cancellationToken = default);
     }
 }
