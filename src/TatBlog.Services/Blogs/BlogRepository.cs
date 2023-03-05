@@ -219,5 +219,19 @@ namespace TatBlog.Services.Blogs {
             return await _context.Set<Category>()
                 .ToListAsync(cancellationToken);
         }
+
+        public async Task TogglePublishedStatusAsync(int id, CancellationToken cancellationToken = default) {
+            await _context.Set<Post>()
+                .Where(x => x.Id == id)
+                .ExecuteUpdateAsync(p => p.SetProperty(x => x.Published, x => !x.Published), cancellationToken);
+        }
+
+        public async Task<IList<Post>> GetRandomPostsAsync(int randomNumber, CancellationToken cancellationToken = default) {
+            return await _context.Set<Post>()
+                .Include(a => a.Author)
+                .Include(c => c.Category)
+                .OrderBy(c => Guid.NewGuid())
+                .Take(randomNumber).ToListAsync(cancellationToken);
+        }
     }
 }

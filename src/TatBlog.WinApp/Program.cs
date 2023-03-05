@@ -236,8 +236,8 @@ IBlogRepository blogRepo = new BlogRepository(context);
 
 
 // 1.m
-var authorsList = await blogRepo.GetAllAuthorsAsync();
-var categoriesList = await blogRepo.GetAllCategoriesAsync();
+//var authorsList = await blogRepo.GetAllAuthorsAsync();
+//var categoriesList = await blogRepo.GetAllCategoriesAsync();
 
 //foreach (var author in authorsList) {
 //    Console.WriteLine(author.FullName);
@@ -249,29 +249,39 @@ var categoriesList = await blogRepo.GetAllCategoriesAsync();
 
 //Console.WriteLine(authorsList[0]);
 
-Post newPost = new Post() {
-    Title = "Unity 3D Core",
-    ShortDescription = "Learn the basic about Unity 3D",
-    Description = "Get to work and understand how to make a 3D game with Unity",
-    UrlSlug = "unity-3d",
-    Meta = "I don't know what is this field supposed to be",
-    ViewCount = 9,
-    Published = true,
-    PostedDate = new DateTime(2022, 12, 30, 10, 20, 0),
-    ModifiedDate = null,
-    Author = authorsList[0],
-    Category = categoriesList[0],
+//Post newPost = new Post() {
+//    Title = "Unity 3D Core",
+//    ShortDescription = "Learn the basic about Unity 3D",
+//    Description = "Get to work and understand how to make a 3D game with Unity",
+//    UrlSlug = "unity-3d",
+//    Meta = "I don't know what is this field supposed to be",
+//    ViewCount = 9,
+//    Published = true,
+//    PostedDate = new DateTime(2022, 12, 30, 10, 20, 0),
+//    ModifiedDate = null,
+//    Author = authorsList[0],
+//    Category = categoriesList[0],
 
-};
+//};
 
-await blogRepo.AddOrUpdatePostAsync(newPost);
+//await blogRepo.AddOrUpdatePostAsync(newPost);
 
-var postList = await blogRepo.GetAllPostsAsync();
+//var postList = await blogRepo.GetAllPostsAsync();
 
-foreach (var post in postList) {
-    Console.WriteLine("{0, -5}{1, -60}{2, 20}",
-        post.Id, post.Title, post.Author.FullName);
-}
+//foreach (var post in postList) {
+//    Console.WriteLine("{0, -5}{1, -60}{2, 20}",
+//        post.Id, post.Title, post.Author.FullName);
+//}
+
+// 1.n
+//await blogRepo.TogglePublishedStatusAsync(1);
+
+// 1.o
+//var randomPostsList = await blogRepo.GetRandomPostsAsync(4);
+
+//foreach (var post in randomPostsList) {
+//    Console.WriteLine(post.Id);
+//}
 
 #endregion
 

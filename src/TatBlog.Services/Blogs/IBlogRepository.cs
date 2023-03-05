@@ -103,8 +103,17 @@ namespace TatBlog.Services.Blogs {
         // Get all authors
         Task<IList<Author>> GetAllAuthorsAsync(
             CancellationToken cancellationToken = default);
-
+        
+        // Get all Categories
         Task<IList<Category>> GetAllCategoriesAsync(
+            CancellationToken cancellationToken = default);
+
+        Task TogglePublishedStatusAsync(
+            int id,
+            CancellationToken cancellationToken = default);
+
+        Task<IList<Post>> GetRandomPostsAsync(
+            int randomNumber,
             CancellationToken cancellationToken = default);
 
     }
