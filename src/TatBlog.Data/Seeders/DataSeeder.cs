@@ -114,7 +114,7 @@ namespace TatBlog.Data.Seeders {
         private IList<Post> AddPosts(IList<Author> authors, IList<Category> categories, IList<Tag> tags){
             var posts = new List<Post>() {
                 new() {
-                     Title = "ASP.NET Core Diagnostic Scenarios",
+                    Title = "ASP.NET Core Diagnostic Scenarios",
                     ShortDescription = "David and friend has great repository filled",
                     Description = "Here's a few great DON'T and DO example",
                     Meta = "David and friend has great repository filled",

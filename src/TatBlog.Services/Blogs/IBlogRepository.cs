@@ -6,12 +6,17 @@ using TatBlog.Core.Entities;
 namespace TatBlog.Services.Blogs {
     public interface IBlogRepository {
 
+        // Get all Posts
+        Task<IList<Post>> GetAllPostsAsync(
+            CancellationToken cancellationToken = default);
+
         // Tìm bài viết có tên định danh là 'slug' và được đăng vào tháng 'month' năm 'year'
         Task<Post> GetPostAsync(
             int year,
             int month,
             string slug,
             CancellationToken cancellationToken = default);
+
 
         // Tìm Top N bài viết phổ biến nhất
         Task<IList<Post>> GetPopularAriticlesAsync(
@@ -61,7 +66,7 @@ namespace TatBlog.Services.Blogs {
             CancellationToken cancellationToken = default);
 
         // Add or Update a category.
-        Task<Category> AddOrUpdateAsync(
+        Task<Category> AddOrUpdateCategoryAsync(
             Category category,
             CancellationToken cancellationToken = default);
 
@@ -79,5 +84,28 @@ namespace TatBlog.Services.Blogs {
         Task<IPageList<CategoryItem>> GetPagedCategoryAsync(
             IPagingParams pagingParams,
             CancellationToken cancellationToken = default);
+
+        // Count posts by N month. Input N. Output list objects with: Year, month, posts count. 
+        Task<(int year, int month, int PostsCount)> CountTotalPostFromMonthsAsync(int month,
+            CancellationToken cancellationToken = default);
+
+        // Find post by Id
+        Task<Post> GetPostByIdAsync(
+            int id,
+            CancellationToken cancellationToken = default);
+
+
+        // Add/ Update a post
+        Task<Post> AddOrUpdatePostAsync(
+            Post post,
+            CancellationToken cancellationToken = default);
+
+        // Get all authors
+        Task<IList<Author>> GetAllAuthorsAsync(
+            CancellationToken cancellationToken = default);
+
+        Task<IList<Category>> GetAllCategoriesAsync(
+            CancellationToken cancellationToken = default);
+
     }
 }

@@ -1,4 +1,6 @@
-﻿using TatBlog.Core.Entities;
+﻿using TatBlog.Core.Contracts;
+using TatBlog.Core.DTO;
+using TatBlog.Core.Entities;
 using TatBlog.Data.Contexts;
 using TatBlog.Data.Seeders;
 using TatBlog.Services.Blogs;
@@ -165,23 +167,24 @@ IBlogRepository blogRepo = new BlogRepository(context);
 
 
 // 1.g
-//Category categoryItem = new Category() {
-////    Id = 11,
+
+//Category categoryitem = new Category() {
+////    id = 14,
 //    Name = "Unity",
 //    UrlSlug = "unity"
 //};
 
-//await blogRepo.AddOrUpdateAsync(categoryItem);
+//await blogRepo.AddOrUpdateCategoryAsync(categoryitem);
 
-//var categoriesList = await blogRepo.GetCategoriesAsync();
+//var categorieslist = await blogRepo.GetCategoriesAsync();
 
-//foreach (var category in categoriesList) {
+//foreach (var category in categorieslist) {
 //    Console.WriteLine("{0,-5}{1,-50}", category.Id, category.Name);
 //}
 
 // 1.h
 
-//var categoryId = 11;
+//var categoryId = 13;
 
 //await blogRepo.DeleteCategoryByIdAsync(categoryId);
 
@@ -198,6 +201,77 @@ IBlogRepository blogRepo = new BlogRepository(context);
 
 //var check = await blogRepo.IsCategorySlugExistedAsync(categoryUrl) ? "Có mã url " + categoryUrl : "không tồn tại mã url " + categoryUrl;
 //Console.WriteLine(check);
+
+// 1.g
+
+//var pagingParams = new PagingParams() {
+//    PageNumber = 1,
+//    PageSize = 5,
+//    SortColumn = "PostCount",
+//    SortOrder = "DESC"
+//};
+
+//var categories = await blogRepo.GetPagedCategoryAsync(pagingParams);
+
+//Console.WriteLine("{0, -40}{1, -50}{2, 10}",
+//    "ID", "Name", "Count");
+
+//foreach (var category in categories) {
+//    Console.WriteLine("{0, -40}{1, -50}{2, 10}",
+//        category.Id, category.Name, category.PostCount);
+//}
+
+// 1.k
+//var month = 12;
+//var listCategory = blogRepo.CountTotalPostFromMonths(month);
+//Console.WriteLine("So bai viet tu nam {0}, thang {1} co {2} bai viet ", listCategory.Result.day, listCategory.Result.month, listCategory.Result.PostsCount);
+
+
+// 1.l
+//var postId = 1;
+
+//var postResult = await blogRepo.GetPostByIdAsync(postId);
+//Console.WriteLine("{0, -5}{1, -60}{2, 20}",
+//    postResult.Id, postResult.Title, postResult.Author.FullName);
+
+
+// 1.m
+var authorsList = await blogRepo.GetAllAuthorsAsync();
+var categoriesList = await blogRepo.GetAllCategoriesAsync();
+
+//foreach (var author in authorsList) {
+//    Console.WriteLine(author.FullName);
+//}
+
+//foreach (var category in categoriesList) {
+//    Console.WriteLine(category.Name);
+//}
+
+//Console.WriteLine(authorsList[0]);
+
+Post newPost = new Post() {
+    Title = "Unity 3D Core",
+    ShortDescription = "Learn the basic about Unity 3D",
+    Description = "Get to work and understand how to make a 3D game with Unity",
+    UrlSlug = "unity-3d",
+    Meta = "I don't know what is this field supposed to be",
+    ViewCount = 9,
+    Published = true,
+    PostedDate = new DateTime(2022, 12, 30, 10, 20, 0),
+    ModifiedDate = null,
+    Author = authorsList[0],
+    Category = categoriesList[0],
+
+};
+
+await blogRepo.AddOrUpdatePostAsync(newPost);
+
+var postList = await blogRepo.GetAllPostsAsync();
+
+foreach (var post in postList) {
+    Console.WriteLine("{0, -5}{1, -60}{2, 20}",
+        post.Id, post.Title, post.Author.FullName);
+}
 
 #endregion
 

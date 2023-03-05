@@ -6,7 +6,7 @@ using TatBlog.Core.Contracts;
 namespace TatBlog.Services.Extensions {
     public static class PagedListExtensions {
         
-        // Tạo biểu thức dugnf để sắp xép dữ liệu
+        // Tạo biểu thức dùng để sắp xép dữ liệu
         // Sử dụng sau mệnh đề ORDER BY trong truy vấn
         public static string GetOrderExpression (
             this IPagingParams pagingParams,

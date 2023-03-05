@@ -1,4 +1,5 @@
 ﻿using TatBlog.Core.Contracts;
+using TatBlog.Core.DTO;
 
 namespace TatBlog.Core.Entities;
 public class Category : IEntity {
