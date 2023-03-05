@@ -74,6 +74,7 @@ namespace TatBlog.Data.Seeders {
                 new() {Name = "Vue.js", Description = "Vue.js is an open-source model–view–viewmodel", UrlSlug = "vue-js"},
                 new() {Name = "Next.js", Description = "Next.js is an open-source web", UrlSlug = "next-js"},
                 new() {Name = "Node.js", Description = "Node.js is a cross-platform, open-source server", UrlSlug = "node-js"},
+
             };
 
             _dbContext.Categories.AddRange(categories);

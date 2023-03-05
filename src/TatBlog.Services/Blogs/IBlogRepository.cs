@@ -1,4 +1,5 @@
-﻿using TatBlog.Core.Contracts;
+﻿using System.Formats.Asn1;
+using TatBlog.Core.Contracts;
 using TatBlog.Core.DTO;
 using TatBlog.Core.Entities;
 
@@ -25,15 +26,57 @@ namespace TatBlog.Services.Blogs {
         // Tăng số lượt xem của một bài viết
         Task IncreaseViewCountAsync(
             int postId,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancelslationToken = default);
 
         // Lấy danh sách chuyên mục và số lượng bài viết nằm thuộc từng chuyên mục/chủ đề
         Task<IList<CategoryItem>> GetCategoriesAsync(
             bool showOnMenu = false,
             CancellationToken cancellationToken = default);
 
-        //Lấy danh sácch từ khóa/thẻ và phân trang theo các tham số pagingParams
+        //Lấy danh sách từ khóa/thẻ và phân trang theo các tham số pagingParams
         Task<IPageList<TagItem>> GetPagedTagsAsync(
+            IPagingParams pagingParams,
+            CancellationToken cancellationToken = default); 
+
+        // Part C
+        // Find tag by slug
+        Task<Tag> GetTagFromSlugAsync(
+            string slug,
+            CancellationToken cancellationToken = default);
+
+        // Get all Tags with number of posts belong to it.
+        Task<IList<TagItem>> GetTagsAsync(
+            CancellationToken cancellationToken = default);
+
+        // Delete tag by Id.
+        Task<bool> DeleteTagByIdAsync(int id,
+            CancellationToken cancellationToken = default);
+
+        // Find category by slug.
+        Task<Category> GetCategoryBySlugAsync(string slug,
+            CancellationToken cancellation = default);
+
+        // Find category by Id.
+        Task<Category> GetCategoryByIdAsync(int id,
+            CancellationToken cancellationToken = default);
+
+        // Add or Update a category.
+        Task<Category> AddOrUpdateAsync(
+            Category category,
+            CancellationToken cancellationToken = default);
+
+        // Delete category by Id
+        Task<bool> DeleteCategoryByIdAsync(
+            int id,
+            CancellationToken cancellationToken = default);
+
+        // Check a category slug whether it exists or not
+        Task<bool> IsCategorySlugExistedAsync(
+            string slug,
+            CancellationToken cancellationToken = default);
+
+        // Get and paging list of categories, return type IPageList<CategoryItem>
+        Task<IPageList<CategoryItem>> GetPagedCategoryAsync(
             IPagingParams pagingParams,
             CancellationToken cancellationToken = default);
     }

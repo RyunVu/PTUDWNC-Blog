@@ -1,4 +1,5 @@
-﻿using TatBlog.Data.Contexts;
+﻿using TatBlog.Core.Entities;
+using TatBlog.Data.Contexts;
 using TatBlog.Data.Seeders;
 using TatBlog.Services.Blogs;
 using TatBlog.WinApp;
@@ -88,22 +89,116 @@ IBlogRepository blogRepo = new BlogRepository(context);
 
 #region get list tags name
 
-var pagingParams = new PagingParams {
-    PageNumber = 1,
-    PageSize = 5,
-    SortColumn = "Name",
-    SortOrder = "DESC"
-};
+//var pagingParams = new PagingParams {
+//    PageNumber = 1,
+//    PageSize = 5,
+//    SortColumn = "Name",
+//    SortOrder = "DESC"
+//};
 
-var tagsList = await blogRepo.GetPagedTagsAsync(pagingParams);
+//var tagsList = await blogRepo.GetPagedTagsAsync(pagingParams);
 
-Console.WriteLine("{0,-5}{1,-50}{2,10}",
-    "ID", "Name", "Count");
+//Console.WriteLine("{0,-5}{1,-50}{2,10}",
+//    "ID", "Name", "Count");
 
-foreach (var item in tagsList) {
-    Console.WriteLine("{0,-5}{1,-50}{2,10}",
-    item.Id, item.Name, item.PostCount);
-}
+//foreach (var item in tagsList) {
+//    Console.WriteLine("{0,-5}{1,-50}{2,10}",
+//    item.Id, item.Name, item.PostCount);
+//}
+#endregion
+
+#region Homework
+
+// 1.a
+//string tagSlug = "google";
+//var tag = await blogRepo.GetTagFromSlug(tagSlug);
+//Console.WriteLine(tag.Name);
+
+// 1.c
+//var tags = await blogRepo.GetTagsAsync();
+
+//foreach (var tag in tags) {
+
+//    Console.WriteLine("{0,-5}{1,-50}{2,10}", tag.Id, tag.Name, tag.PostCount);
+//}
+
+// 1.d
+//var tagsList = await blogRepo.GetTagsAsync();
+
+//foreach (var tag in tagsList) {
+//    Console.WriteLine(tag.Name);
+//}
+
+//var tagId = 1;
+//blogRepo.DeleteTagByIdAsync(tagId);
+
+//foreach (var tag in tagsList) {
+//    Console.WriteLine(tag.Name);
+//}
+
+// 1.e
+//var categoriesList = await blogRepo.GetCategoriesAsync();
+
+//foreach (var category in categoriesList) {
+//    Console.WriteLine("{0,-50}{1,-20}", category.Name, category.UrlSlug);
+//}
+
+//var categorySlug = "oop";
+
+//var result = await blogRepo.GetCategoryBySlugAsync(categorySlug);
+
+//Console.WriteLine("\n" + result.Name);
+
+
+// 1.f
+//var categoriesList = await blogRepo.GetCategoriesAsync();
+
+//foreach (var category in categoriesList) {
+//    Console.WriteLine("{0,-5}{1,-50}", category.Id, category.Name);
+//}
+
+//var categoryId = 1;
+
+//var result = await blogRepo.GetCategoryByIdAsync(categoryId);
+
+//Console.WriteLine("\n" + result.Name);
+
+
+// 1.g
+//Category categoryItem = new Category() {
+////    Id = 11,
+//    Name = "Unity",
+//    UrlSlug = "unity"
+//};
+
+//await blogRepo.AddOrUpdateAsync(categoryItem);
+
+//var categoriesList = await blogRepo.GetCategoriesAsync();
+
+//foreach (var category in categoriesList) {
+//    Console.WriteLine("{0,-5}{1,-50}", category.Id, category.Name);
+//}
+
+// 1.h
+
+//var categoryId = 11;
+
+//await blogRepo.DeleteCategoryByIdAsync(categoryId);
+
+//var categoriesList = await blogRepo.GetCategoriesAsync();
+
+//foreach (var category in categoriesList) {
+//    Console.WriteLine("{0,-5}{1,-50}", category.Id, category.Name);
+//}
+
+// 1.i
+
+//var categoryUrl = "oop";
+//var categoryUrl = "unity";
+
+//var check = await blogRepo.IsCategorySlugExistedAsync(categoryUrl) ? "Có mã url " + categoryUrl : "không tồn tại mã url " + categoryUrl;
+//Console.WriteLine(check);
+
 #endregion
 
 Console.ReadLine();
