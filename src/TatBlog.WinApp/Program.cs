@@ -75,7 +75,7 @@ IBlogRepository blogRepo = new BlogRepository(context);
 
 #endregion
 
-# region get list categories and number of posts belong to its
+#region get list categories and number of posts belong to its
 
 // Lấy danh sách danh mục
 //var categories = await blogRepo.GetCategoriesAsync();
@@ -110,7 +110,7 @@ IBlogRepository blogRepo = new BlogRepository(context);
 //}
 #endregion
 
-#region Homework
+#region Homework C - 1
 
 // 1.a
 //string tagSlug = "google";
@@ -322,6 +322,62 @@ IBlogRepository blogRepo = new BlogRepository(context);
 
 #endregion
 
+#region Homework C -2
 
+IAuthorRepository authorRepo = new AuthorRepository(context);
+
+// 2.b
+
+//var authorId = 1;
+
+//var author = await authorRepo.GetAuthorById(authorId);
+
+//Console.WriteLine(author.FullName);
+
+// 2.c
+
+//var authorSlug = "jessica-wonder";
+
+//var author = await authorRepo.GetAuthorBySlug(authorSlug);
+
+//Console.WriteLine(author.FullName);
+
+// 2.d
+
+//PagingParams pagingParams = new PagingParams() {
+//    PageNumber = 1,
+//    PageSize = 2,
+//    SortColumn = "JoinedDate",
+//    SortOrder = "DESC"
+//};
+
+//var authors = await authorRepo.GetPagedAuthorNumPosts(pagingParams);
+
+//foreach (var author in authors) {
+//    Console.WriteLine(author.FullName);
+//}
+
+// 2.e
+
+//var authors = await blogRepo.GetAllAuthorsAsync();
+
+//Author author = authors[0];
+
+//author.FullName = "Jason Mouths";
+////author.FullName = "Jason Mouth";
+
+//await authorRepo.AddOrUpdateAuthor(author);
+
+//Console.WriteLine(author.FullName);
+
+// 2.f
+
+//var authors = await authorRepo.GetAuthorsWithMostPost(1);
+
+//foreach (var author in authors) {
+//    Console.WriteLine("{0,-20}", author.FullName);
+//}
+
+#endregion
 
 Console.ReadLine();

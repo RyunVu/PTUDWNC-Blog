@@ -12,6 +12,9 @@ namespace TatBlog.Services.Blogs {
     public class BlogRepository : IBlogRepository {
 
         private readonly BlogDbContext _context;
+        public BlogRepository(BlogDbContext context) {
+            _context = context;
+        }
 
         public async Task<IList<Post>> GetAllPostsAsync(CancellationToken cancellationToken) {
             return await _context.Set<Post>()
@@ -27,9 +30,6 @@ namespace TatBlog.Services.Blogs {
                 .ToListAsync(cancellationToken);
         }
 
-        public BlogRepository(BlogDbContext context) {
-            _context = context;
-        }
 
         public async Task<Post> GetPostAsync(int year, int month, string slug, CancellationToken cancellationToken = default) {
             IQueryable<Post> postsQuery = _context.Set<Post>()
@@ -86,7 +86,7 @@ namespace TatBlog.Services.Blogs {
                     ShowOnMenu = x.ShowOnMenu,
                     PostCount = x.Posts.Count(p => p.Published)
                 })
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
 
         public async Task<IPagedList<TagItem>> GetPagedTagsAsync(IPagingParams pagingParams, CancellationToken cancellationToken = default) {
@@ -167,7 +167,7 @@ namespace TatBlog.Services.Blogs {
         public async Task<bool> IsCategorySlugExistedAsync(string slug, CancellationToken cancellationToken = default) {
             return await _context.Set<Category>()
                 .Where(c => c.UrlSlug.Equals(slug))
-                .AnyAsync();
+                .AnyAsync(cancellationToken);
         }
 
         public async Task<IPagedList<CategoryItem>> GetPagedCategoryAsync(IPagingParams pagingParams, CancellationToken cancellationToken = default) {
