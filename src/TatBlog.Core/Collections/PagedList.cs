@@ -2,7 +2,7 @@
 using TatBlog.Core.Contracts;
 
 namespace TatBlog.Core.Collections {
-    public class PagedList<T> : IPageList<T> {
+    public class PagedList<T> : IPagedList<T> {
 
         public readonly List<T> _subnet = new();
 

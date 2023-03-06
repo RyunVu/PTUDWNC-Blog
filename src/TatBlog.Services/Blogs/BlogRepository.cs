@@ -89,7 +89,7 @@ namespace TatBlog.Services.Blogs {
                 .ToListAsync();
         }
 
-        public async Task<IPageList<TagItem>> GetPagedTagsAsync(IPagingParams pagingParams, CancellationToken cancellationToken = default) {
+        public async Task<IPagedList<TagItem>> GetPagedTagsAsync(IPagingParams pagingParams, CancellationToken cancellationToken = default) {
             var tagQuery = _context.Set<Tag>()
                 .Select(x => new TagItem() {
                     Id = x.Id,
@@ -170,7 +170,7 @@ namespace TatBlog.Services.Blogs {
                 .AnyAsync();
         }
 
-        public async Task<IPageList<CategoryItem>> GetPagedCategoryAsync(IPagingParams pagingParams, CancellationToken cancellationToken = default) {
+        public async Task<IPagedList<CategoryItem>> GetPagedCategoryAsync(IPagingParams pagingParams, CancellationToken cancellationToken = default) {
             var tagQuery = _context.Set<Category>()
                 .Select(x => new CategoryItem {
                     Id = x.Id,
@@ -245,6 +245,32 @@ namespace TatBlog.Services.Blogs {
                     s.PostedDate.Month == postQuery.CreatedDate.Month ||
                     s.Tags.Any(t => t.Name.Contains(postQuery.TagName)))
                 .ToListAsync(cancellationToken);
+        }
+
+        public async Task<int> CountPostsQueryAsync(IPostQuery postQuery, CancellationToken cancellationToken = default) {
+            return await _context.Set<Post>()
+                .Include(a => a.Author)
+                .Include(c => c.Category)
+                .CountAsync(s => s.Author.Id == postQuery.AuthorId ||
+                    s.Category.Id == postQuery.CategoryId ||
+                    s.Category.UrlSlug == postQuery.CategorySlug ||
+                    s.PostedDate.Day == postQuery.CreatedDate.Day ||
+                    s.PostedDate.Month == postQuery.CreatedDate.Month ||
+                    s.Tags.Any(t => t.Name.Contains(postQuery.TagName)), cancellationToken); 
+        }
+
+        public async Task<IPagedList<Post>> PagingPostQueryAsync(IPagingParams pagingParams, IPostQuery postQuery, CancellationToken cancellationToken = default) {
+            var postsQuery = _context.Set<Post>()
+                .Include(a => a.Author)
+                .Include(c => c.Category)
+                .Where(s => s.Author.Id == postQuery.AuthorId ||
+                    s.Category.Id == postQuery.CategoryId ||
+                    s.Category.UrlSlug == postQuery.CategorySlug ||
+                    s.PostedDate.Day == postQuery.CreatedDate.Day ||
+                    s.PostedDate.Month == postQuery.CreatedDate.Month ||
+                    s.Tags.Any(t => t.Name.Contains(postQuery.TagName)));
+
+            return await postsQuery.ToPagedListAsync(pagingParams, cancellationToken);
         }
     }
 }
