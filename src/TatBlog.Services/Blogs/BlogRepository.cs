@@ -233,5 +233,18 @@ namespace TatBlog.Services.Blogs {
                 .OrderBy(c => Guid.NewGuid())
                 .Take(randomNumber).ToListAsync(cancellationToken);
         }
+
+        public async Task<IList<Post>> FindPostsFromPostQueryAsync(IPostQuery postQuery, CancellationToken cancellationToken = default) {
+            return await _context.Set<Post>()
+                .Include(a => a.Author)
+                .Include(c => c.Category)
+                .Where(s => s.Author.Id == postQuery.AuthorId ||
+                    s.Category.Id == postQuery.CategoryId ||
+                    s.Category.UrlSlug == postQuery.CategorySlug ||
+                    s.PostedDate.Day == postQuery.CreatedDate.Day ||
+                    s.PostedDate.Month == postQuery.CreatedDate.Month ||
+                    s.Tags.Any(t => t.Name.Contains(postQuery.TagName)))
+                .ToListAsync(cancellationToken);
+        }
     }
 }

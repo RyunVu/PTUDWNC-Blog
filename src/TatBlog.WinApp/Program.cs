@@ -1,4 +1,5 @@
-﻿using TatBlog.Core.Contracts;
+﻿using System.Net.WebSockets;
+using TatBlog.Core.Contracts;
 using TatBlog.Core.DTO;
 using TatBlog.Core.Entities;
 using TatBlog.Data.Contexts;
@@ -283,6 +284,21 @@ IBlogRepository blogRepo = new BlogRepository(context);
 //    Console.WriteLine(post.Id);
 //}
 
+// 1.q
+PostQuery postQuery = new()
+{
+    AuthorId = 1,
+};
+
+var postsList = await blogRepo.FindPostsFromPostQueryAsync(postQuery);
+
+foreach (var post in postsList) {
+    Console.WriteLine("{0,-30}{1,-30}{2,-50}",post.Author.FullName, post.Category.Name, post.ShortDescription);
+
+}
+
 #endregion
+
+
 
 Console.ReadLine();
