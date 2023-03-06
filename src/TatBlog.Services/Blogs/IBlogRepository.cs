@@ -116,5 +116,8 @@ namespace TatBlog.Services.Blogs {
             int randomNumber,
             CancellationToken cancellationToken = default);
 
+        Task<IList<Post>> FindPostsFromPostQueryAsync(
+            IPostQuery postQuery,
+            CancellationToken cancellationToken = default);
     }
 }
