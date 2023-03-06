@@ -284,18 +284,41 @@ IBlogRepository blogRepo = new BlogRepository(context);
 //    Console.WriteLine(post.Id);
 //}
 
-// 1.q
-PostQuery postQuery = new()
-{
-    AuthorId = 1,
-};
+// 1.q, r
+//PostQuery postQuery = new() {
+//    AuthorId = 1,
+//};
 
-var postsList = await blogRepo.FindPostsFromPostQueryAsync(postQuery);
+//var postsList = await blogRepo.FindPostsFromPostQueryAsync(postQuery);
 
-foreach (var post in postsList) {
-    Console.WriteLine("{0,-30}{1,-30}{2,-50}",post.Author.FullName, post.Category.Name, post.ShortDescription);
+//var postsCount = await blogRepo.CountPostsQueryAsync(postQuery);
 
-}
+//Console.WriteLine("There are {0} posts match the PostQuery.", postsCount);
+
+//foreach (var post in postsList) {
+//    Console.WriteLine("{0,-30}{1,-30}{2,-50}", post.Author.FullName, post.Category.Name, post.ShortDescription);
+
+//}
+
+
+// 1.s
+//PostQuery postQuery = new() {
+//    AuthorId = 1,
+//};
+//var pagingParams = new PagingParams() {
+//    PageNumber = 1,
+//    PageSize = 5,
+//    SortColumn = "ViewCount",
+//    SortOrder = "DESC"
+//};
+
+//var postsList = await blogRepo.PagingPostQueryAsync(pagingParams, postQuery);
+
+
+//foreach (var post in postsList) {
+//    Console.WriteLine("{0,-30}{1,-30}{2,-50}", post.Author.FullName, post.Category.Name, post.ShortDescription);
+
+//}
 
 #endregion
 

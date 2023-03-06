@@ -22,7 +22,7 @@ namespace TatBlog.Services.Extensions {
                 return $"{column} {order}";
         }
 
-        public static async Task<IPageList<T>> ToPagedListAsync<T>(
+        public static async Task<IPagedList<T>> ToPagedListAsync<T>(
             this IQueryable<T> source,
             IPagingParams pagingParams,
             CancellationToken cancellationToken = default) {
@@ -41,7 +41,7 @@ namespace TatBlog.Services.Extensions {
                 totalCount);
         }
 
-        public static async Task<IPageList<T>> ToPagedListAsync<T>(
+        public static async Task<IPagedList<T>> ToPagedListAsync<T>(
             this IQueryable<T> source,
             int pageNumber = 1,
             int pageSize = 10,

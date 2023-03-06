@@ -39,7 +39,7 @@ namespace TatBlog.Services.Blogs {
             CancellationToken cancellationToken = default);
 
         //Lấy danh sách từ khóa/thẻ và phân trang theo các tham số pagingParams
-        Task<IPageList<TagItem>> GetPagedTagsAsync(
+        Task<IPagedList<TagItem>> GetPagedTagsAsync(
             IPagingParams pagingParams,
             CancellationToken cancellationToken = default); 
 
@@ -81,7 +81,7 @@ namespace TatBlog.Services.Blogs {
             CancellationToken cancellationToken = default);
 
         // Get and paging list of categories, return type IPageList<CategoryItem>
-        Task<IPageList<CategoryItem>> GetPagedCategoryAsync(
+        Task<IPagedList<CategoryItem>> GetPagedCategoryAsync(
             IPagingParams pagingParams,
             CancellationToken cancellationToken = default);
 
@@ -108,16 +108,31 @@ namespace TatBlog.Services.Blogs {
         Task<IList<Category>> GetAllCategoriesAsync(
             CancellationToken cancellationToken = default);
 
+        // Toggle Published Status
         Task TogglePublishedStatusAsync(
             int id,
             CancellationToken cancellationToken = default);
 
+        // Get random N posts
         Task<IList<Post>> GetRandomPostsAsync(
             int randomNumber,
             CancellationToken cancellationToken = default);
 
+        // Find all Posts that match the PostQuery
         Task<IList<Post>> FindPostsFromPostQueryAsync(
             IPostQuery postQuery,
             CancellationToken cancellationToken = default);
+
+        // Count posts match the PostQuery
+        Task<int> CountPostsQueryAsync(
+            IPostQuery postQuery,
+            CancellationToken cancellationToken = default);
+
+        // Paging Posts match PostQuery
+        Task<IPagedList<Post>> PagingPostQueryAsync(
+            IPagingParams pagingParams,
+            IPostQuery postQuery,
+            CancellationToken cancellationToken = default);
+
     }
 }

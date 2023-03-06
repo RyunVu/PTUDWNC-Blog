@@ -1,5 +1,5 @@
 ﻿namespace TatBlog.Core.Contracts {
-    public interface IPageList {
+    public interface IPagedList {
         // Tổng số trang
         int PageCount { get; }
 
@@ -34,7 +34,7 @@
         int LastItemIndex { get; }
     }
 
-    public interface IPageList<out T> : IPageList, IEnumerable<T> { 
+    public interface IPagedList<out T> : IPagedList, IEnumerable<T> { 
     
         // Lấy phần từ tại vị trí index (bắt đầu từ 0)
         T this[int index] { get; }
