@@ -13,10 +13,12 @@ namespace TatBlog.Data.Contexts {
         public DbSet<Subscriber> Subscribers { get; set; }
         public DbSet<Tag> Tags { get; set; }
 
-        protected override void OnConfiguring(
-            DbContextOptionsBuilder optionBuilder) {
-            optionBuilder.UseSqlServer(@"Server=DESKTOP-7NPFO5S;Database=TatBlog;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True");
+
+
+        public BlogDbContext(DbContextOptions<BlogDbContext> options) : base(options) {
+
         }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             modelBuilder.ApplyConfigurationsFromAssembly(
