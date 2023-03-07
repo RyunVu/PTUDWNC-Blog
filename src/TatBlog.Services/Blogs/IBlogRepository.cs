@@ -1,5 +1,4 @@
-﻿using System.Formats.Asn1;
-using TatBlog.Core.Contracts;
+﻿using TatBlog.Core.Contracts;
 using TatBlog.Core.DTO;
 using TatBlog.Core.Entities;
 
@@ -133,6 +132,12 @@ namespace TatBlog.Services.Blogs {
             IPagingParams pagingParams,
             IPostQuery postQuery,
             CancellationToken cancellationToken = default);
+
+       Task<IPagedList<Post>> GetPagedPostsAsync(
+           IPostQuery postQuery,
+           int pageNumber,
+           int pageSize,
+           CancellationToken cancellationToken = default);
 
     }
 }

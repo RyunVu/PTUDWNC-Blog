@@ -8,7 +8,7 @@ using TatBlog.Services.Blogs;
 using TatBlog.WinApp;
 
 // Tạo đối tượng DbContext để qualr lý phiên làm việc với CSDL và trạng thái của các đối tượng
-var context = new BlogDbContext();
+//var context = new BlogDbContext();
 
 #region sample data
 //// Tạo đối tượng khởi tạo dữ liệu mẫu
@@ -56,7 +56,7 @@ var context = new BlogDbContext();
 #endregion
 
 // Tạo đối tượng BlogRepository
-IBlogRepository blogRepo = new BlogRepository(context);
+//IBlogRepository blogRepo = new BlogRepository(context);
 
 #region get 3 most popular posts
 
@@ -324,7 +324,7 @@ IBlogRepository blogRepo = new BlogRepository(context);
 
 #region Homework C -2
 
-IAuthorRepository authorRepo = new AuthorRepository(context);
+//IAuthorRepository authorRepo = new AuthorRepository(context);
 
 // 2.b
 
@@ -379,5 +379,7 @@ IAuthorRepository authorRepo = new AuthorRepository(context);
 //}
 
 #endregion
+
+
 
 Console.ReadLine();

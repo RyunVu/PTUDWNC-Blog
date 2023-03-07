@@ -2,6 +2,7 @@
 using Microsoft.VisualBasic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
+using TatBlog.Core.Collections;
 using TatBlog.Core.Contracts;
 using TatBlog.Core.DTO;
 using TatBlog.Core.Entities;
@@ -272,5 +273,33 @@ namespace TatBlog.Services.Blogs {
 
             return await postsQuery.ToPagedListAsync(pagingParams, cancellationToken);
         }
+
+
+        // Filter Post
+        
+        private IQueryable<Post> FilterPosts(IPostQuery postQuery) {
+            var keyword = !string.IsNullOrWhiteSpace(postQuery.Keyword) ? postQuery.Keyword.ToLower() : "";
+            return _context.Set<Post>()
+                .Include(t => t.Tags)
+                .Include(s => s.Author)
+                .Include(c => c.Category)
+                .Where(s => s.Published &&
+                            s.Category.UrlSlug.ToLower().Contains(keyword) ||
+                            s.Author.UrlSlug.ToLower().Contains(keyword) ||
+                            s.Author.FullName.ToLower().Contains(keyword) ||
+                            s.Tags.Any(t => t.UrlSlug.ToLower().Contains(keyword) || t.Name.ToLower().Contains(keyword)));
+        }
+
+        public async Task<IPagedList<Post>> GetPagedPostsAsync(
+            IPostQuery postQuery,
+            int pageNumber = 1,
+            int pageSize = 10,
+            CancellationToken cancellationToken = default) {
+            return await FilterPosts(postQuery).ToPagedListAsync(
+                pageNumber, pageSize,
+                nameof(Post.PostedDate), "DESC",
+                cancellationToken);
+        }
+
     }
 }
