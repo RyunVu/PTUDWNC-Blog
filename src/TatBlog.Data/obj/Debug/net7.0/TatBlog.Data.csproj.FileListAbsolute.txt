@@ -13,3 +13,5 @@ D:\School\Year 3\HK2\WebNangCao\TipsAndTricks\PTUDWNC-Blog\src\TatBlog.Data\obj\
 D:\School\Year 3\HK2\WebNangCao\TipsAndTricks\PTUDWNC-Blog\src\TatBlog.Data\obj\Debug\net7.0\refint\TatBlog.Data.dll
 D:\School\Year 3\HK2\WebNangCao\TipsAndTricks\PTUDWNC-Blog\src\TatBlog.Data\obj\Debug\net7.0\TatBlog.Data.pdb
 D:\School\Year 3\HK2\WebNangCao\TipsAndTricks\PTUDWNC-Blog\src\TatBlog.Data\obj\Debug\net7.0\ref\TatBlog.Data.dll
+D:\School\Year 3\HK2\WebNangCao\TipsAndTricks\PTUDWNC-Blog\src\TatBlog.Data\bin\Debug\net7.0\TatBlog.Data.runtimeconfig.json
+D:\School\Year 3\HK2\WebNangCao\TipsAndTricks\PTUDWNC-Blog\src\TatBlog.Data\obj\Debug\net7.0\TatBlog.Data.genruntimeconfig.cache
