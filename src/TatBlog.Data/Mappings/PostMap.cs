@@ -65,4 +65,5 @@ public class PostMap : IEntityTypeConfiguration<Post> {
             .UsingEntity(pt => pt.ToTable("PostTags"));
 
     }
+
 }
