@@ -300,6 +300,10 @@ namespace TatBlog.Services.Blogs {
                     q.Category.UrlSlug.ToLower().Contains(keyword) ||
                     q.Author.UrlSlug.ToLower().Contains(keyword) ||
                     q.Author.FullName.ToLower().Contains(keyword) ||
+                    q.Meta.ToLower().Contains(keyword) ||
+                    q.Title.ToLower().Contains(keyword) ||
+                    q.Description.ToLower().Contains(keyword) ||
+                    q.ShortDescription.ToLower().Contains(keyword) ||
                     q.PostedDate.Day == keyNumber ||
                     q.PostedDate.Month == keyNumber ||
                     q.PostedDate.Year == keyNumber ||
