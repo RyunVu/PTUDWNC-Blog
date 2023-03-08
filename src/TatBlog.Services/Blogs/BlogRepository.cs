@@ -242,8 +242,8 @@ namespace TatBlog.Services.Blogs {
                 .Where(s => s.Author.Id == postQuery.AuthorId ||
                     s.Category.Id == postQuery.CategoryId ||
                     s.Category.UrlSlug == postQuery.CategorySlug ||
-                    s.PostedDate.Day == postQuery.CreatedDate.Day ||
-                    s.PostedDate.Month == postQuery.CreatedDate.Month ||
+                    s.PostedDate.Day == postQuery.Day ||
+                    s.PostedDate.Month == postQuery.Month ||
                     s.Tags.Any(t => t.Name.Contains(postQuery.TagName)))
                 .ToListAsync(cancellationToken);
         }
@@ -255,8 +255,8 @@ namespace TatBlog.Services.Blogs {
                 .CountAsync(s => s.Author.Id == postQuery.AuthorId ||
                     s.Category.Id == postQuery.CategoryId ||
                     s.Category.UrlSlug == postQuery.CategorySlug ||
-                    s.PostedDate.Day == postQuery.CreatedDate.Day ||
-                    s.PostedDate.Month == postQuery.CreatedDate.Month ||
+                    s.PostedDate.Day == postQuery.Day ||
+                    s.PostedDate.Month == postQuery.Month ||
                     s.Tags.Any(t => t.Name.Contains(postQuery.TagName)), cancellationToken); 
         }
 
@@ -267,8 +267,8 @@ namespace TatBlog.Services.Blogs {
                 .Where(s => s.Author.Id == postQuery.AuthorId ||
                     s.Category.Id == postQuery.CategoryId ||
                     s.Category.UrlSlug == postQuery.CategorySlug ||
-                    s.PostedDate.Day == postQuery.CreatedDate.Day ||
-                    s.PostedDate.Month == postQuery.CreatedDate.Month ||
+                    s.PostedDate.Day == postQuery.Day ||
+                    s.PostedDate.Month == postQuery.Month ||
                     s.Tags.Any(t => t.Name.Contains(postQuery.TagName)));
 
             return await postsQuery.ToPagedListAsync(pagingParams, cancellationToken);
@@ -278,16 +278,35 @@ namespace TatBlog.Services.Blogs {
         // Filter Post
         
         private IQueryable<Post> FilterPosts(IPostQuery postQuery) {
+
             var keyword = !string.IsNullOrWhiteSpace(postQuery.Keyword) ? postQuery.Keyword.ToLower() : "";
-            return _context.Set<Post>()
-                .Include(t => t.Tags)
-                .Include(s => s.Author)
+            int keyNumber = 0;
+            int.TryParse(postQuery.Keyword, out keyNumber);
+
+            IQueryable<Post> posts = _context.Set<Post>()
+                .Include(a => a.Author)
                 .Include(c => c.Category)
-                .Where(s => s.Published &&
-                            s.Category.UrlSlug.ToLower().Contains(keyword) ||
-                            s.Author.UrlSlug.ToLower().Contains(keyword) ||
-                            s.Author.FullName.ToLower().Contains(keyword) ||
-                            s.Tags.Any(t => t.UrlSlug.ToLower().Contains(keyword) || t.Name.ToLower().Contains(keyword)));
+                .Include(t => t.Tags)
+                .WhereIf(postQuery.Published, s => s.Published)
+                .WhereIf(postQuery.CategoryId > 0, p => p.CategoryId == postQuery.CategoryId)
+                .WhereIf(!string.IsNullOrWhiteSpace(postQuery.CategorySlug), p => p.Category.UrlSlug == postQuery.CategorySlug)
+                .WhereIf(postQuery.AuthorId > 0, p => p.AuthorId == postQuery.AuthorId)
+                .WhereIf(!string.IsNullOrWhiteSpace(postQuery.AuthorSlug), p => p.Author.UrlSlug == postQuery.AuthorSlug)
+                .WhereIf(!string.IsNullOrWhiteSpace(postQuery.TagName), p => p.Tags.Any(t => t.UrlSlug == postQuery.TagSlug))
+                .WhereIf(postQuery.Year > 0, p => p.PostedDate.Year == postQuery.Year)
+                .WhereIf(postQuery.Month > 0, p => p.PostedDate.Month == postQuery.Month)
+                .WhereIf(postQuery.Day > 0, p => p.PostedDate.Day == postQuery.Day)
+                .WhereIf(!string.IsNullOrWhiteSpace(postQuery.Keyword), q =>
+                    q.Category.UrlSlug.ToLower().Contains(keyword) ||
+                    q.Author.UrlSlug.ToLower().Contains(keyword) ||
+                    q.Author.FullName.ToLower().Contains(keyword) ||
+                    q.PostedDate.Day == keyNumber ||
+                    q.PostedDate.Month == keyNumber ||
+                    q.PostedDate.Year == keyNumber ||
+                    q.Tags.Any(t => t.UrlSlug.ToLower().Contains(keyword) || t.Name.ToLower().Contains(keyword)));
+
+            return posts;
+
         }
 
         public async Task<IPagedList<Post>> GetPagedPostsAsync(
