@@ -10,6 +10,11 @@
                 defaults: new { Controller = "Blog", action = "Category" });
 
             endpoints.MapControllerRoute(
+                name: "posts-by-author",
+                pattern: "blog/author/{slug}",
+                defaults: new { Controller = "Blog", action = "Author" });
+
+            endpoints.MapControllerRoute(
                 name: "posts-by-tag",
                 pattern: "blog/tag/{slug}",
                 defaults: new { Controller = "Blog", action = "Tag" });
