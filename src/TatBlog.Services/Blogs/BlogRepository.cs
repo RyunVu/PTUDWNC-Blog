@@ -338,5 +338,12 @@ namespace TatBlog.Services.Blogs {
                 cancellationToken);
         }
 
+        public async Task<IList<Author>> GetPopularAuthorsAsync(int authorsNum, CancellationToken cancellationToken = default) {
+            return await _context.Set<Author>()
+                .Include(x => x.Posts)
+                .OrderByDescending(p => p.Posts.Count)
+                .Take(authorsNum)
+                .ToListAsync(cancellationToken);
+        }
     }
 }

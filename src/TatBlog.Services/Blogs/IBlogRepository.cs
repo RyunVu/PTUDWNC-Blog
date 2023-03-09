@@ -140,5 +140,9 @@ namespace TatBlog.Services.Blogs {
            int pageSize,
            CancellationToken cancellationToken = default);
 
+        Task<IList<Author>> GetPopularAuthorsAsync(
+            int authorsNum,
+            CancellationToken cancellationToken = default);     
+
     }
 }
