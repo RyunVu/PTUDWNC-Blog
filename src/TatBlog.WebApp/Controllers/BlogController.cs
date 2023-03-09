@@ -97,6 +97,26 @@ namespace TatBlog.WebApp.Controllers {
 
         }
 
+        public async Task<IActionResult> Archives(
+            int year,
+            int month,
+            [FromQuery(Name = "p")] int pageNumber = 1,
+            [FromQuery(Name = "ps")] int pageSize = 3) {
+
+            var postsQuery = new PostQuery() {
+                Year = year,
+                Month = month,
+                Published = true,
+            };
+
+            var postsList = await _blogRepository.GetPagedPostsAsync(postsQuery, pageNumber, pageSize);
+
+            ViewBag.Post = postsList;
+
+            return View(postsList);
+
+        }
+
         public IActionResult About()
             => View(); 
 
