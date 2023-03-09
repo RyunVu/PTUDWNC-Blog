@@ -81,6 +81,22 @@ namespace TatBlog.WebApp.Controllers {
             return View(postsList);
         }
 
+        public async Task<IActionResult> Post(
+            int year,
+            int month,
+            int day,
+            string slug) {
+
+            var post = await _blogRepository.GetPostAsync(year, month, day, slug);
+
+            await _blogRepository.IncreaseViewCountAsync(post.Id);
+
+            ViewBag.Post = post;
+
+            return View(post);
+
+        }
+
         public IActionResult About()
             => View(); 
 

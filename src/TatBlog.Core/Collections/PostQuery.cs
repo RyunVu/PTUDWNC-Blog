@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TatBlog.Core.Contracts;
+﻿using TatBlog.Core.Contracts;
 
 namespace TatBlog.Core.Collections {
     public class PostQuery : IPostQuery {
@@ -11,6 +6,7 @@ namespace TatBlog.Core.Collections {
         public int CategoryId { get; set; }
         public string CategorySlug { get; set; }
         public string AuthorSlug { get; set; }
+        public string PostSlug { get; set; }
         public int Year { get; set; } = 0;
         public int Month { get; set; } = 0;
         public int Day { get; set; } = 0;
