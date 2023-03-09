@@ -13,6 +13,7 @@ namespace TatBlog.Services.Blogs {
         Task<Post> GetPostAsync(
             int year,
             int month,
+            int day,
             string slug,
             CancellationToken cancellationToken = default);
 
