@@ -110,7 +110,7 @@ namespace TatBlog.WebApp.Controllers {
             };
 
             var postsList = await _blogRepository.GetPagedPostsAsync(postsQuery, pageNumber, pageSize);
-
+            ViewBag.Date = new DateTime(year, month, 1);
             ViewBag.Post = postsList;
 
             return View(postsList);
