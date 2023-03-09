@@ -2,21 +2,21 @@
 using TatBlog.Services.Blogs;
 
 namespace TatBlog.WebApp.Components {
-    public class FeaturedPostsWidget : ViewComponent{
+    public class RandomPostsWidget : ViewComponent{
         private readonly IBlogRepository _blogRepository;
 
-        public FeaturedPostsWidget(IBlogRepository blogRepository) {
+        public RandomPostsWidget(IBlogRepository blogRepository) {
             _blogRepository = blogRepository;
         }
 
         public async Task<IViewComponentResult> InvokeAsync() {
 
-            int postsNum = 3;
-
+            int postsNum = 5;
             // Lấy danh sách chủ đề
-            var posts = await _blogRepository.GetPopularAriticlesAsync(postsNum);
+            var posts = await _blogRepository.GetRandomPostsAsync(postsNum);
 
             return View(posts);
         }
+
     }
 }
