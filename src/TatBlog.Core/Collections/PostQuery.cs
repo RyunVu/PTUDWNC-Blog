@@ -7,9 +7,9 @@ namespace TatBlog.Core.Collections {
         public string CategorySlug { get; set; }
         public string AuthorSlug { get; set; }
         public string PostSlug { get; set; }
-        public int Year { get; set; } = 0;
-        public int Month { get; set; } = 0;
-        public int Day { get; set; } = 0;
+        public int Year { get; set; } 
+        public int Month { get; set; }
+        public int Day { get; set; }
         public bool Published { get; set; }
         public string TagSlug { get; set; }
         public string TagName { get; set; }
