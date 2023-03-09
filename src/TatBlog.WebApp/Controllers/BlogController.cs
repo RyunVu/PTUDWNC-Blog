@@ -47,6 +47,23 @@ namespace TatBlog.WebApp.Controllers {
             return View(postsList);
         }
 
+        public async Task<IActionResult> Author(
+            string slug,
+            [FromQuery(Name = "p")] int pageNumber = 1,
+            [FromQuery(Name = "ps")] int pageSize = 3) {
+
+            var postQuery = new PostQuery() {
+                AuthorSlug = slug,
+                Published = true,
+            };
+
+            var postsList = await _blogRepository.GetPagedPostsAsync(postQuery, pageNumber, pageSize);
+
+            ViewBag.PostQuery = postQuery;
+
+            return View(postsList);
+        }
+
         public IActionResult About()
             => View(); 
 
