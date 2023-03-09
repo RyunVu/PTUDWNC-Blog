@@ -190,11 +190,19 @@ namespace TatBlog.Services.Blogs {
             return await tagQuery.ToPagedListAsync(pagingParams, cancellationToken);
         }
 
-        public async Task<(int year, int month, int PostsCount)> CountTotalPostFromMonthsAsync(int month, CancellationToken cancellationToken = default) {
-            var date = DateTime.Now.AddMonths(-month);
+        public async Task<IList<MonthlyPostsCountItem>> CountTotalPostFromMonthsAsync(int month, CancellationToken cancellationToken = default) {
             var result = await _context.Set<Post>()
-                .Where(p => p.PostedDate > date).CountAsync(cancellationToken);
-            return (date.Year, date.Month, result);
+               .GroupBy(s => new { s.PostedDate.Month, s.PostedDate.Year })
+               .Select(p => new MonthlyPostsCountItem() {
+                   Month = p.Key.Month,
+                   Year = p.Key.Year,
+                   PostsCount = p.Count(x => x.Published)
+               })
+               .OrderByDescending(s => s.Year)
+               .ThenByDescending(s => s.Month)
+               .Take(month)
+               .ToListAsync(cancellationToken);
+                return result;
         }
 
         public async Task<Post> GetPostByIdAsync(int id, CancellationToken cancellationToken) {

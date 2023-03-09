@@ -86,7 +86,7 @@ namespace TatBlog.Services.Blogs {
             CancellationToken cancellationToken = default);
 
         // Count posts by N month. Input N. Output list objects with: Year, month, posts count. 
-        Task<(int year, int month, int PostsCount)> CountTotalPostFromMonthsAsync(int month,
+        Task<IList<MonthlyPostsCountItem>> CountTotalPostFromMonthsAsync(int month,
             CancellationToken cancellationToken = default);
 
         // Find post by Id
