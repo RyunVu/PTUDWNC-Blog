@@ -292,7 +292,7 @@ namespace TatBlog.Services.Blogs {
                 .WhereIf(!string.IsNullOrWhiteSpace(postQuery.CategorySlug), p => p.Category.UrlSlug == postQuery.CategorySlug)
                 .WhereIf(postQuery.AuthorId > 0, p => p.AuthorId == postQuery.AuthorId)
                 .WhereIf(!string.IsNullOrWhiteSpace(postQuery.AuthorSlug), p => p.Author.UrlSlug == postQuery.AuthorSlug)
-                .WhereIf(!string.IsNullOrWhiteSpace(postQuery.TagName), p => p.Tags.Any(t => t.UrlSlug == postQuery.TagSlug))
+                .WhereIf(!string.IsNullOrWhiteSpace(postQuery.TagSlug), p => p.Tags.Any(t => t.UrlSlug == postQuery.TagSlug))
                 .WhereIf(postQuery.Year > 0, p => p.PostedDate.Year == postQuery.Year)
                 .WhereIf(postQuery.Month > 0, p => p.PostedDate.Month == postQuery.Month)
                 .WhereIf(postQuery.Day > 0, p => p.PostedDate.Day == postQuery.Day)
