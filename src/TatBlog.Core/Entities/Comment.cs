@@ -18,6 +18,6 @@ namespace TatBlog.Core.Entities {
 
         [ForeignKey("Post")]
         public int PostId { get; set; }
-        public virtual Post post { get; set; }
+        public virtual Post Post { get; set; }
     }
 }

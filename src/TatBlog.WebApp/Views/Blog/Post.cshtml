@@ -6,6 +6,12 @@
     ViewData["Title"] = $"Bài viết - {Model.UrlSlug}"; 
 
     var imageUrl = string.IsNullOrWhiteSpace(Model.ImageUrl) ? "/images/image_1.jpg" : $"/{Model.ImageUrl}";
+    var comments = ViewData["Comments"] as IList<Comment> ?? new List<Comment>();
+    var cmtSuccess = false;
+    if (ViewBag.CmtSuccess != null) {
+        cmtSuccess = true;
+    }
+    var linkShare = $"https://localhost:7027/blog/post/{Model.PostedDate.Year}/{Model.PostedDate.Month}/{Model.PostedDate.Day}/{Model.UrlSlug}";
 }
 
 
@@ -43,3 +49,52 @@
         </div>
     </div>
 </body>
+<section class="mb-5">
+    <div class="card bg-light">
+        <div class="card-body">
+            <!-- Comment form-->
+
+            <form class="mb-4"
+                  asp-controller="Blog"
+                  asp-action="Post"
+                  method="post">
+                <input value="@Model.Id" class="d-none" name="postId" aria-describedby="btnComment" />
+                <div class="input-group mb-3">
+                    <input type="text"
+                           class="form-control"
+                           name="userName"
+                           required
+                           placeholder="Enter user name..."
+                           aria-label="Enter user name..."
+                           aria-describedby="btnComment" />
+
+                    <button class="btn btn-outline-secondary"
+                            type="submit"
+                            id="btnComment">
+                        Đăng ký
+                    </button>
+                </div>
+                <textarea class="form-control"
+                          rows="3"
+                          placeholder="Enter content..."
+                          name="content"
+                          required
+                          aria-describedby="btnComment"></textarea>
+            </form>
+            @if (cmtSuccess) {
+                <p class="text-success">Gửi bình luận thành công.</p>
+            }
+            @if (comments != null) {
+                foreach (var cmt in comments) {
+                    <div class="d-flex mb-2">
+                        <div class="flex-shrink-0 mr-4"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..."></div>
+                        <div class="ms-3">
+                            <div class="fw-bold">@cmt.UserName <small class="text-light">@cmt.CommentTime.ToString("MM/dd/yyyy")</small></div>
+                            @cmt.Content
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</section>
