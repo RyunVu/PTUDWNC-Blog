@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 using System.Threading;
 using TatBlog.Core.Contracts;
 using TatBlog.Core.DTO;
@@ -15,39 +16,48 @@ namespace TatBlog.Services.Blogs {
             _context = context;
         }
         public async Task<bool> SubscribeAsync(string email, CancellationToken cancellationToken = default) {
-            var subEmail = _context.Set<Subscriber>().FirstOrDefault(s => s.Email == email);
+            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            Match match = regex.Match(email);
+            if (match.Success) {
+                var subEmail = _context.Set<Subscriber>().FirstOrDefault(s => s.Email == email);
 
-            if (subEmail == null) {
-                var newSub = new Subscriber() {
-                    DateSubscribe = DateTime.Now,
-                    Email = email,
-                    subscribeStatus = SubscribeStatus.Subscribe,
-                };
+                if (subEmail == null) {
+                    var newSub = new Subscriber() {
+                        DateSubscribe = DateTime.Now,
+                        Email = email,
+                        subscribeStatus = SubscribeStatus.Subscribe,
+                    };
 
-                _context.Set<Subscriber>().Add(newSub);
+                    _context.Set<Subscriber>().Add(newSub);
+                }
+                else {
+                    if (subEmail.subscribeStatus == SubscribeStatus.Block || subEmail.subscribeStatus == SubscribeStatus.Subscribe)
+                        return false;
+                    subEmail.DateSubscribe = DateTime.Now;
+                    subEmail.DateUnsubscribe = null;
+                    subEmail.subscribeStatus = SubscribeStatus.Subscribe;
+                    subEmail.Reason = null;
+                    _context.Entry(subEmail).State = EntityState.Modified;
+                }
+                await _context.SaveChangesAsync(cancellationToken);
+                return true;
             }
-            else {
-                if (subEmail.subscribeStatus == SubscribeStatus.Block || subEmail.subscribeStatus == SubscribeStatus.Subscribe)
-                    return false;
-                subEmail.DateSubscribe = DateTime.Now;
-                subEmail.DateUnsubscribe = null;
-                subEmail.subscribeStatus= SubscribeStatus.Subscribe;
-                subEmail.Reason = null;
-                _context.Entry(subEmail).State = EntityState.Modified;
-            }
-            await _context.SaveChangesAsync(cancellationToken);
-            return true;
+            return false;
         }
 
         public async Task<bool> UnsubscribeAsync(string email, string reason, CancellationToken cancellationToken = default) {
-            var subEmail = _context.Set<Subscriber>().FirstOrDefault(s => s.Email == email);
-            if (subEmail != null) {
-                subEmail.DateUnsubscribe = DateTime.Now;
-                subEmail.subscribeStatus = SubscribeStatus.Unsubscribe;
-                subEmail.Reason = reason;
-                _context.Entry(subEmail).State = EntityState.Modified;
-                await _context.SaveChangesAsync(cancellationToken);
-                return true;
+            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            Match match = regex.Match(email);
+            if (match.Success) { 
+                var subEmail = _context.Set<Subscriber>().FirstOrDefault(s => s.Email == email);
+                if (subEmail != null) {
+                    subEmail.DateUnsubscribe = DateTime.Now;
+                    subEmail.subscribeStatus = SubscribeStatus.Unsubscribe;
+                    subEmail.Reason = reason;
+                    _context.Entry(subEmail).State = EntityState.Modified;
+                    await _context.SaveChangesAsync(cancellationToken);
+                    return true;
+                }
             }
             return false;
         }
