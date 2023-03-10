@@ -17,11 +17,14 @@
     <!-- Danh sách các bài viết qua 12 tháng vừa qua -->
     @await Component.InvokeAsync("ArchivesWidget")
 
-    <!-- Đăng ký nhận tin mới -->
-    <h1>
-        Đăng ký nhận tin mới
-    </h1>
-
     <!-- Tag cloud -->
     @await Component.InvokeAsync("TagsWidget")
+
+      <button class="btn btn-outline-secondary ">
+        <a asp-controller="Newsletter"
+           asp-action="Subscribe"
+           class="text-black-50">
+            Đăng ký nhận tin 
+        </a>
+    </button>
 </div>
