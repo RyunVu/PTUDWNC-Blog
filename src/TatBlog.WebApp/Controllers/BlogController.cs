@@ -1,16 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Net.Mail;
+using System.Net;
 using TatBlog.Core.Collections;
 using TatBlog.Core.Contracts;
 using TatBlog.Services.Blogs;
 using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
+using TatBlog.WebApp.Models;
 
 namespace TatBlog.WebApp.Controllers {
     public class BlogController : Controller{
 
         private readonly IBlogRepository _blogRepository;
+        private IConfiguration _configuration;
 
-        public BlogController(IBlogRepository blogRepository) {
+        public BlogController(IBlogRepository blogRepository, IConfiguration configuration) {
             _blogRepository = blogRepository;
+            _configuration = configuration;
         }
 
         public async Task<IActionResult> Index(
@@ -117,13 +122,64 @@ namespace TatBlog.WebApp.Controllers {
 
         }
 
-        public IActionResult About()
-            => View(); 
+        public IActionResult About() {
+            return View();
+        }
 
-        public IActionResult Contact()
-            => View();
+        [HttpGet]
+        public IActionResult Contact() {
+            return View();
+        }
+
+
+        [HttpPost]
+        public IActionResult Contact(string email, string subject, string body) {
+            try {
+                var content = body.Replace("\n", "<br>");
+
+                var emailModel = new EmailModel() {
+                    Subject = $"Phản hồi từ {email}",
+                    Body = $"{subject}:<br> {content}"
+                };
+
+                SendEmail(emailModel);
+
+                ViewBag.Success = true;
+                return View();
+            }
+            catch (Exception e) {
+                ModelState.AddModelError("", e.Message);
+                return BadRequest(ModelState);
+            }
+
+        }
+
+        private void SendEmail(EmailModel emailModel) {
+            var host = this._configuration.GetValue<string>("Smtp:Server");
+            var port = this._configuration.GetValue<int>("Smtp:Port");
+            var fromAddress = this._configuration.GetValue<string>("Smtp:FromAddress");
+            var adminAddress = this._configuration.GetValue<string>("Smtp:AdminEmail");
+            var userName = this._configuration.GetValue<string>("Smtp:UserName");
+            var password = this._configuration.GetValue<string>("Smtp:Password");
+
+
+            using (MailMessage mail = new MailMessage()) {
+                mail.From = new MailAddress(fromAddress);
+                mail.To.Add(adminAddress);
+                mail.Subject = emailModel.Subject;
+                mail.Body = emailModel.Body;
+                mail.IsBodyHtml = true;
+
+                using (SmtpClient smtp = new SmtpClient(host, port)) {
+                    smtp.Credentials = new NetworkCredential(userName,
+                        password);
+                    smtp.EnableSsl = true;
+                    smtp.Send(mail);
+                }
+            }
+        }
 
         public IActionResult Rss() 
-            => Content("Nội dung dẽ được cập nhật");
+            => Content("Nội dung sẽ được cập nhật");
     }
 }
