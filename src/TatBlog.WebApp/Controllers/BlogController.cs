@@ -6,15 +6,18 @@ using TatBlog.Core.Contracts;
 using TatBlog.Services.Blogs;
 using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 using TatBlog.WebApp.Models;
+using TatBlog.Core.Entities;
 
 namespace TatBlog.WebApp.Controllers {
     public class BlogController : Controller{
 
-        private readonly IBlogRepository _blogRepository;
+        private readonly IBlogRepository _blogRepo;
+        private readonly ICommentRepository _cmtRepo;
         private IConfiguration _configuration;
 
-        public BlogController(IBlogRepository blogRepository, IConfiguration configuration) {
-            _blogRepository = blogRepository;
+        public BlogController(IBlogRepository blogRepository,ICommentRepository commentRepository  ,IConfiguration configuration) {
+            _blogRepo = blogRepository;
+            _cmtRepo = commentRepository;
             _configuration = configuration;
         }
 
@@ -28,7 +31,7 @@ namespace TatBlog.WebApp.Controllers {
                 Keyword = keyword
             };
 
-            var postsList = await _blogRepository.GetPagedPostsAsync(postQuery, pageNumber, pageSize);
+            var postsList = await _blogRepo.GetPagedPostsAsync(postQuery, pageNumber, pageSize);
 
             ViewBag.PostQuery = postQuery;
 
@@ -45,7 +48,7 @@ namespace TatBlog.WebApp.Controllers {
                 Published = true,
             };
 
-            var postsList = await _blogRepository.GetPagedPostsAsync(postQuery, pageNumber, pageSize);
+            var postsList = await _blogRepo.GetPagedPostsAsync(postQuery, pageNumber, pageSize);
 
             ViewBag.PostQuery = postQuery;
 
@@ -62,7 +65,7 @@ namespace TatBlog.WebApp.Controllers {
                 Published = true,
             };
 
-            var postsList = await _blogRepository.GetPagedPostsAsync(postQuery, pageNumber, pageSize);
+            var postsList = await _blogRepo.GetPagedPostsAsync(postQuery, pageNumber, pageSize);
 
             ViewBag.PostQuery = postQuery;
 
@@ -79,7 +82,7 @@ namespace TatBlog.WebApp.Controllers {
                 Published = true,
             };
 
-            var postsList = await _blogRepository.GetPagedPostsAsync(postQuery, pageNumber, pageSize);
+            var postsList = await _blogRepo.GetPagedPostsAsync(postQuery, pageNumber, pageSize);
 
             ViewBag.PostQuery = postQuery;
 
@@ -92,14 +95,42 @@ namespace TatBlog.WebApp.Controllers {
             int day,
             string slug) {
 
-            var post = await _blogRepository.GetPostAsync(year, month, day, slug);
+            var post = await _blogRepo.GetPostAsync(year, month, day, slug);
+            await _blogRepo.IncreaseViewCountAsync(post.Id);
+            var cmtsList = await _cmtRepo.GetCommentsByPostAsync(post.Id);
 
-            await _blogRepository.IncreaseViewCountAsync(post.Id);
 
             ViewBag.Post = post;
+            ViewData["Comments"] = cmtsList;           
 
             return View(post);
+        }
 
+        [HttpPost]
+        public async Task<IActionResult> Post(int postId, string userName, string content) {
+            try {
+                var newCmt = new Comment() {
+                    PostId = postId,
+                    Active = true,
+                    commentStatus = CommentStatus.Violate,
+                    Content = content,
+                    UserName = userName,
+                    CommentTime = DateTime.Now
+                };
+
+                var cmtSuccess = await _cmtRepo.AddOrUpdateCommentAsync(newCmt);
+                var cmtList = await _cmtRepo.GetCommentsByPostAsync(postId);
+
+                ViewData["Comments"] = cmtList;
+                ViewBag.CmtSuccess = cmtSuccess;
+
+                var post = await _blogRepo.GetPostByIdAsync(postId);
+                return View(post);
+            }
+            catch (Exception e) {
+                ModelState.AddModelError("Error", e.Message);
+                return BadRequest(ModelState);
+            }
         }
 
         public async Task<IActionResult> Archives(
@@ -114,7 +145,7 @@ namespace TatBlog.WebApp.Controllers {
                 Published = true,
             };
 
-            var postsList = await _blogRepository.GetPagedPostsAsync(postsQuery, pageNumber, pageSize);
+            var postsList = await _blogRepo.GetPagedPostsAsync(postsQuery, pageNumber, pageSize);
             ViewBag.Date = new DateTime(year, month, 1);
             ViewBag.Post = postsList;
 

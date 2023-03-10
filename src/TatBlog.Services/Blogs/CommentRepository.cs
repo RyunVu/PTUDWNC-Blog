@@ -11,6 +11,13 @@ namespace TatBlog.Services.Blogs {
             _context = context;
         }
 
+
+        public async Task<List<Comment>> GetCommentsByPostAsync(int id, CancellationToken cancellationToken = default) {
+            return await _context.Set<Comment>()
+                .Include(s => s.Post)
+                .Where(s => s.Id == id && s.commentStatus == CommentStatus.Valid).ToListAsync(cancellationToken);
+        }
+
         public async Task<Comment> AddOrUpdateCommentAsync(Comment comment, CancellationToken cancellationToken = default) {
             if (_context.Set<Comment>().Any(c => c.Id == comment.Id)) {
                 _context.Entry(comment).State = EntityState.Modified;
@@ -28,6 +35,7 @@ namespace TatBlog.Services.Blogs {
                 .Where(c => c.Id == id)
                 .ExecuteDeleteAsync(cancellationToken) > 0;
         }
+
 
         public async Task<Comment> VerifyCommentAsync(int id, CommentStatus status, CancellationToken cancellationToken = default) {
             var comment = _context.Set<Comment>().FirstOrDefault(c => c.Id == id);
