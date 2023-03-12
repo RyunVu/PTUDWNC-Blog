@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
-using System.Linq;
+using SlugGenerator;
 using System.Linq.Dynamic.Core;
-using TatBlog.Core.Collections;
 using TatBlog.Core.Contracts;
 using TatBlog.Core.DTO;
 using TatBlog.Core.Entities;
@@ -207,7 +205,8 @@ namespace TatBlog.Services.Blogs {
                 return result;
         }
 
-        public async Task<Post> GetPostByIdAsync(int id, CancellationToken cancellationToken) {
+        public async Task<Post> GetPostByIdAsync(int id, bool includeDetail, CancellationToken cancellationToken) {
+            if (!includeDetail) return await _context.Set<Post>().FindAsync(id, cancellationToken);
             return await _context.Set<Post>()
                 .Include(c => c.Category)
                 .Include(a => a.Author)
@@ -218,9 +217,36 @@ namespace TatBlog.Services.Blogs {
                 .FirstOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<Post> AddOrUpdatePostAsync(Post post, CancellationToken cancellationToken) {
+        public async Task<Post> AddOrUpdatePostAsync(Post post, IEnumerable<string> tags, CancellationToken cancellationToken) {
 
             if (_context.Set<Post>().Any(p => p.Id == post.Id)) {
+                await _context.Entry(post).Collection(x => x.Tags).LoadAsync(cancellationToken);
+            }
+            else {
+                post.Tags = new List<Tag>();
+            }
+
+            var validTags = tags.Where(x => !string.IsNullOrWhiteSpace(x))
+                .Select(x => new {
+                    Name = x,
+                    Slug = x.GenerateSlug()
+                })
+                .GroupBy(x => x.Slug)
+                .ToDictionary(g => g.Key, g => g.First().Name);
+
+            foreach (var tagItem in validTags) {
+                if (post.Tags.Any(x => string.Compare(x.UrlSlug, tagItem.Key, StringComparison.InvariantCultureIgnoreCase) == 0)) continue;
+
+                var tag = await GetTagFromSlugAsync(tagItem.Key, cancellationToken) ?? new Tag() {
+                    Name = tagItem.Value,
+                    Description = tagItem.Value,
+                    UrlSlug = tagItem.Key
+                };
+
+                post.Tags.Add(tag);
+            }
+
+            if (_context.Set<Post>().Any(s => s.Id == post.Id)) {
                 _context.Entry(post).State = EntityState.Modified;
             }
             else {
