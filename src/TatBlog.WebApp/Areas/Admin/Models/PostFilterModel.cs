@@ -5,7 +5,7 @@ using System.Globalization;
 namespace TatBlog.WebApp.Areas.Admin.Models {
     public class PostFilterModel {
         [DisplayName("Từ khóa")]
-        public string keyword { get; set; }
+        public string Keyword { get; set; }
 
         [DisplayName("Tác giả")]
         public int? AuthorId { get; set; }
