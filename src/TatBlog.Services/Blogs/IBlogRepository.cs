@@ -91,13 +91,13 @@ namespace TatBlog.Services.Blogs {
 
         // Find post by Id
         Task<Post> GetPostByIdAsync(
-            int id,
+            int id, bool includeDetail,
             CancellationToken cancellationToken = default);
 
 
         // Add/ Update a post
         Task<Post> AddOrUpdatePostAsync(
-            Post post,
+            Post post, IEnumerable<string> tags,
             CancellationToken cancellationToken = default);
 
         // Get all authors

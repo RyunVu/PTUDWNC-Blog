@@ -124,7 +124,7 @@ namespace TatBlog.WebApp.Controllers {
                 ViewData["Comments"] = cmtList;
                 ViewBag.CmtSuccess = cmtSuccess;
 
-                var post = await _blogRepo.GetPostByIdAsync(postId);
+                var post = await _blogRepo.GetPostByIdAsync(postId, true);
                 return View(post);
             }
             catch (Exception e) {
