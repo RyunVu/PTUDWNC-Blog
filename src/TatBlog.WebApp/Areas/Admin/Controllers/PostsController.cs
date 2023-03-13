@@ -4,16 +4,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using TatBlog.Core.Collections;
 using TatBlog.Core.Entities;
 using TatBlog.Services.Blogs;
+using TatBlog.WebApp.Media;
 using TatBlog.WebApp.Areas.Admin.Models;
 
 namespace TatBlog.WebApp.Areas.Admin.Controllers {
     public class PostsController : Controller{
 
         private readonly IBlogRepository _blogRepo;
+        private readonly IMediaManager _mediaManager;
         private readonly IMapper _mapper;
 
-        public PostsController(IBlogRepository blogRepository, IMapper mapper) {
+        public PostsController(IBlogRepository blogRepository, IMediaManager mediaManager,IMapper mapper) {
             _blogRepo = blogRepository;
+            _mediaManager = mediaManager;
             _mapper = mapper;
         }
 
@@ -89,7 +92,7 @@ namespace TatBlog.WebApp.Areas.Admin.Controllers {
                 await PopulatePostEditModelAsync(model);
                 return View(model);
             }
-            var post = model.Id > 0 ? await _blogRepo.GetPostByIdAsync(model.Id, true) : null;
+            var post = model.Id > 0 ? await _blogRepo.GetPostByIdAsync(model.Id) : null;
 
             if (post == null) {
                 post = _mapper.Map<Post>(model);
@@ -102,6 +105,22 @@ namespace TatBlog.WebApp.Areas.Admin.Controllers {
 
                 post.Category = null;
                 post.ModifiedDate = DateTime.Now;
+            }
+
+            // Nếu người dùng có update hình ảnh minh họa cho bài viết
+            if (model.ImageFile?.Length > 0) {
+                // Thực hiện việc lưu tập tin vào thư mục uploads
+                var newImagePath = await _mediaManager.SaveFileAsync(
+                    model.ImageFile.OpenReadStream(),
+                    model.ImageFile.FileName,
+                    model.ImageFile.ContentType);
+
+
+                // Nếu lưu thành công, xóa tập tin hình ảnh cũ (nếu có)
+                if (!string.IsNullOrWhiteSpace(newImagePath)) {
+                    await _mediaManager.DeleteFileAsync(post.ImageUrl);
+                    post.ImageUrl = newImagePath;
+                }
             }
 
             await _blogRepo.AddOrUpdatePostAsync(post, model.GetSelectedTags());

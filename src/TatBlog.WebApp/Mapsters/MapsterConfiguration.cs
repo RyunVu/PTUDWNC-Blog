@@ -16,7 +16,8 @@ namespace TatBlog.WebApp.Mapsters {
 
             config.NewConfig<PostEditModel, Post>()
                 .Ignore(dest => dest.Id)
-                .Ignore(dest => dest.ImageUrl);
+                .Ignore(dest => dest.ImageUrl)
+                .Ignore(dest => dest.Tags);
 
             config.NewConfig<Post, PostEditModel>()
                 .Map(dest => dest.SelectedTags, src =>

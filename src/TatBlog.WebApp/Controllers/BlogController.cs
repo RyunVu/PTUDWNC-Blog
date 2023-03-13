@@ -2,11 +2,9 @@
 using System.Net.Mail;
 using System.Net;
 using TatBlog.Core.Collections;
-using TatBlog.Core.Contracts;
 using TatBlog.Services.Blogs;
-using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
-using TatBlog.WebApp.Models;
 using TatBlog.Core.Entities;
+using TatBlog.WebApp.Models;
 
 namespace TatBlog.WebApp.Controllers {
     public class BlogController : Controller{
