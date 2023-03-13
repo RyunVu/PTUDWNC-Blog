@@ -91,7 +91,7 @@ namespace TatBlog.Services.Blogs {
 
         // Find post by Id
         Task<Post> GetPostByIdAsync(
-            int id, bool includeDetail,
+            int id, bool includeDetail = false,
             CancellationToken cancellationToken = default);
 
 

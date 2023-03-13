@@ -111,7 +111,8 @@ namespace TatBlog.Services.Blogs {
 
         // Part C
         public async Task<Tag> GetTagFromSlugAsync(string slug, CancellationToken cancellationToken = default) {
-            IQueryable<Tag> tagQuery = _context.Set<Tag>();
+            IQueryable<Tag> tagQuery = _context.Set<Tag>()
+                .Include(p => p.Posts);
             if (!string.IsNullOrWhiteSpace(slug)) {
                 tagQuery = tagQuery.Where(x => x.UrlSlug.Equals(slug));
             }
@@ -205,7 +206,7 @@ namespace TatBlog.Services.Blogs {
                 return result;
         }
 
-        public async Task<Post> GetPostByIdAsync(int id, bool includeDetail, CancellationToken cancellationToken) {
+        public async Task<Post> GetPostByIdAsync(int id, bool includeDetail = false, CancellationToken cancellationToken = default) {
             if (!includeDetail) return await _context.Set<Post>().FindAsync(id, cancellationToken);
             return await _context.Set<Post>()
                 .Include(c => c.Category)
@@ -219,11 +220,14 @@ namespace TatBlog.Services.Blogs {
 
         public async Task<Post> AddOrUpdatePostAsync(Post post, IEnumerable<string> tags, CancellationToken cancellationToken) {
 
-            if (_context.Set<Post>().Any(p => p.Id == post.Id)) {
-                await _context.Entry(post).Collection(x => x.Tags).LoadAsync(cancellationToken);
-            }
-            else {
+            var postExists = await _context.Set<Post>().AnyAsync(p => p.Id == post.Id, cancellationToken);
+
+            if (!postExists || post.Tags == null) {
                 post.Tags = new List<Tag>();
+            } else if (post.Tags == null || post.Tags.Count == 0) {
+                await _context.Entry(post)
+                    .Collection(s => s.Tags)
+                    .LoadAsync(cancellationToken);
             }
 
             var validTags = tags.Where(x => !string.IsNullOrWhiteSpace(x))
@@ -234,19 +238,33 @@ namespace TatBlog.Services.Blogs {
                 .GroupBy(x => x.Slug)
                 .ToDictionary(g => g.Key, g => g.First().Name);
 
+            var oldPost = await GetPostByIdAsync(post.Id, true, cancellationToken);
+            var oldTags = oldPost.Tags.ToList();
+            foreach (var postTag in oldTags) {
+                if (!validTags.ContainsKey(postTag.UrlSlug)) {
+                    postTag.Posts.Remove(post);
+                    post.Tags.Remove(postTag);
+                }
+            }
+
             foreach (var tagItem in validTags) {
                 if (post.Tags.Any(x => string.Compare(x.UrlSlug, tagItem.Key, StringComparison.InvariantCultureIgnoreCase) == 0)) continue;
 
                 var tag = await GetTagFromSlugAsync(tagItem.Key, cancellationToken) ?? new Tag() {
                     Name = tagItem.Value,
                     Description = tagItem.Value,
-                    UrlSlug = tagItem.Key
+                    UrlSlug = tagItem.Key,
+                    Posts = new List<Post>()
                 };
+
+                if (tag.Posts.All(p => p.Id != post.Id)) {
+                    tag.Posts.Add(post);
+                }
 
                 post.Tags.Add(tag);
             }
 
-            if (_context.Set<Post>().Any(s => s.Id == post.Id)) {
+            if (postExists) {
                 _context.Entry(post).State = EntityState.Modified;
             }
             else {
