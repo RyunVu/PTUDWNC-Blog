@@ -6,6 +6,8 @@ using TatBlog.Core.Entities;
 using TatBlog.Services.Blogs;
 using TatBlog.WebApp.Media;
 using TatBlog.WebApp.Areas.Admin.Models;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 namespace TatBlog.WebApp.Areas.Admin.Controllers {
     public class PostsController : Controller{
@@ -86,7 +88,13 @@ namespace TatBlog.WebApp.Areas.Admin.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(PostEditModel model) {
+        public async Task<IActionResult> Edit(IValidator<PostEditModel> postValidator , PostEditModel model) {
+
+            var validationResult = await postValidator.ValidateAsync(model);
+
+            if (!validationResult.IsValid) {
+                validationResult.AddToModelState(ModelState);
+            }            
 
             if (!ModelState.IsValid) {
                 await PopulatePostEditModelAsync(model);
