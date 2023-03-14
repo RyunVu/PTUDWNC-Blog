@@ -8,18 +8,42 @@ using TatBlog.WebApp.Media;
 using TatBlog.WebApp.Areas.Admin.Models;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using TatBlog.WebApp.Validations;
 
 namespace TatBlog.WebApp.Areas.Admin.Controllers {
     public class PostsController : Controller{
 
+        private readonly ILogger<PostsController> _logger;
         private readonly IBlogRepository _blogRepo;
         private readonly IMediaManager _mediaManager;
         private readonly IMapper _mapper;
+        private readonly IValidator<PostEditModel> _postValidator;
 
-        public PostsController(IBlogRepository blogRepository, IMediaManager mediaManager,IMapper mapper) {
+        public PostsController(ILogger<PostsController> logger ,IBlogRepository blogRepository, IMediaManager mediaManager,IMapper mapper) {
+            _logger = logger;
             _blogRepo = blogRepository;
             _mediaManager = mediaManager;
             _mapper = mapper;
+            _postValidator = new PostValidator(_blogRepo);
+        }
+
+        public async Task<IActionResult> Index(PostFilterModel model) {
+            _logger.LogInformation("Tạo điều kiện truy vấn");
+
+            // Use Mapster to create object PostQuery from object PostFilterModel model
+
+            var postQuery = _mapper.Map<PostQuery>(model);
+
+            _logger.LogInformation("Lấy danh sách bài viết từ CSDL");
+
+            ViewBag.PostsList = await _blogRepo
+                .GetPagedPostsAsync(postQuery,1,10);
+
+            _logger.LogInformation("Chuẩn bị dữ liệu cho ViewModel");
+
+            await PopulatePostFilterModelAsync(model);
+
+            return View(model);
         }
 
         private async Task PopulatePostFilterModelAsync(PostFilterModel model) {
@@ -42,19 +66,6 @@ namespace TatBlog.WebApp.Areas.Admin.Controllers {
         //public IActionResult Index() {
         //    return View();
         //}
-
-        public async Task<IActionResult> Index(PostFilterModel model) {
-
-            // Sử dụng Mapster để tạo đối tượng PostQuery từ đối tượng PostFilterModel model
-            var postQuery = _mapper.Map<PostQuery>(model);
-
-            ViewBag.PostsList = await _blogRepo.GetPagedPostsAsync(postQuery, 1, 10);
-
-            await PopulatePostFilterModelAsync(model);
-
-            return View(model);
-            
-        }
 
         private async Task PopulatePostEditModelAsync(PostEditModel model) {
             var authors = await _blogRepo.GetAllAuthorsAsync();
@@ -88,9 +99,9 @@ namespace TatBlog.WebApp.Areas.Admin.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(IValidator<PostEditModel> postValidator , PostEditModel model) {
+        public async Task<IActionResult> Edit(PostEditModel model) {
 
-            var validationResult = await postValidator.ValidateAsync(model);
+            var validationResult = await this._postValidator.ValidateAsync(model);
 
             if (!validationResult.IsValid) {
                 validationResult.AddToModelState(ModelState);

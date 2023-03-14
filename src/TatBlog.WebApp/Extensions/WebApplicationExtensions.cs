@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NLog.Web;
 using TatBlog.Data.Contexts;
 using TatBlog.Data.Seeders;
 using TatBlog.Services.Blogs;
@@ -13,6 +14,14 @@ namespace TatBlog.WebApp.Extensions {
 
             builder.Services.AddControllersWithViews();
             builder.Services.AddResponseCompression();
+            return builder;
+        }
+
+        // Cấu hình việc sử dụng NLog
+        public static WebApplicationBuilder ConfigureNLog(this WebApplicationBuilder builder) {
+            builder.Logging.ClearProviders();
+            builder.Host.UseNLog();
+
             return builder;
         }
 

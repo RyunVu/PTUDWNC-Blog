@@ -238,12 +238,14 @@ namespace TatBlog.Services.Blogs {
                 .GroupBy(x => x.Slug)
                 .ToDictionary(g => g.Key, g => g.First().Name);
 
-            var oldPost = await GetPostByIdAsync(post.Id, true, cancellationToken);
-            var oldTags = oldPost.Tags.ToList();
-            foreach (var postTag in oldTags) {
-                if (!validTags.ContainsKey(postTag.UrlSlug)) {
-                    postTag.Posts.Remove(post);
-                    post.Tags.Remove(postTag);
+            if (postExists) {
+                var oldPost = await GetPostByIdAsync(post.Id, true, cancellationToken);
+                var oldTags = oldPost.Tags.ToList();
+                foreach (var postTag in oldTags) {
+                    if (!validTags.ContainsKey(postTag.UrlSlug)) {
+                        postTag.Posts.Remove(post);
+                        post.Tags.Remove(postTag);
+                    }
                 }
             }
 
