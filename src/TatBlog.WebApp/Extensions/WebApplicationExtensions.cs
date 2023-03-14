@@ -4,6 +4,7 @@ using TatBlog.Data.Contexts;
 using TatBlog.Data.Seeders;
 using TatBlog.Services.Blogs;
 using TatBlog.WebApp.Media;
+using TatBlog.WebApp.Middlewares;
 
 namespace TatBlog.WebApp.Extensions {
     public static class WebApplicationExtensions {
@@ -65,6 +66,9 @@ namespace TatBlog.WebApp.Extensions {
 
             // Thêm middleware lựa chọn endpoint phù hợp nhất để xử lý một HTTP request.
             app.UseRouting();
+
+            // Thêm middleware để lưu vết người dùng
+            app.UseMiddleware<UserActivityMiddleware>();
 
             return app;
         }
