@@ -52,6 +52,7 @@
             }
         </tbody>
     </table>
+    @await Html.PartialAsync("_PagerFilter", postsList)
 }else{
     <h1 class="text-danger">
         Không tìm thấy bài viết nào :(
