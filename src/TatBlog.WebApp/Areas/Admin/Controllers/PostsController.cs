@@ -168,5 +168,14 @@ namespace TatBlog.WebApp.Areas.Admin.Controllers {
         }
 
 
+        [HttpGet]
+        public async Task<IActionResult> TogglePublished(int id)
+            {
+            await _blogRepo.TogglePublishedStatusAsync(id);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        
     }
 }

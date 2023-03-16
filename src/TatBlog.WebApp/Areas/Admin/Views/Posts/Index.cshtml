@@ -24,7 +24,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var post in postsList) {
+            @foreach (var post in postsList) {  
                 <tr>
                     <td>
                         <a asp-area="Admin"
@@ -46,7 +46,13 @@
                         @post.Category.Name
                     </td>
                     <td>
-                        @(post.Published ? "Có" : "Không")
+                        <a class = "btn"
+                           asp-area="Admin"
+                           asp-controller="Posts"
+                           asp-action="TogglePublished"
+                           asp-route-id="@post.Id" method="get">
+                            @(post.Published ? "Có" : "Không")
+                       </a>
                     </td>
                 </tr>
             }
