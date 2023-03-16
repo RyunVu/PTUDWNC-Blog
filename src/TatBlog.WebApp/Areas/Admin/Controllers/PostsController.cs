@@ -9,6 +9,7 @@ using TatBlog.WebApp.Areas.Admin.Models;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using TatBlog.WebApp.Validations;
+using TatBlog.Core.Contracts;
 
 namespace TatBlog.WebApp.Areas.Admin.Controllers {
     public class PostsController : Controller{
@@ -26,8 +27,12 @@ namespace TatBlog.WebApp.Areas.Admin.Controllers {
             _mapper = mapper;
             _postValidator = new PostValidator(_blogRepo);
         }
+            
 
-        public async Task<IActionResult> Index(PostFilterModel model) {
+        public async Task<IActionResult> Index(PostFilterModel model, 
+            PagingParams pageParam,
+            [FromQuery(Name = "p")] int pageNumber = 1,
+            [FromQuery(Name = "ps")] int pageSize = 10) {
             _logger.LogInformation("Tạo điều kiện truy vấn");
 
             // Use Mapster to create object PostQuery from object PostFilterModel model
@@ -36,8 +41,13 @@ namespace TatBlog.WebApp.Areas.Admin.Controllers {
 
             _logger.LogInformation("Lấy danh sách bài viết từ CSDL");
 
+            if (pageParam.PageSize != 0 || pageParam.PageNumber != 0) {
+                pageNumber = pageParam.PageNumber;
+                pageSize = pageParam.PageSize;
+            }
+
             ViewBag.PostsList = await _blogRepo
-                .GetPagedPostsAsync(postQuery,1,10);
+                .GetPagedPostsAsync(postQuery, pageNumber, pageSize);
 
             _logger.LogInformation("Chuẩn bị dữ liệu cho ViewModel");
 
