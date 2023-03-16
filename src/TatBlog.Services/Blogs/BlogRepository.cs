@@ -171,6 +171,12 @@ namespace TatBlog.Services.Blogs {
                 .ExecuteDeleteAsync(cancellationToken) > 0;
         }
 
+        public async Task<bool> DeletePostByIdAsync(int id, CancellationToken cancellationToken = default) {
+            return await _context.Set<Post>()
+                .Where(c => c.Id == id)
+                .ExecuteDeleteAsync(cancellationToken) > 0;
+        }
+
         public async Task<bool> IsCategorySlugExistedAsync(string slug, CancellationToken cancellationToken = default) {
             return await _context.Set<Category>()
                 .Where(c => c.UrlSlug.Equals(slug))
