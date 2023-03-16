@@ -350,6 +350,7 @@ namespace TatBlog.Services.Blogs {
                 .Include(c => c.Category)
                 .Include(t => t.Tags)
                 .WhereIf(postQuery.Published, s => s.Published)
+                .WhereIf(postQuery.NonPublished, s => !s.Published)
                 .WhereIf(postQuery.CategoryId > 0, p => p.CategoryId == postQuery.CategoryId)
                 .WhereIf(!string.IsNullOrWhiteSpace(postQuery.CategorySlug), p => p.Category.UrlSlug == postQuery.CategorySlug)
                 .WhereIf(postQuery.AuthorId > 0, p => p.AuthorId == postQuery.AuthorId)

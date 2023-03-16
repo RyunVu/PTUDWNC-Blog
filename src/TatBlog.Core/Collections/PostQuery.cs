@@ -11,6 +11,7 @@ namespace TatBlog.Core.Collections {
         public int? Month { get; set; }
         public int? Day { get; set; }
         public bool Published { get; set; }
+        public bool NonPublished { get; set; } 
         public string TagSlug { get; set; }
         public string TagName { get; set; }
         public string Keyword { get; set; }
