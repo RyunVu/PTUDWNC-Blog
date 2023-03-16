@@ -50,9 +50,20 @@
                            asp-area="Admin"
                            asp-controller="Posts"
                            asp-action="TogglePublished"
-                           asp-route-id="@post.Id" method="get">
+                           asp-route-id="@post.Id">
                             @(post.Published ? "Có" : "Không")
                        </a>
+                    </td>
+                    <td>
+                        <a class = "btn btn-danger"
+                           asp-area="Admin"
+                           asp-controller="Posts"
+                           asp-action="DeletePost"
+                           asp-route-id=@post.Id
+                           onclick="return confirm('Bạn có thực sự muốn xóa bài viết này không?')"
+                           class="text-danger">
+                            Xóa
+                        </a>
                     </td>
                 </tr>
             }

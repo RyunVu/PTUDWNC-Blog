@@ -168,11 +168,15 @@ namespace TatBlog.WebApp.Areas.Admin.Controllers {
         }
 
 
-        [HttpGet]
         public async Task<IActionResult> TogglePublished(int id)
             {
             await _blogRepo.TogglePublishedStatusAsync(id);
 
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> DeletePost(int id) {
+            await _blogRepo.DeletePostByIdAsync(id);
             return RedirectToAction(nameof(Index));
         }
 

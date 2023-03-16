@@ -75,6 +75,10 @@ namespace TatBlog.Services.Blogs {
             int id,
             CancellationToken cancellationToken = default);
 
+        Task<bool> DeletePostByIdAsync(
+            int id,
+            CancellationToken cancellationToken = default);
+
         // Check a category slug whether it exists or not
         Task<bool> IsCategorySlugExistedAsync(
             string slug,
