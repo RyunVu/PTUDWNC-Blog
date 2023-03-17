@@ -9,13 +9,18 @@ namespace TatBlog.Services.Blogs {
 
         Task<Author> GetAuthorBySlug(string slug, CancellationToken cancellationToken = default);
 
-        Task<IPagedList<AuthorItem>>GetPagedAuthorNumPosts(
+        Task<IPagedList<AuthorItem>>GetPagedAuthorPosts(
+            IAuthorQuery authorQuery,
             IPagingParams pagingParams,
             CancellationToken cancellationToken = default);
 
         Task<Author> AddOrUpdateAuthor(Author author, CancellationToken cancellationToken = default);
 
         Task<IList<Author>> GetAuthorsWithMostPost(int authorsQuantities, CancellationToken cancellationToken = default);
+
+        Task<bool> IsExistAuthorSlugAsync(int id, string slug, CancellationToken cancellationToken = default);
+
+        Task<bool> DeleteAuthorAsync(int id, CancellationToken cancellationToken = default);
 
     }
 }
