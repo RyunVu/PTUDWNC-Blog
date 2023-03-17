@@ -1,4 +1,5 @@
-﻿using TatBlog.Core.Contracts;
+﻿using TatBlog.Core.Collections;
+using TatBlog.Core.Contracts;
 using TatBlog.Core.DTO;
 using TatBlog.Core.Entities;
 
@@ -40,6 +41,7 @@ namespace TatBlog.Services.Blogs {
 
         //Lấy danh sách từ khóa/thẻ và phân trang theo các tham số pagingParams
         Task<IPagedList<TagItem>> GetPagedTagsAsync(
+            ITagQuery tagQuery,
             IPagingParams pagingParams,
             CancellationToken cancellationToken = default); 
 
@@ -64,10 +66,15 @@ namespace TatBlog.Services.Blogs {
         // Find category by Id.
         Task<Category> GetCategoryByIdAsync(int id,
             CancellationToken cancellationToken = default);
+        Task<Tag> GetTagByIdAsync(int id,
+            CancellationToken cancellationToken = default);
 
         // Add or Update a category.
         Task<Category> AddOrUpdateCategoryAsync(
             Category category,
+            CancellationToken cancellationToken = default);
+        Task<Tag> AddOrUpdateTagAsync(
+            Tag tag,
             CancellationToken cancellationToken = default);
 
         // Delete category by Id
@@ -81,6 +88,11 @@ namespace TatBlog.Services.Blogs {
 
         // Check a category slug whether it exists or not
         Task<bool> IsCategorySlugExistedAsync(
+            int id,
+            string slug,
+            CancellationToken cancellationToken = default);
+
+        Task<bool> IsTagSlugExistedAsync(
             int id,
             string slug,
             CancellationToken cancellationToken = default);
@@ -150,5 +162,6 @@ namespace TatBlog.Services.Blogs {
             int authorsNum,
             CancellationToken cancellationToken = default);     
 
+        
     }
 }
