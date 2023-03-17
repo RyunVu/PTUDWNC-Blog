@@ -52,18 +52,36 @@ namespace TatBlog.Services.Blogs {
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<IPagedList<AuthorItem>> GetPagedAuthorNumPosts(IPagingParams pagingParams, CancellationToken cancellationToken = default) {
-            var authorsQuery = _context.Set<Author>()
-                .Select(a => new AuthorItem() {
-                    Id = a.Id,
-                    Email = a.Email,
-                    FullName = a.FullName,
-                    ImageUrl = a.ImageUrl,
-                    JoinedDate = a.JoinedDate,
-                    Notes = a.Notes,
-                    PostCount = a.Posts.Count(p => p.Published)
+        private IQueryable<AuthorItem> AuthorFilter(IAuthorQuery authorQuery) {
+            var authors = _context.Set<Author>()
+                .WhereIf(!string.IsNullOrWhiteSpace(authorQuery.Keyword), s =>
+                    s.Email.Contains(authorQuery.Keyword) ||
+                    s.FullName.Contains(authorQuery.Keyword) ||
+                    s.Notes.Contains(authorQuery.Keyword))
+                .WhereIf(authorQuery.Month != 0, s => s.JoinedDate.Month == authorQuery.Month)
+                .WhereIf(authorQuery.Year != 0, s => s.JoinedDate.Year == authorQuery.Year)
+                .Select(s => new AuthorItem() {
+                    Id = s.Id,
+                    Email = s.Email,
+                    FullName = s.FullName,
+                    ImageUrl = s.ImageUrl,
+                    JoinedDate = s.JoinedDate,
+                    Notes = s.Notes,
+                    PostCount = s.Posts.Count(p => p.Published)
                 });
-            return await authorsQuery.ToPagedListAsync(pagingParams, cancellationToken);
+            return authors;
+        }
+
+        public async Task<IPagedList<AuthorItem>> GetPagedAuthorPosts(IAuthorQuery authorQuery, IPagingParams pagingParams, CancellationToken cancellationToken = default) {
+            return await AuthorFilter(authorQuery).ToPagedListAsync(pagingParams, cancellationToken);
+        }
+
+        public async Task<bool> IsExistAuthorSlugAsync(int id, string slug, CancellationToken cancellationToken = default) {
+            return await _context.Set<Author>().AnyAsync(a => a.Id != id && a.UrlSlug.Equals(slug), cancellationToken);
+        }
+
+        public async Task<bool> DeleteAuthorAsync(int id, CancellationToken cancellationToken = default) {
+            return await _context.Set<Author>().Where(x => x.Id == id).ExecuteDeleteAsync(cancellationToken) > 0;
         }
     }
 }
