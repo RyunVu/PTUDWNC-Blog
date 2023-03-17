@@ -22,7 +22,6 @@ namespace TatBlog.WebApp.Areas.Admin.Models {
         public bool Published { get; set; }
         public bool NonPublished { get; set; }
 
-
         public IEnumerable<SelectListItem> AuthorList { get; set; }
         public IEnumerable<SelectListItem> CategoryList { get; set; }
         public IEnumerable<SelectListItem> MonthList { get; set; }

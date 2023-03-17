@@ -81,11 +81,13 @@ namespace TatBlog.Services.Blogs {
 
         // Check a category slug whether it exists or not
         Task<bool> IsCategorySlugExistedAsync(
+            int id,
             string slug,
             CancellationToken cancellationToken = default);
 
         // Get and paging list of categories, return type IPageList<CategoryItem>
         Task<IPagedList<CategoryItem>> GetPagedCategoryAsync(
+            ICategoryQuery categoryQuery,
             IPagingParams pagingParams,
             CancellationToken cancellationToken = default);
 
