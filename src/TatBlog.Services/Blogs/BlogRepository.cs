@@ -177,14 +177,14 @@ namespace TatBlog.Services.Blogs {
                 .ExecuteDeleteAsync(cancellationToken) > 0;
         }
 
-        public async Task<bool> IsCategorySlugExistedAsync(string slug, CancellationToken cancellationToken = default) {
-            return await _context.Set<Category>()
-                .Where(c => c.UrlSlug.Equals(slug))
-                .AnyAsync(cancellationToken);
+        public async Task<bool> IsCategorySlugExistedAsync(int id, string slug, CancellationToken cancellationToken = default) {
+            return await _context.Set<Category>().AnyAsync(c => c.Id != id && c.UrlSlug.Equals(slug), cancellationToken);
         }
 
-        public async Task<IPagedList<CategoryItem>> GetPagedCategoryAsync(IPagingParams pagingParams, CancellationToken cancellationToken = default) {
+        public async Task<IPagedList<CategoryItem>> GetPagedCategoryAsync(ICategoryQuery categoryQuery, IPagingParams pagingParams, CancellationToken cancellationToken = default) {
             var tagQuery = _context.Set<Category>()
+                 .WhereIf(!string.IsNullOrWhiteSpace(categoryQuery.Keyword), s => s.Name.ToLower().Contains(categoryQuery.Keyword.ToLower()) ||
+                                                                             s.Description.ToLower().Contains(categoryQuery.Keyword.ToLower()))
                 .Select(x => new CategoryItem {
                     Id = x.Id,
                     Name = x.Name,
