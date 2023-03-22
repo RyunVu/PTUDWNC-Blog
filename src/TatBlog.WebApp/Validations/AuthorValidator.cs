@@ -29,7 +29,7 @@ namespace TatBlog.WebApp.Validations {
 
             RuleFor(s => s.UrlSlug)
                 .MustAsync(async (authorModel, slug, cancellationToken) =>
-                    !await _authorRepo.IsExistAuthorSlugAsync(authorModel.Id, slug, cancellationToken))
+                    !await _authorRepo.IsAuthorSlugExistedAsync(authorModel.Id, slug, cancellationToken))
                 .WithMessage("Slug '{PropertyValue}' đã được sử dụng");
 
 
@@ -48,7 +48,7 @@ namespace TatBlog.WebApp.Validations {
               AuthorEditModel authorModel,
               IFormFile imageFile,
               CancellationToken cancellationToken) {
-                    var author = await _authorRepo.GetAuthorById(authorModel.Id, cancellationToken);
+                    var author = await _authorRepo.GetAuthorByIdAsync(authorModel.Id);
                     if (!string.IsNullOrWhiteSpace(author?.ImageUrl)) {
                         return true;
                     }

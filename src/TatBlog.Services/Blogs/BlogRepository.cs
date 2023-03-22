@@ -25,10 +25,6 @@ namespace TatBlog.Services.Blogs {
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<IList<Author>> GetAllAuthorsAsync(CancellationToken cancellationToken = default) {
-            return await _context.Set<Author>()
-                .ToListAsync(cancellationToken);
-        }
 
 
         public async Task<Post> GetPostAsync(int year, int month, int day, string slug, CancellationToken cancellationToken = default) {
@@ -411,13 +407,6 @@ namespace TatBlog.Services.Blogs {
                 cancellationToken);
         }
 
-        public async Task<IList<Author>> GetPopularAuthorsAsync(int authorsNum, CancellationToken cancellationToken = default) {
-            return await _context.Set<Author>()
-                .Include(x => x.Posts)
-                .OrderByDescending(p => p.Posts.Count)
-                .Take(authorsNum)
-                .ToListAsync(cancellationToken);
-        }
 
         public async Task<Tag> GetTagByIdAsync(int id, CancellationToken cancellationToken = default) {
             return await _context.Set<Tag>().Where(x => x.Id == id).FirstOrDefaultAsync(cancellationToken);
