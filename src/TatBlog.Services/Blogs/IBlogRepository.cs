@@ -117,11 +117,7 @@ namespace TatBlog.Services.Blogs {
         Task<Post> AddOrUpdatePostAsync(
             Post post, IEnumerable<string> tags,
             CancellationToken cancellationToken = default);
-
-        // Get all authors
-        Task<IList<Author>> GetAllAuthorsAsync(
-            CancellationToken cancellationToken = default);
-        
+                
         // Get all Categories
         Task<IList<Category>> GetAllCategoriesAsync(
             CancellationToken cancellationToken = default);
@@ -157,10 +153,6 @@ namespace TatBlog.Services.Blogs {
            int pageNumber,
            int pageSize,
            CancellationToken cancellationToken = default);
-
-        Task<IList<Author>> GetPopularAuthorsAsync(
-            int authorsNum,
-            CancellationToken cancellationToken = default);     
 
         
     }

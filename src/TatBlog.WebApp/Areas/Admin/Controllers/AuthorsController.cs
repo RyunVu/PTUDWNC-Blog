@@ -2,7 +2,6 @@
 using FluentValidation.AspNetCore;
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting;
 using TatBlog.Core.Collections;
 using TatBlog.Core.Contracts;
 using TatBlog.Core.Entities;
@@ -49,7 +48,7 @@ namespace TatBlog.WebApp.Areas.Admin.Controllers {
         [HttpGet]
         public async Task<IActionResult> Edit(int id) {
             var author = id > 0
-                ? await _authorRepo.GetAuthorById(id)
+                ? await _authorRepo.GetAuthorByIdAsync(id)
                 : null;
 
             var model = author == null
@@ -74,7 +73,7 @@ namespace TatBlog.WebApp.Areas.Admin.Controllers {
             }
 
             var author = model.Id > 0
-                ? await _authorRepo.GetAuthorById(model.Id)
+                ? await _authorRepo.GetAuthorByIdAsync(model.Id)
                 : null;
 
             if (author == null) {
@@ -103,7 +102,7 @@ namespace TatBlog.WebApp.Areas.Admin.Controllers {
                 }
             }
 
-            await _authorRepo.AddOrUpdateAuthor(author);
+            await _authorRepo.AddOrUpdateAsync(author);
 
             return RedirectToAction(nameof(Index));
         }

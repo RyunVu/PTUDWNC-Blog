@@ -1,8 +1,8 @@
-﻿@model IList<Author>
+﻿@model IList<AuthorItem>
 
 <div class="mb-4">
     <h3 class="text-success mb-2">
-        Các tác giả nổi tiếng
+        Danh sách tác giả
     </h3>
 
     <ul class="list-group">
@@ -13,7 +13,7 @@
                    asp-route-slug="@item.UrlSlug"
                    title="@item.Notes">
                     @item.FullName
-                       <span>(@item.Posts.Count)</span>
+                       <span>(@item.PostCount)</span>
                    </a>
                 </li>
         }
