@@ -29,7 +29,7 @@ namespace TatBlog.WebApp.Controllers {
                 Keyword = keyword
             };
 
-            var postsList = await _blogRepo.GetPagedPostsAsync(postQuery, pageNumber, pageSize);
+            var postsList = await _blogRepo.GetPagedPostsQueryAsync(postQuery, pageNumber, pageSize);
 
             ViewBag.PostQuery = postQuery;
 
@@ -46,7 +46,7 @@ namespace TatBlog.WebApp.Controllers {
                 Published = true,
             };
 
-            var postsList = await _blogRepo.GetPagedPostsAsync(postQuery, pageNumber, pageSize);
+            var postsList = await _blogRepo.GetPagedPostsQueryAsync(postQuery, pageNumber, pageSize);
 
             ViewBag.PostQuery = postQuery;
 
@@ -63,7 +63,7 @@ namespace TatBlog.WebApp.Controllers {
                 Published = true,
             };
 
-            var postsList = await _blogRepo.GetPagedPostsAsync(postQuery, pageNumber, pageSize);
+            var postsList = await _blogRepo.GetPagedPostsQueryAsync(postQuery, pageNumber, pageSize);
 
             ViewBag.PostQuery = postQuery;
 
@@ -80,7 +80,7 @@ namespace TatBlog.WebApp.Controllers {
                 Published = true,
             };
 
-            var postsList = await _blogRepo.GetPagedPostsAsync(postQuery, pageNumber, pageSize);
+            var postsList = await _blogRepo.GetPagedPostsQueryAsync(postQuery, pageNumber, pageSize);
 
             ViewBag.PostQuery = postQuery;
 
@@ -143,7 +143,7 @@ namespace TatBlog.WebApp.Controllers {
                 Published = true,
             };
 
-            var postsList = await _blogRepo.GetPagedPostsAsync(postsQuery, pageNumber, pageSize);
+            var postsList = await _blogRepo.GetPagedPostsQueryAsync(postsQuery, pageNumber, pageSize);
             ViewBag.Date = new DateTime(year, month, 1);
             ViewBag.Post = postsList;
 

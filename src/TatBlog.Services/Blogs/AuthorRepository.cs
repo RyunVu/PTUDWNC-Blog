@@ -191,7 +191,7 @@ public class AuthorRepository : IAuthorRepository
         return authors;
     }
 
-	public async Task<IPagedList<AuthorItem>> GetPagedAuthorPosts(IAuthorQuery authorQuery, IPagingParams pagingParams, CancellationToken cancellationToken = default) {
+	public async Task<IPagedList<AuthorItem>> GetPagedAuthorAsync(IAuthorQuery authorQuery, IPagingParams pagingParams, CancellationToken cancellationToken = default) {
 		return await AuthorFilter(authorQuery).ToPagedListAsync(pagingParams, cancellationToken);
 	}
 

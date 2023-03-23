@@ -49,7 +49,7 @@ namespace TatBlog.WebApp.Areas.Admin.Controllers {
             }
 
             ViewBag.PostsList = await _blogRepo
-                .GetPagedPostsAsync(postQuery, pageNumber, pageSize);
+                .GetPagedPostsQueryAsync(postQuery, pageNumber, pageSize);
 
             _logger.LogInformation("Chuẩn bị dữ liệu cho ViewModel");
 
