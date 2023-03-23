@@ -7,6 +7,7 @@ using TatBlog.Core.DTO;
 using TatBlog.Core.Entities;
 using TatBlog.Services.Blogs;
 using TatBlog.WebApi.Extensions;
+using TatBlog.WebApi.Filters;
 using TatBlog.WebApi.Media;
 using TatBlog.WebApi.Models;
 
@@ -31,8 +32,13 @@ namespace TatBlog.WebApi.Endpoints {
                 .WithName("GetPostsByAuthorSlug")
                 .Produces<PaginationResult<PostDto>>();
 
+            routeGroupBuilder.MapGet("/best/{limit:int}", GetAuthorsWithMostPosts)
+                .WithName("GetAuthorsWithMostPosts")
+                .Produces<AuthorItem>();
+
             routeGroupBuilder.MapPost("/", AddAuthor)
                 .WithName("AddNewAuthor")
+                .AddEndpointFilter<ValidatorFilter<AuthorEditModel>>()
                 .Produces(201)
                 .Produces(400)
                 .Produces(409);
@@ -45,6 +51,7 @@ namespace TatBlog.WebApi.Endpoints {
 
             routeGroupBuilder.MapPut("/{id:int}", UpdateAuthor)
                 .WithName("UpdateAnAuthor")
+                .AddEndpointFilter<ValidatorFilter<AuthorEditModel>>()
                 .Produces(204)
                 .Produces(400)
                 .Produces(409);
@@ -122,13 +129,6 @@ namespace TatBlog.WebApi.Endpoints {
             IAuthorRepository authorRepo,
             IMapper mapper) {
 
-            var validationResult = await validator.ValidateAsync(model);
-
-            if (!validationResult.IsValid) {
-                return Results.BadRequest(
-                    validationResult.Errors.ToResponse());
-            }
-
             if (await authorRepo
                         .IsAuthorSlugExistedAsync(0, model.UrlSlug)) {
                 return Results.Conflict(
@@ -166,13 +166,6 @@ namespace TatBlog.WebApi.Endpoints {
             IAuthorRepository authorRepo,
             IMapper mapper) {
 
-            var validationResult = await validator.ValidateAsync(model);
-
-            if (!validationResult.IsValid) {
-                return Results.BadRequest(
-                    validationResult.Errors.ToResponse());
-            }
-
             if (await authorRepo
                         .IsAuthorSlugExistedAsync(id, model.UrlSlug)) {
                 return Results.Conflict(
@@ -194,6 +187,14 @@ namespace TatBlog.WebApi.Endpoints {
             return await authorRepo.DeleteAuthorAsync(id)
                     ? Results.NoContent()
                     : Results.NotFound($"Couldn't find author with id = {id}");
+        }
+
+        private static async Task<IResult> GetAuthorsWithMostPosts(
+            int limit,
+            IAuthorRepository authorRepo) {
+
+            var authors = await authorRepo.GetAuthorsWithMostPost(limit);
+            return Results.Ok(authors);
         }
 
     }

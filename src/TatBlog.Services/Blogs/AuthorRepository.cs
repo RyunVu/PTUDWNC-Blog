@@ -156,19 +156,20 @@ public class AuthorRepository : IAuthorRepository
 				cancellationToken) > 0;
 	}
 
-    public async Task<IList<Author>> GetAuthorsWithMostPost(int authorsQuantities, CancellationToken cancellationToken = default) {
-        var authors = _context.Set<Author>()
-            .Select(a => new AuthorItem() {
-                PostCount = a.Posts.Count(p => p.Published)
-            })
-            .ToList();
-
-        var maxPostCount = authors.Max(a => a.PostCount);
-
+    public async Task<IList<AuthorItem>> GetAuthorsWithMostPost(int authorsQuantities, CancellationToken cancellationToken = default) {
         return await _context.Set<Author>()
-            .Where(a => a.Posts.Count(p => p.Published) == maxPostCount)
-            .Take(authorsQuantities)
-            .ToListAsync(cancellationToken);
+           .Select(s => new AuthorItem() {
+               Id = s.Id,
+               Email = s.Email,
+               UrlSlug = s.UrlSlug,
+               Notes = s.Notes,
+               FullName = s.FullName,
+               ImageUrl = s.ImageUrl,
+               JoinedDate = s.JoinedDate,
+               PostCount = s.Posts.Count(p => p.Published)
+           })
+           .Take(authorsQuantities)
+           .ToListAsync(cancellationToken);
     }
 
     private IQueryable<AuthorItem> AuthorFilter(IAuthorQuery authorQuery) {
@@ -195,14 +196,11 @@ public class AuthorRepository : IAuthorRepository
 		return await AuthorFilter(authorQuery).ToPagedListAsync(pagingParams, cancellationToken);
 	}
 
-
-
-
-	//public async Task<IList<Author>> GetPopularAuthorsAsync(int authorsNum, CancellationToken cancellationToken = default) {
-	//    return await _context.Set<Author>()
-	//        .Include(x => x.Posts)
-	//        .OrderByDescending(p => p.Posts.Count)
-	//        .Take(authorsNum)
-	//        .ToListAsync(cancellationToken);
-	//}
+    //public async Task<IList<Author>> GetPopularAuthorsAsync(int authorsNum, CancellationToken cancellationToken = default) {
+    //    return await _context.Set<Author>()
+    //        .Include(x => x.Posts)
+    //        .OrderByDescending(p => p.Posts.Count)
+    //        .Take(authorsNum)
+    //        .ToListAsync(cancellationToken);
+    //}
 }

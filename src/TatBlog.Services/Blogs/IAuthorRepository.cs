@@ -33,7 +33,7 @@ public interface IAuthorRepository
 		CancellationToken cancellationToken = default);
 
 
-    Task<IList<Author>> GetAuthorsWithMostPost(int authorsQuantities, CancellationToken cancellationToken = default);
+    Task<IList<AuthorItem>> GetAuthorsWithMostPost(int authorsQuantities, CancellationToken cancellationToken = default);
 
     Task<bool> AddOrUpdateAsync(
 		Author author, 
@@ -51,7 +51,7 @@ public interface IAuthorRepository
 		int authorId, string imageUrl,
 		CancellationToken cancellationToken = default);
     Task<IPagedList<AuthorItem>> GetPagedAuthorAsync(IAuthorQuery authorQuery, IPagingParams pagingParams, CancellationToken cancellationToken = default);
-	//Task<IList<Author>> GetPopularAuthorsAsync(
-	//	int authorsNum,
-	//	CancellationToken cancellationToken = default);
+    //Task<IList<Author>> GetPopularAuthorsAsync(
+    //	int authorsNum,
+    //	CancellationToken cancellationToken = default);
 }
