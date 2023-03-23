@@ -10,9 +10,11 @@ namespace TatBlog.WebApp.Components {
         }
 
         public async Task<IViewComponentResult> InvokeAsync() {
-            
+
             // Lấy danh sách chủ đề
-            var authors = await _authorRepo.GetAuthorsAsync();
+            //var authors = await _authorRepo.GetAuthorsAsync();
+
+            var authors = await _authorRepo.GetAuthorsWithMostPost(5);
 
             return View(authors);
         }

@@ -57,6 +57,7 @@ namespace TatBlog.WebApi.Extensions {
             return builder;
         }
 
+
         public static WebApplication SetupRequestPipeline(
             this WebApplication app) {
 
