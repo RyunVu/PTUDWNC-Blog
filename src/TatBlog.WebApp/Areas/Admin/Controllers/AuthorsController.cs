@@ -38,7 +38,7 @@ namespace TatBlog.WebApp.Areas.Admin.Controllers {
 
             var authorQuery = _mapper.Map<AuthorQuery>(model);
 
-            var authorPage = await _authorRepo.GetPagedAuthorPosts(authorQuery, paging);
+            var authorPage = await _authorRepo.GetPagedAuthorAsync(authorQuery, paging);
 
             ViewBag.AuthorFilter = model;
 

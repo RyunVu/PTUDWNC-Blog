@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SlugGenerator;
 using System.Linq.Dynamic.Core;
+using TatBlog.Core.Collections;
 using TatBlog.Core.Contracts;
 using TatBlog.Core.DTO;
 using TatBlog.Core.Entities;
@@ -396,7 +397,7 @@ namespace TatBlog.Services.Blogs {
 
         }
 
-        public async Task<IPagedList<Post>> GetPagedPostsAsync(
+        public async Task<IPagedList<Post>> GetPagedPostsQueryAsync(
             IPostQuery postQuery,
             int pageNumber = 1,
             int pageSize = 10,
@@ -410,6 +411,13 @@ namespace TatBlog.Services.Blogs {
 
         public async Task<Tag> GetTagByIdAsync(int id, CancellationToken cancellationToken = default) {
             return await _context.Set<Tag>().Where(x => x.Id == id).FirstOrDefaultAsync(cancellationToken);
+        }
+
+        public async Task<IPagedList<T>> GetPagedPostsAsync<T>(PostQuery postQuery, IPagingParams pagingParam, Func<IQueryable<Post>, IQueryable<T>> mapper) {
+            var posts = FilterPosts(postQuery);
+            var projectedPosts = mapper(posts);
+
+            return await projectedPosts.ToPagedListAsync(pagingParam);
         }
     }
 }

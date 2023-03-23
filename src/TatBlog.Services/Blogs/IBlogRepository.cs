@@ -148,12 +148,16 @@ namespace TatBlog.Services.Blogs {
             IPostQuery postQuery,
             CancellationToken cancellationToken = default);
 
-       Task<IPagedList<Post>> GetPagedPostsAsync(
+       Task<IPagedList<Post>> GetPagedPostsQueryAsync(
            IPostQuery postQuery,
            int pageNumber,
            int pageSize,
            CancellationToken cancellationToken = default);
 
+        Task<IPagedList<T>> GetPagedPostsAsync<T>(
+            PostQuery postQuery,
+            IPagingParams pagingParam,
+            Func<IQueryable<Post>, IQueryable<T>> mapper);
         
     }
 }
