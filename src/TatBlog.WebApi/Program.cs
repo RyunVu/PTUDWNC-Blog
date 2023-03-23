@@ -1,5 +1,18 @@
-var builder = WebApplication.CreateBuilder(args);
+using TatBlog.WebApi.Extensions;
 
-var app = builder.Build();
+var builder = WebApplication.CreateBuilder(args);{
+    // Add services to the container
+    builder
+        .ConfigureCors()
+        .ConfigureNLog()
+        .ConfigureServices()
+        .ConfigureSwaggerOpenApi();
+}
 
-app.Run();
+var app = builder.Build(); {
+    // Configure the HTTP request pipeline
+
+    app.SetupRequestPipeline();
+    
+    app.Run();
+}
