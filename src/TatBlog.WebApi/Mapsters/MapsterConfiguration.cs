@@ -19,6 +19,8 @@ namespace TatBlog.WebApi.Mapsters {
                     src => src.Posts == null ? 0 : src.Posts.Count);
 
             config.NewConfig<Post, PostDto>();
+            config.NewConfig<PostDto, Post>();
+
             config.NewConfig<Post, PostDetail>();
         }
     }

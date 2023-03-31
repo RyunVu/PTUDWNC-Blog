@@ -1,4 +1,6 @@
-﻿namespace TatBlog.WebApi.Models {
+﻿using TatBlog.Core.Entities;
+
+namespace TatBlog.WebApi.Models {
     public class PostDto {
 
         public int Id { get; set; }
@@ -11,6 +13,6 @@
         public DateTime? ModifiedDate { get; set;}
         public CategoryDto Category { get; set; }
         public AuthorDto Author { get; set; }
-        public IList<TagDto> Tags { get; set; }
+        public IList<Tag> Tags { get; set; }
     }
 }
