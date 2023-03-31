@@ -13,6 +13,6 @@ namespace TatBlog.WebApi.Models {
         public DateTime? ModifiedDate { get; set;}
         public CategoryDto Category { get; set; }
         public AuthorDto Author { get; set; }
-        public IList<Tag> Tags { get; set; }
+        public IList<TagDto> Tags { get; set; }
     }
 }

@@ -170,5 +170,7 @@ namespace TatBlog.Services.Blogs {
             string name = null,
             CancellationToken cancellationToken = default);
 
+        Task<bool> SetImageUrlAsync(int postId, string imageUrl, CancellationToken cancellationToken = default);
+
     }
 }

@@ -116,8 +116,7 @@ namespace TatBlog.Services.Blogs {
                 .Include(a => a.Author)
                 .Include(t => t.Tags)
                 .Include(m => m.Comments)
-                .OrderBy(n => n.Title)
-                .Where(p => p.Id == id)
+                .Where(p => p.Id.Equals(id))
                 .FirstOrDefaultAsync(cancellationToken);
         }
 
@@ -192,7 +191,6 @@ namespace TatBlog.Services.Blogs {
             return post;
 
         }
-
 
         public async Task TogglePublishedStatusAsync(int id, CancellationToken cancellationToken = default)
         {
@@ -315,7 +313,27 @@ namespace TatBlog.Services.Blogs {
             return await projectedPosts.ToPagedListAsync(pagingParam);
         }
 
+        public async Task<bool> SetImageUrlAsync(int postId, string imageUrl, CancellationToken cancellationToken = default)
+        {
+            return await _context.Posts
+                .Where(p => p.Id == postId)
+                .ExecuteUpdateAsync(p => p.SetProperty(i => i.ImageUrl, i => imageUrl),
+                cancellationToken) > 0;
+        }
+
         #endregion
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         #region Category
