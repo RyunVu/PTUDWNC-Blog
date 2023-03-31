@@ -1,4 +1,6 @@
-﻿namespace TatBlog.WebApi.Models {
+﻿using TatBlog.Core.Entities;
+
+namespace TatBlog.WebApi.Models {
     public class PostDetail {
         public int Id { get; set; }
         public string Title { get; set; }

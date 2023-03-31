@@ -40,10 +40,10 @@ namespace TatBlog.Services.Blogs {
             CancellationToken cancellationToken = default);
 
         //Lấy danh sách từ khóa/thẻ và phân trang theo các tham số pagingParams
-        Task<IPagedList<TagItem>> GetPagedTagsAsync(
+        Task<IPagedList<TagItem>> GetPagedTagsQueryAsync(
             ITagQuery tagQuery,
             IPagingParams pagingParams,
-            CancellationToken cancellationToken = default); 
+            CancellationToken cancellationToken = default);
 
         // Part C
         // Find tag by slug
@@ -70,7 +70,7 @@ namespace TatBlog.Services.Blogs {
             CancellationToken cancellationToken = default);
 
         // Add or Update a category.
-        Task<Category> AddOrUpdateCategoryAsync(
+        Task<bool> AddOrUpdateCategoryAsync(
             Category category,
             CancellationToken cancellationToken = default);
         Task<Tag> AddOrUpdateTagAsync(
@@ -158,6 +158,25 @@ namespace TatBlog.Services.Blogs {
             PostQuery postQuery,
             IPagingParams pagingParam,
             Func<IQueryable<Post>, IQueryable<T>> mapper);
-        
+
+        Task<IPagedList<CategoryItem>> GetPagedCategoriesAsync(
+        IPagingParams pagingParams,
+        string name = null,
+        CancellationToken cancellationToken = default);
+
+        Task<IPagedList<T>> GetPagedCategoriesAsync<T>(
+            Func<IQueryable<Category>, IQueryable<T>> mapper,
+            IPagingParams pagingParams,
+            string keyword = null,
+            CancellationToken cancellationToken = default);
+
+
+        Task<IPagedList<TagItem>> GetPagedTagsAsync(
+        IPagingParams pagingParams,
+        string keyword,
+        CancellationToken cancellationToken = default);
+
+        Task<bool> SetImageUrlAsync(int postId, string imageUrl, CancellationToken cancellationToken = default);
+
     }
 }

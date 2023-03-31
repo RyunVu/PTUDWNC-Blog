@@ -41,7 +41,7 @@ namespace TatBlog.WebApp.Areas.Admin.Controllers {
 
             var tagQuery = _mapper.Map<TagQuery>(model);
 
-            ViewBag.TagsList = await _blogRepo.GetPagedTagsAsync(tagQuery, paging); ;
+            ViewBag.TagsList = await _blogRepo.GetPagedTagsQueryAsync(tagQuery, paging); ;
 
             return View(model);
 

@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using FluentValidation.Results;
+using System.Net;
 
 namespace TatBlog.WebApi.Models {
     public class ApiResponse {
@@ -42,6 +43,16 @@ namespace TatBlog.WebApi.Models {
                 StatusCode = statusCode,
                 Errors = new List<string>(errorMessages)
             };
+        }
+
+        public static ApiResponse Fail(
+            HttpStatusCode statusCode,
+            ValidationResult validationResult)
+        {
+            return Fail(statusCode, validationResult.Errors
+                .Select(x => x.ErrorMessage)
+                .Where(e => !string.IsNullOrWhiteSpace(e))
+                .ToArray());
         }
     }
 
