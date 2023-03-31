@@ -24,7 +24,6 @@ namespace TatBlog.WebApi.Validations
                 .MaximumLength(100)
                 .WithMessage("UrlSlug tối đa 100 ký tự");
 
-            
         }
 
     }

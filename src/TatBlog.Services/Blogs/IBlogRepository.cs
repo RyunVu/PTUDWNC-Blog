@@ -40,10 +40,10 @@ namespace TatBlog.Services.Blogs {
             CancellationToken cancellationToken = default);
 
         //Lấy danh sách từ khóa/thẻ và phân trang theo các tham số pagingParams
-        Task<IPagedList<TagItem>> GetPagedTagsAsync(
+        Task<IPagedList<TagItem>> GetPagedTagsQueryAsync(
             ITagQuery tagQuery,
             IPagingParams pagingParams,
-            CancellationToken cancellationToken = default); 
+            CancellationToken cancellationToken = default);
 
         // Part C
         // Find tag by slug
@@ -167,8 +167,14 @@ namespace TatBlog.Services.Blogs {
         Task<IPagedList<T>> GetPagedCategoriesAsync<T>(
             Func<IQueryable<Category>, IQueryable<T>> mapper,
             IPagingParams pagingParams,
-            string name = null,
+            string keyword = null,
             CancellationToken cancellationToken = default);
+
+
+        Task<IPagedList<TagItem>> GetPagedTagsAsync(
+        IPagingParams pagingParams,
+        string keyword,
+        CancellationToken cancellationToken = default);
 
         Task<bool> SetImageUrlAsync(int postId, string imageUrl, CancellationToken cancellationToken = default);
 

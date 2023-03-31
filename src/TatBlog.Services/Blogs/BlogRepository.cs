@@ -471,7 +471,7 @@ namespace TatBlog.Services.Blogs {
 
         #region Tag
 
-        public async Task<IPagedList<TagItem>> GetPagedTagsAsync(ITagQuery tagQuery, IPagingParams pagingParams, CancellationToken cancellationToken = default)
+        public async Task<IPagedList<TagItem>> GetPagedTagsQueryAsync(ITagQuery tagQuery, IPagingParams pagingParams, CancellationToken cancellationToken = default)
         {
             var tag = _context.Set<Tag>()
                 .WhereIf(!string.IsNullOrWhiteSpace(tagQuery.Keyword), t => t.Name.ToLower().Contains(tagQuery.Keyword) ||
@@ -542,6 +542,25 @@ namespace TatBlog.Services.Blogs {
         {
             return await _context.Set<Tag>().Where(x => x.Id == id).FirstOrDefaultAsync(cancellationToken);
         }
+
+        public async Task<IPagedList<TagItem>> GetPagedTagsAsync( IPagingParams pagingParams, string keyword, CancellationToken cancellationToken = default)
+        {
+            return await _context.Set<Tag>()
+            .WhereIf(!string.IsNullOrWhiteSpace(keyword), t => 
+                t.Name.ToLower().Contains(keyword.ToLower()) ||
+                t.UrlSlug.ToLower().Contains(keyword.ToLower()) ||
+                t.Description.ToLower().Contains(keyword.ToLower()))
+            .Select(x => new TagItem()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                UrlSlug = x.UrlSlug,
+                Description = x.Description,
+                PostCount = x.Posts.Count(p => p.Published)
+            })
+            .ToPagedListAsync(pagingParams, cancellationToken);
+        }
+
         #endregion
 
     }

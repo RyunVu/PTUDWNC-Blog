@@ -139,8 +139,7 @@ namespace TatBlog.WebApi.Endpoints
 
             return postDetail != null
                     ? Results.Ok(ApiResponse.Success(postDetail))
-            : Results.Ok(
-                        ApiResponse.Fail(HttpStatusCode.NotFound, $"Không tìm thấy bài viết với id: `{id}`"));
+                    : Results.Ok(ApiResponse.Fail(HttpStatusCode.NotFound, $"Không tìm thấy bài viết với id: `{id}`"));
                 
         }
 
@@ -154,8 +153,7 @@ namespace TatBlog.WebApi.Endpoints
             var postDetail = mapper.Map<PostDto>(post);
             return postDetail != null
                 ? Results.Ok(ApiResponse.Success(postDetail))
-                : Results.Ok(
-                    ApiResponse.Fail(HttpStatusCode.NotFound, $"Không tìm thấy bài viết với mã định danh: `{slug}`"));
+                : Results.Ok(ApiResponse.Fail(HttpStatusCode.NotFound, $"Không tìm thấy bài viết với mã định danh: `{slug}`"));
         }
 
         private static async Task<IResult> AddPost(
@@ -166,8 +164,8 @@ namespace TatBlog.WebApi.Endpoints
         {
             if (await blogRepo.IsPostSlugExistedAsync(0, model.UrlSlug))
             {
-                return Results.Conflict(
-                    $"Slug '{model.UrlSlug}' đã được sử dụng");
+                return Results.Ok(ApiResponse.Fail(HttpStatusCode.Conflict,
+                    $"Slug '{model.UrlSlug}' đã được sử dụng"));
             }
 
             var isExitsCategory = await blogRepo.GetCategoryByIdAsync(model.CategoryId);
@@ -185,9 +183,7 @@ namespace TatBlog.WebApi.Endpoints
 
             await blogRepo.AddOrUpdatePostAsync(post, model.SelectedTags);
 
-            return Results.CreatedAtRoute(
-                "GetPostById", new { post.Id },
-                mapper.Map<PostItem>(post));
+            return Results.Ok(ApiResponse.Success(mapper.Map<PostDetail>(post), HttpStatusCode.Created));
         }
 
         private static async Task<IResult> UpdatePost(
