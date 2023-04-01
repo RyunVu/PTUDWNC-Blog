@@ -16,7 +16,7 @@ const Index = () => {
     let query = useQuery(),
         k = query.get('k') ?? '',
         p = query.get('p') ?? 1,
-        ps = query.get('ps') ?? 5;
+        ps = query.get('ps') ?? 10;
 
     useEffect(() => {
         document.title = 'Trang chủ';
