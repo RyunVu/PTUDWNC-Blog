@@ -14,9 +14,16 @@ namespace TatBlog.Data.Contexts {
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Comment> Comments { get; set; }
 
-        public BlogDbContext(DbContextOptions<BlogDbContext> options) : base(options) {
+        public BlogDbContext(DbContextOptions<BlogDbContext> options) : base(options)
+        {
 
         }
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer(@"Server=DESKTOP-7NPFO5S;Database=TatBlog;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True");
+        //}
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {

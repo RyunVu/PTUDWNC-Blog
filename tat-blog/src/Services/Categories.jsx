@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-export async function getCategories() {
+export async function getCategoriesBySlug(slug = '') {
     try {
-        const response = await axios.get(`https://localhost:7298/api/categories?PageSize=100&PageNumber=1`);
+        const response = await axios.get(`https://localhost:7298/api/categories?slug=${slug}`);
         const data = response.data;
 
         if (data.isSuccess) {

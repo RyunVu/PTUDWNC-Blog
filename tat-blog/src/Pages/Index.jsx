@@ -25,6 +25,7 @@ const Index = () => {
             if (data) {
                 setPostsList(data.items);
                 setMetadata(data.metadata);
+                console.log(data.items);
             } else setPostsList([]);
         });
     }, [k, p, ps]);
