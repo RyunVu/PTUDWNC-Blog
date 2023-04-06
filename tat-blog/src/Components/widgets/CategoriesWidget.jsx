@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Link } from 'react-router-dom';
-import { getCategories } from '../Services/CategoriesWidget';
+import { getCategories } from '../../Services/Widgets';
 
 const CategoriesWidget = () => {
     const [categoriesList, setCategoriesList] = useState([]);
