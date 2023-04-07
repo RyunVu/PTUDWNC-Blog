@@ -20,16 +20,18 @@ const TagCloudWidget = () => {
             {tagList.length > 0 && (
                 <ListGroup>
                     {tagList.map((item, index) => {
-                        return (
-                            <ListGroup.Item key={index}>
-                                <Link
-                                    key={index}
-                                    to={`/blog/tag/slug=${item.urlSlug}`}
-                                    className="btn btn-sm btn-outline-secondary me-2 mb-2">
-                                    {item.name} &nbsp;({item.postCount})
-                                </Link>
-                            </ListGroup.Item>
-                        );
+                        if (item.postCount > 0) {
+                            return (
+                                <ListGroup.Item key={index}>
+                                    <Link
+                                        key={index}
+                                        to={`/blog/tag/slug=${item.urlSlug}`}
+                                        className="btn btn-sm btn-outline-secondary me-2 mb-2">
+                                        {item.name} &nbsp;({item.postCount})
+                                    </Link>
+                                </ListGroup.Item>
+                            );
+                        } else return <></>;
                     })}
                 </ListGroup>
             )}
