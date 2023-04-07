@@ -7,7 +7,7 @@ const Navbar = () => {
         <Nb collapseOnSelect expand="sm" bg="white" variant="light" className="border-bottom shadow">
             <div className="container-fluid">
                 <Nb.Brand href="/">Tips & Tricks</Nb.Brand>
-                <Nb.Toggle aria-aria-controls="responsive-navbar-nav" />
+                <Nb.Toggle aria-controls="responsive-navbar-nav" />
                 <Nb.Collapse id="responsive-navbar-nav" className="d-sm-inline-flex justify-content-between">
                     <Nav className="mr-auto flex-grow-1">
                         <Nav.Item>
