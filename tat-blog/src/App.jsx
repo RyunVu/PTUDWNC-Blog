@@ -15,6 +15,9 @@ import Comments from './Pages/Admin/Comments';
 import Posts from './Pages/Admin/Posts';
 import Tags from './Pages/Admin/Tags';
 
+import BadRequest from './Pages/BadRequest';
+import NotFound from './Pages/NotFound';
+
 function App() {
     return (
         <Router>
@@ -35,6 +38,9 @@ function App() {
                     <Route path="/admin/posts" element={<Posts />} />
                     <Route path="/admin/tags" element={<Tags />} />
                 </Route>
+
+                <Route path="/400" element={<BadRequest />} />
+                <Route path="*" element={<NotFound />} />
             </Routes>
         </Router>
     );
