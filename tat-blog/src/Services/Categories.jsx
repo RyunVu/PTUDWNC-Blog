@@ -1,15 +1,6 @@
-import axios from 'axios';
+import { API_URL } from '../Utils/constants';
+import { get_api } from './method';
 
-export async function getCategoriesBySlug(slug = '') {
-    try {
-        const response = await axios.get(`https://localhost:7298/api/categories?slug=${slug}`);
-        const data = response.data;
-
-        if (data.isSuccess) {
-            return data.result;
-        } else return null;
-    } catch (error) {
-        console.log('Error', error.message);
-        return null;
-    }
+export function getCategoriesBySlug(slug = '') {
+    return get_api(`${API_URL}/categories?slug=${slug}`);
 }

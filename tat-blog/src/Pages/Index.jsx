@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PostItem from '../Components/PostItem';
 import Pager from '../Components/Pager';
-import { getPosts } from '../Services/blogRepository';
+import { getPostsQuery } from '../Services/posts';
 import { useQuery } from '../Utils/utils';
 
 const Index = () => {
@@ -16,7 +16,7 @@ const Index = () => {
     useEffect(() => {
         document.title = 'Trang chủ';
 
-        getPosts(k, ps, p).then((data) => {
+        getPostsQuery(k, ps, p).then((data) => {
             if (data) {
                 setPostsList(data.items);
                 setMetadata(data.metadata);

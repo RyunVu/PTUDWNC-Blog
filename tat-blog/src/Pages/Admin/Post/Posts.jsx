@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-import { getPosts } from '../../../Services/blogRepository';
+import { getPostsQuery } from '../../../Services/posts';
 import Loading from '../../../Components/Loading';
 import { Table } from 'react-bootstrap';
 
@@ -15,7 +15,7 @@ const Posts = () => {
     useEffect(() => {
         document.title = 'Danh sách bài viết';
 
-        getPosts(k, ps, p).then((data) => {
+        getPostsQuery(k, ps, p).then((data) => {
             if (data) setPostsList(data.items);
             else setPostsList([]);
             setIsVisibleLoading(false);
