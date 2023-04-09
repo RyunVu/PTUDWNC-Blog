@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Link } from 'react-router-dom';
-import { getArchives } from '../../Services/Widgets';
-import { getMonthName } from '../../Utils/Utils';
+import { getArchives } from '../../Services/widgets';
+import { getMonthName } from '../../Utils/utils';
 
 const ArchiveWidget = () => {
     const [posts, setPosts] = useState([]);

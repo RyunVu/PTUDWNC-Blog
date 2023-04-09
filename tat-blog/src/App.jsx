@@ -12,7 +12,7 @@ import * as AdminIndex from './Pages/Admin/Index';
 import Authors from './Pages/Admin/Authors';
 import Categories from './Pages/Admin/Categories';
 import Comments from './Pages/Admin/Comments';
-import Posts from './Pages/Admin/Posts';
+import Posts from './Pages/Admin/Post/Posts';
 import Tags from './Pages/Admin/Tags';
 
 import BadRequest from './Pages/BadRequest';

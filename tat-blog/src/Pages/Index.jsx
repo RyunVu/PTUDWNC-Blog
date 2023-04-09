@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import PostItem from '../Components/PostItem';
 import Pager from '../Components/Pager';
-import { getPosts } from '../Services/BlogRepository';
-import { useQuery } from '../Utils/Utils';
+import { getPosts } from '../Services/blogRepository';
+import { useQuery } from '../Utils/utils';
 
 const Index = () => {
     const [postsList, setPostsList] = useState([]);
