@@ -2,7 +2,7 @@ import { API_URL } from '../Utils/constants';
 import { get_api } from './method';
 
 export function getCategories() {
-    return get_api(`${API_URL}/categories?PageSize=100&PageNumber=1`);
+    return get_api(`${API_URL}/categories?PageSize=1000&PageNumber=1`);
 }
 
 export function getFeaturedPosts(limit) {

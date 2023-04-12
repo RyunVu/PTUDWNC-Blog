@@ -1,9 +1,7 @@
-const Index = () => {
-    return (
-        <>
-            <h1>Đây là khu vực dành cho người quản trị</h1>
-        </>
-    );
-};
-
-export default Index;
+export { default as AdminLayout } from './Layout';
+export { default as AdminHome } from './Home';
+export { default as Categories } from './Categories';
+export { default as Authors } from './Authors';
+export { default as Tags } from './Tags';
+export { default as Posts } from './Post/Posts';
+export { default as Comments } from './Comments';
