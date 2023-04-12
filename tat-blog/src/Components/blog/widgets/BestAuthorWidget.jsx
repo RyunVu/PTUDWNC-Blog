@@ -1,28 +1,28 @@
 import { useEffect, useState } from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Link } from 'react-router-dom';
-import { getRandomPosts } from '../../Services/Widgets';
+import { getPopularAuthors } from '../../../Services/widgets';
 
-const RandomPostsWidget = () => {
-    const [randomPostsList, setRandomPostsList] = useState([]);
+const PopularAuthors = () => {
+    const [authorsList, setAuthorsList] = useState([]);
 
     useEffect(() => {
-        getRandomPosts(5).then((data) => {
+        getPopularAuthors(4).then((data) => {
             if (data) {
-                setRandomPostsList(data);
-            } else setRandomPostsList([]);
+                setAuthorsList(data);
+            } else setAuthorsList([]);
         });
     }, []);
     return (
         <div className="mb-4">
-            <h3 className="text-success mb-2 text-success">Bài viết ngẫu nhiên</h3>
-            {randomPostsList.length > 0 && (
+            <h3 className="text-success mb-2 text-success">Tác giả nổi tiếng</h3>
+            {authorsList.length > 0 && (
                 <ListGroup>
-                    {randomPostsList.map((item, index) => {
+                    {authorsList.map((item, index) => {
                         return (
                             <ListGroup.Item key={index}>
                                 <Link to={`/blog/post/?slug=${item.urlSlug}`} key={index}>
-                                    {item.title}
+                                    {item.fullName}
                                 </Link>
                             </ListGroup.Item>
                         );
@@ -33,4 +33,4 @@ const RandomPostsWidget = () => {
     );
 };
 
-export default RandomPostsWidget;
+export default PopularAuthors;

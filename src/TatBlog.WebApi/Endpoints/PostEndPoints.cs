@@ -81,8 +81,10 @@ namespace TatBlog.WebApi.Endpoints
         private static async Task<IResult> GetPost(
             [AsParameters] PostFilterModel model,
             IBlogRepository blogRepo,
-            IMapper mapper)
+            IMapper mapper
+            )
         {
+
             var postsQuery = mapper.Map<PostQuery>(model);
 
             var postList = await blogRepo.GetPagedPostsAsync(

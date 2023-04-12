@@ -1,80 +1,26 @@
-import axios from 'axios';
+import { API_URL } from '../Utils/constants';
+import { get_api } from './method';
 
-export async function getCategories() {
-    try {
-        const response = await axios.get(`https://localhost:7298/api/categories?PageSize=100&PageNumber=1`);
-        const data = response.data;
-
-        if (data.isSuccess) {
-            return data.result;
-        } else return null;
-    } catch (error) {
-        console.log('Error', error.message);
-        return null;
-    }
+export function getCategories() {
+    return get_api(`${API_URL}/categories?PageSize=1000&PageNumber=1`);
 }
 
-export async function getFeaturedPosts(limit) {
-    try {
-        const respone = await axios.get(`https://localhost:7298/api/posts/featured/${limit}`);
-        const data = respone.data;
-
-        if (data.isSuccess) return data.result;
-        else return null;
-    } catch (error) {
-        console.log('Error', error.message);
-        return null;
-    }
+export function getFeaturedPosts(limit) {
+    return get_api(`${API_URL}/posts/featured/${limit}`);
 }
 
-export async function getRandomPosts(limit) {
-    try {
-        const respone = await axios.get(`https://localhost:7298/api/posts/random/${limit}`);
-        const data = respone.data;
-
-        if (data.isSuccess) return data.result;
-        else return null;
-    } catch (error) {
-        console.log('Error', error.message);
-        return null;
-    }
+export function getRandomPosts(limit) {
+    return get_api(`${API_URL}/posts/random/${limit}`);
 }
 
-export async function getTagCloud(limit) {
-    try {
-        const respone = await axios.get(`https://localhost:7298/api/tags?PageSize=100&PageNumber=1`);
-        const data = respone.data;
-
-        if (data.isSuccess) return data.result;
-        else return null;
-    } catch (error) {
-        console.log('Error', error.message);
-        return null;
-    }
+export function getTagCloud() {
+    return get_api(`${API_URL}/tags?PageSize=100&PageNumber=1`);
 }
 
 export async function getPopularAuthors(limit) {
-    try {
-        const respone = await axios.get(`https://localhost:7298/api/authors/best/${limit}`);
-        const data = respone.data;
-
-        if (data.isSuccess) return data.result;
-        else return null;
-    } catch (error) {
-        console.log('Error', error.message);
-        return null;
-    }
+    return get_api(`${API_URL}/authors/best/${limit}`);
 }
 
-export async function getArchives(month) {
-    try {
-        const respone = await axios.get(`https://localhost:7298/api/posts/archives/${month}`);
-        const data = respone.data;
-
-        if (data.isSuccess) return data.result;
-        else return null;
-    } catch (error) {
-        console.log('Error', error.message);
-        return null;
-    }
+export function getArchives(month) {
+    return get_api(`${API_URL}/posts/archives/${month}`);
 }

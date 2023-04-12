@@ -1,24 +1,24 @@
 import { useEffect, useState } from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Link } from 'react-router-dom';
-import { getFeaturedPosts } from '../../Services/Widgets';
+import { getRandomPosts } from '../../../Services/widgets';
 
-const FeaturedPostsWidget = () => {
-    const [featuredPostsList, setFeaturedPostsList] = useState([]);
+const RandomPostsWidget = () => {
+    const [randomPostsList, setRandomPostsList] = useState([]);
 
     useEffect(() => {
-        getFeaturedPosts(3).then((data) => {
+        getRandomPosts(5).then((data) => {
             if (data) {
-                setFeaturedPostsList(data);
-            } else setFeaturedPostsList([]);
+                setRandomPostsList(data);
+            } else setRandomPostsList([]);
         });
     }, []);
     return (
         <div className="mb-4">
-            <h3 className="text-success mb-2 text-success">Bài viết nổi bật</h3>
-            {featuredPostsList.length > 0 && (
+            <h3 className="text-success mb-2 text-success">Bài viết ngẫu nhiên</h3>
+            {randomPostsList.length > 0 && (
                 <ListGroup>
-                    {featuredPostsList.map((item, index) => {
+                    {randomPostsList.map((item, index) => {
                         return (
                             <ListGroup.Item key={index}>
                                 <Link to={`/blog/post/?slug=${item.urlSlug}`} key={index}>
@@ -33,4 +33,4 @@ const FeaturedPostsWidget = () => {
     );
 };
 
-export default FeaturedPostsWidget;
+export default RandomPostsWidget;

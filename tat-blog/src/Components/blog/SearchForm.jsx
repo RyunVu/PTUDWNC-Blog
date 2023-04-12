@@ -1,15 +1,23 @@
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import { useNavigate } from 'react-router-dom';
+import { Form, Button } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
-const SearchForm = () => {
+export default function SearchForm() {
+    // Component's states
     const [keyword, setKeyword] = useState('');
 
+    // Hooks
+    const navigate = useNavigate();
+
+    // Component's event handlers
     const handleSubmit = (e) => {
         e.preventDefault();
-        window.location = `/blog?k=${keyword}`;
+        if (keyword.trim().length) {
+            navigate(`/blog/?keyword=${keyword.trim()}`);
+            setKeyword('');
+        }
     };
 
     return (
@@ -18,12 +26,14 @@ const SearchForm = () => {
                 <Form.Group className="input-group mb-3">
                     <Form.Control
                         type="text"
-                        name="k"
+                        name="Keyword"
+                        placeholder="Enter keyword"
                         value={keyword}
-                        onChange={(e) => setKeyword(e.target.value)}
+                        onChange={(e) => {
+                            setKeyword(e.target.value);
+                        }}
                         aria-label="Enter keyword"
                         aria-describedby="btnSearchPost"
-                        placeholder="Enter keyword"
                     />
                     <Button id="btnSearchPost" variant="outline-secondary" type="submit">
                         <FontAwesomeIcon icon={faSearch} />
@@ -32,6 +42,4 @@ const SearchForm = () => {
             </Form>
         </div>
     );
-};
-
-export default SearchForm;
+}

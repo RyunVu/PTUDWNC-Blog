@@ -1,15 +1,10 @@
-import axios from 'axios';
+import { API_URL } from '../Utils/constants';
+import { get_api } from './method';
 
 export async function getAuthorsBySlug(slug = '') {
-    try {
-        const response = await axios.get(`https://localhost:7298/api/authors?slug=${slug}}`);
+    return get_api(`${API_URL}/authors?slug=${slug}`);
+}
 
-        const data = response.data;
-        if (data.isSuccess) {
-            return data.result;
-        } else return null;
-    } catch (error) {
-        console.log('Error ', error.message);
-        return null;
-    }
+export function getAuthors() {
+    return get_api(`${API_URL}/authors?PageSize=1000&PageNumber=1`);
 }

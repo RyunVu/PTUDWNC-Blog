@@ -1,28 +1,28 @@
 import { useEffect, useState } from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Link } from 'react-router-dom';
-import { getPopularAuthors } from '../../Services/Widgets';
+import { getFeaturedPosts } from '../../../Services/widgets';
 
-const PopularAuthors = () => {
-    const [authorsList, setAuthorsList] = useState([]);
+const FeaturedPostsWidget = () => {
+    const [featuredPostsList, setFeaturedPostsList] = useState([]);
 
     useEffect(() => {
-        getPopularAuthors(4).then((data) => {
+        getFeaturedPosts(3).then((data) => {
             if (data) {
-                setAuthorsList(data);
-            } else setAuthorsList([]);
+                setFeaturedPostsList(data);
+            } else setFeaturedPostsList([]);
         });
     }, []);
     return (
         <div className="mb-4">
-            <h3 className="text-success mb-2 text-success">Tác giả nổi tiếng</h3>
-            {authorsList.length > 0 && (
+            <h3 className="text-success mb-2 text-success">Bài viết nổi bật</h3>
+            {featuredPostsList.length > 0 && (
                 <ListGroup>
-                    {authorsList.map((item, index) => {
+                    {featuredPostsList.map((item, index) => {
                         return (
                             <ListGroup.Item key={index}>
                                 <Link to={`/blog/post/?slug=${item.urlSlug}`} key={index}>
-                                    {item.fullName}
+                                    {item.title}
                                 </Link>
                             </ListGroup.Item>
                         );
@@ -33,4 +33,4 @@ const PopularAuthors = () => {
     );
 };
 
-export default PopularAuthors;
+export default FeaturedPostsWidget;
