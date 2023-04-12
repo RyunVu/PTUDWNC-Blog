@@ -305,7 +305,7 @@ namespace TatBlog.Services.Blogs {
         }
 
 
-        public async Task<IPagedList<T>> GetPagedPostsAsync<T>(PostQuery postQuery, IPagingParams pagingParam, Func<IQueryable<Post>, IQueryable<T>> mapper)
+        public async Task<IPagedList<T>> GetPagedPostsAsync<T>(IPostQuery postQuery, IPagingParams pagingParam, Func<IQueryable<Post>, IQueryable<T>> mapper)
         {
             var posts = FilterPosts(postQuery);
             var projectedPosts = mapper(posts);
