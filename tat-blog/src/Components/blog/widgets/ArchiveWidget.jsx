@@ -5,25 +5,28 @@ import { getArchives } from '../../../Services/widgets';
 import { getMonthName } from '../../../Utils/utils';
 
 const ArchiveWidget = () => {
-    const [posts, setPosts] = useState([]);
+    const [archives, setArchives] = useState([]);
 
     useEffect(() => {
-        getArchives(12).then((data) => {
-            if (data) {
-                setPosts(data);
-            } else setPosts([]);
-        });
+        fetchArchives();
+
+        async function fetchArchives() {
+            const data = await getArchives(12);
+            if (data) setArchives(data);
+            else setArchives([]);
+        }
     }, []);
+
     return (
         <div className="mb-4">
-            <h3 className="text-success mb-2 text-success">Bài viết theo tháng</h3>
-            {posts.length > 0 && (
+            <h3 className="mb-2 text-success">Bài viết theo tháng</h3>
+            {archives.length > 0 && (
                 <ListGroup>
-                    {posts.map((item, index) => {
+                    {archives.map((archive, index) => {
                         return (
                             <ListGroup.Item key={index}>
-                                <Link to={`/blog/archive/${item.year}/${item.month}`} key={index}>
-                                    {`${getMonthName(item.month)} ${item.year} (${item.postsCount})`}
+                                <Link to={`/blog/archive/${archive.year}/${archive.month}`}>
+                                    {`${getMonthName(archive.month)} ${archive.year} (${archive.postsCount})`}
                                 </Link>
                             </ListGroup.Item>
                         );
