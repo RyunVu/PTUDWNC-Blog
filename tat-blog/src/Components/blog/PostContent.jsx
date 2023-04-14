@@ -1,7 +1,5 @@
 import { Link } from 'react-router-dom';
 
-import { API_URL } from '../../Utils/constants';
-
 import TagsList from './TagList';
 
 export default function PostContent({ post }) {
@@ -35,7 +33,11 @@ export default function PostContent({ post }) {
             </div>
             <div className="mt-3">
                 {post.imageUrl && (
-                    <img src={`${API_URL}/${post.imageUrl}`} className="w-100 rounded shadow" alt="thumbnail" />
+                    <img
+                        src={`${process.env.REACT_APP_API_ENDPOINT}/${post.imageUrl}`}
+                        className="w-100 rounded shadow"
+                        alt="thumbnail"
+                    />
                 )}
                 <p className="mt-3">{post.description}</p>
             </div>
