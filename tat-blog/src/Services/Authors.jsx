@@ -1,10 +1,22 @@
-import { API_URL } from '../Utils/constants';
-import { get_api } from './method';
+import axios from 'axios';
 
-export async function getAuthorsBySlug(slug = '') {
-    return get_api(`${API_URL}/authors?slug=${slug}`);
+export async function getAuthorBySlug(slug) {
+    const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/authors/${slug}`);
+
+    if (data.isSuccess) return data.result;
+    else return null;
 }
 
-export function getAuthors() {
-    return get_api(`${API_URL}/authors?PageSize=1000&PageNumber=1`);
+export async function getAuthors() {
+    const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/authors?PageSize=1000&PageNumber=1`);
+
+    if (data.isSuccess) return data.result;
+    else return null;
+}
+
+export async function getAuthorsByQueries(queries) {
+    const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/authors?${queries}`);
+
+    if (data.isSuccess) return data.result;
+    else return null;
 }

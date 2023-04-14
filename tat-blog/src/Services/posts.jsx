@@ -1,29 +1,62 @@
-import { get_api, post_api } from './method';
-import { API_URL } from '../Utils/constants';
-
-export function getPostsQuery(keyword = '', pageSize = 10, pageNumber = 1, sortColumn = '', sortOrder = '') {
-    return get_api(
-        `${API_URL}/posts?&Keyword=${keyword}&PageSize=${pageSize}&PageNumber=${pageNumber}&SortColumn=${sortColumn}&SortOrder=${sortOrder}`,
-    );
-}
-
-export function getPostBySlug(slug) {
-    return get_api(`${API_URL}/posts/byslug/${slug}`);
-}
-
-export function getFilter() {
-    return get_api(`${API_URL}/posts/get-filter`);
-}
-
+import axios from 'axios';
 export async function getPostsByQueries(queries) {
-    return get_api(`${API_URL}/posts?${queries}`);
+    const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/posts?${queries}`);
+
+    if (data.isSuccess) return data.result;
+    else return null;
 }
 
-export function getPostByid(id = 0) {
-    if (id > 0) return get_api(`${API_URL}/posts/${id}`);
-    return null;
+export async function getPostBySlug(slug) {
+    const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/posts/byslug/${slug}`);
+
+    if (data.isSuccess) return data.result;
+    else return null;
 }
 
-export function addOrUpdatePost(formData) {
-    return post_api(`${API_URL}/posts`, formData);
+export async function getPostById(id = 0) {
+    const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/posts/${id}`);
+
+    if (data.isSuccess) return data.result;
+    else return null;
+}
+
+export async function getPostComments(id) {
+    const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/posts/${id}/comments`);
+
+    if (data.isSuccess) return data.result;
+    else return null;
+}
+
+export async function createPost(post) {
+    const { data } = await axios.post(`${process.env.REACT_APP_API_ENDPOINT}/posts`, post);
+
+    return data;
+}
+
+export async function updatePost(id, post) {
+    const { data } = await axios.put(`${process.env.REACT_APP_API_ENDPOINT}/posts/${id}`, post);
+
+    return data;
+}
+
+export async function updatePostThumbnail(id, imageFile) {
+    const { data } = await axios.post(`${process.env.REACT_APP_API_ENDPOINT}/posts/${id}/thumbnail`, imageFile, {
+        headers: {
+            'content-type': 'multipart/form-data',
+        },
+    });
+
+    return data;
+}
+
+export async function togglePostPublishedStatus(id) {
+    const { data } = await axios.post(`${process.env.REACT_APP_API_ENDPOINT}/posts/${id}/published`);
+
+    return data;
+}
+
+export async function deletePostById(id) {
+    const { data } = await axios.delete(`${process.env.REACT_APP_API_ENDPOINT}/posts/${id}`);
+
+    return data;
 }

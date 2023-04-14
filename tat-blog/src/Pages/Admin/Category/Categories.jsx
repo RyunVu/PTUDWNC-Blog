@@ -8,7 +8,7 @@ import Pager from '../../../Components/blog/Pager';
 import Loading from '../../../Components/blog/Loading';
 import PostFilterPane from '../../../Components/Admin/PostFilterPane';
 
-export default function Posts() {
+export default function Categories() {
     // Component's states
     const [pageNumber, setPageNumber] = useState(1);
     const [posts, setPosts] = useState([]);
@@ -33,15 +33,15 @@ export default function Posts() {
         async function fetchPosts() {
             const queries = new URLSearchParams({
                 Published: true,
-                NonPublished: false,
+                Unpublished: false,
                 PageNumber: pageNumber || 1,
                 PageSize: 10,
             });
             keyword && queries.append('Keyword', keyword);
             authorId && queries.append('AuthorId', authorId);
             categoryId && queries.append('CategoryId', categoryId);
-            year && queries.append('Year', year);
-            month && queries.append('Month', month);
+            year && queries.append('PostedYear', year);
+            month && queries.append('PostedMonth', month);
 
             const data = await getPostsByQueries(queries);
             if (data) {

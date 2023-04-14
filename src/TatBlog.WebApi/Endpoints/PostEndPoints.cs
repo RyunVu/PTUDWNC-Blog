@@ -79,20 +79,18 @@ namespace TatBlog.WebApi.Endpoints
         }
 
         private static async Task<IResult> GetPost(
-            [AsParameters] PostFilterModel model,
-            IBlogRepository blogRepo,
-            IMapper mapper
+            [AsParameters] PostQuery query,
+            [AsParameters] PagingModel pagingModel,
+            IBlogRepository blogRepo
             )
         {
-
-            var postsQuery = mapper.Map<PostQuery>(model);
-
-            var postList = await blogRepo.GetPagedPostsAsync(
-                postsQuery,
-                model,
+            var postsList = await blogRepo.GetPagedPostsAsync(
+                query,
+                pagingModel,
                 p => p.ProjectToType<PostDto>());
 
-            var paginationResult = new PaginationResult<PostDto>(postList);
+            var paginationResult = new PaginationResult<PostDto>(postsList);
+
             return Results.Ok(ApiResponse.Success(paginationResult));
         }
 

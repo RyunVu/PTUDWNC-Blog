@@ -2,21 +2,19 @@ import { useEffect, useState } from 'react';
 import { Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import { getPostsByQueries } from '../../../Services/posts';
+import { getAuthorsByQueries } from '../../../Services/authors';
 
 import Pager from '../../../Components/blog/Pager';
 import Loading from '../../../Components/blog/Loading';
-import PostFilterPane from '../../../Components/Admin/PostFilterPane';
+import AuthorFilterPane from '../../../Components/Admin/AuthorFilterPane';
 
-export default function Posts() {
+export default function Authors() {
     // Component's states
     const [pageNumber, setPageNumber] = useState(1);
-    const [posts, setPosts] = useState([]);
+    const [authors, setAuthors] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [metadata, setMetadata] = useState({});
-    const [keyword, setKeyword] = useState('');
-    const [authorId, setAuthorId] = useState();
-    const [categoryId, setCategoryId] = useState();
+    const [name, setName] = useState('');
     const [year, setYear] = useState();
     const [month, setMonth] = useState();
 
@@ -32,39 +30,29 @@ export default function Posts() {
 
         async function fetchPosts() {
             const queries = new URLSearchParams({
-                Published: true,
-                NonPublished: false,
                 PageNumber: pageNumber || 1,
                 PageSize: 10,
             });
-            keyword && queries.append('Keyword', keyword);
-            authorId && queries.append('AuthorId', authorId);
-            categoryId && queries.append('CategoryId', categoryId);
+            name && queries.append('name', name);
             year && queries.append('Year', year);
             month && queries.append('Month', month);
 
-            const data = await getPostsByQueries(queries);
+            const data = await getAuthorsByQueries(queries);
             if (data) {
-                setPosts(data.items);
+                setAuthors(data.items);
                 setMetadata(data.metadata);
             } else {
-                setPosts([]);
+                setAuthors([]);
                 setMetadata({});
             }
             setIsLoading(false);
         }
-    }, [pageNumber, keyword, authorId, categoryId, year, month]);
+    }, [pageNumber, name, year, month]);
 
     return (
         <div className="mb-5">
-            <h1>Danh sách bài viết</h1>
-            <PostFilterPane
-                setKeyword={setKeyword}
-                setAuthorId={setAuthorId}
-                setCategoryId={setCategoryId}
-                setYear={setYear}
-                setMonth={setMonth}
-            />
+            <h1>Danh sách tác giả</h1>
+            <AuthorFilterPane setName={setName} setYear={setYear} setMonth={setMonth} />
             {isLoading ? (
                 <Loading />
             ) : (
@@ -72,25 +60,23 @@ export default function Posts() {
                     <Table striped responsive bordered>
                         <thead>
                             <tr>
-                                <th>Tiêu đề</th>
-                                <th>Tác giả</th>
-                                <th>Chủ đề</th>
-                                <th>Xuất bản</th>
+                                <th>Thông tin chi tiết</th>
+                                <th>Tổng số bài viết</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {posts.length > 0 ? (
-                                posts.map((post) => (
-                                    <tr key={post.id}>
+                            {authors.length > 0 ? (
+                                authors.map((author) => (
+                                    <tr key={author.id}>
                                         <td>
-                                            <Link to={`/admin/posts/edit/${post.id}`} className="text-bold">
-                                                {post.title}
+                                            <Link to={`/admin/authors/edit/${author.id}`} className="text-bold">
+                                                {author.fullName}
                                             </Link>
-                                            <p className="text-muted">{post.shortDescription}</p>
+                                            <p className="text-muted">
+                                                {new Date(author.joinedDate).toLocaleDateString('vi-VN')}
+                                            </p>
                                         </td>
-                                        <td>{post.author.fullName}</td>
-                                        <td>{post.category.name}</td>
-                                        <td>{post.published ? 'Có' : 'Không'}</td>
+                                        <td>{author.postCount}</td>
                                     </tr>
                                 ))
                             ) : (

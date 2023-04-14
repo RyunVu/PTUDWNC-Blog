@@ -25,7 +25,7 @@ export default function PostsFilter({ postQuery }) {
         async function fetchPosts() {
             const queries = new URLSearchParams({
                 Published: true,
-                Unpublished: false,
+                NonPublished: false,
                 PageNumber: pageNumber || 1,
                 PageSize: 10,
             });

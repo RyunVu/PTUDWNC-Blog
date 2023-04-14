@@ -17,7 +17,7 @@ import {
     NotFound,
     BadRequest,
 } from './Pages';
-import Edit from './Pages/Admin/Post/Edit';
+import PostEdit from './Pages/Admin/Post/PostEdit';
 function App() {
     return (
         <Router>
@@ -36,8 +36,8 @@ function App() {
                     <Route path="/admin/categories" element={<Categories />} />
                     <Route path="/admin/comments" element={<Comments />} />
                     <Route path="/admin/posts" element={<Posts />} />
-                    <Route path="/admin/posts/edit" element={<Edit />} />
-                    <Route path="/admin/posts/edit/:id" element={<Edit />} />
+                    <Route path="/admin/posts/edit" element={<PostEdit />} />
+                    <Route path="/admin/posts/edit/:id" element={<PostEdit />} />
                     <Route path="/admin/tags" element={<Tags />} />
                 </Route>
 

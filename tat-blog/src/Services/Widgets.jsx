@@ -1,26 +1,43 @@
-import { API_URL } from '../Utils/constants';
-import { get_api } from './method';
+import axios from 'axios';
 
-export function getCategories() {
-    return get_api(`${API_URL}/categories?PageSize=1000&PageNumber=1`);
+export async function getCategories() {
+    const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/categories?PageSize=10&PageNumber=1`);
+
+    if (data.isSuccess) return data.result;
+    else return null;
 }
 
-export function getFeaturedPosts(limit) {
-    return get_api(`${API_URL}/posts/featured/${limit}`);
+export async function getFeaturedPosts(limit) {
+    const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/posts/featured/${limit}`);
+
+    if (data.isSuccess) return data.result;
+    else return null;
 }
 
-export function getRandomPosts(limit) {
-    return get_api(`${API_URL}/posts/random/${limit}`);
+export async function getRandomPosts(limit) {
+    const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/posts/random/${limit}`);
+
+    if (data.isSuccess) return data.result;
+    else return null;
 }
 
-export function getTagCloud() {
-    return get_api(`${API_URL}/tags?PageSize=100&PageNumber=1`);
+export async function getTagCloud() {
+    const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/tags?PageSize=100&PageNumber=1`);
+
+    if (data.isSuccess) return data.result;
+    else return null;
 }
 
-export async function getPopularAuthors(limit) {
-    return get_api(`${API_URL}/authors/best/${limit}`);
+export async function getTopAuthors(limit) {
+    const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/authors/best/${limit}`);
+
+    if (data.isSuccess) return data.result;
+    else return null;
 }
 
-export function getArchives(month) {
-    return get_api(`${API_URL}/posts/archives/${month}`);
+export async function getArchives(limit) {
+    const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/posts/archives/${limit}`);
+
+    if (data.isSuccess) return data.result;
+    else return null;
 }

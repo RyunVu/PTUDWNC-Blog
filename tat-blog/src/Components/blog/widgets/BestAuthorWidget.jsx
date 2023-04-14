@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Link } from 'react-router-dom';
-import { getPopularAuthors } from '../../../Services/widgets';
+import { getTopAuthors } from '../../../Services/widgets';
 
 const PopularAuthors = () => {
     const [authorsList, setAuthorsList] = useState([]);
 
     useEffect(() => {
-        getPopularAuthors(4).then((data) => {
+        getTopAuthors(4).then((data) => {
             if (data) {
                 setAuthorsList(data);
             } else setAuthorsList([]);
