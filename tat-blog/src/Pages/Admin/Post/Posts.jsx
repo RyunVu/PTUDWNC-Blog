@@ -33,15 +33,15 @@ export default function Posts() {
         async function fetchPosts() {
             const queries = new URLSearchParams({
                 Published: true,
-                Unpublished: false,
+                NonPublished: false,
                 PageNumber: pageNumber || 1,
                 PageSize: 10,
             });
             keyword && queries.append('Keyword', keyword);
             authorId && queries.append('AuthorId', authorId);
             categoryId && queries.append('CategoryId', categoryId);
-            year && queries.append('PostedYear', year);
-            month && queries.append('PostedMonth', month);
+            year && queries.append('Year', year);
+            month && queries.append('Month', month);
 
             const data = await getPostsByQueries(queries);
             if (data) {
