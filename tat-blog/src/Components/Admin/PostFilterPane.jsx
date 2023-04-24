@@ -6,7 +6,7 @@ import { getAuthors } from '../../Services/authors';
 import { getCategories } from '../../Services/categories';
 const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-export default function PostFilterPane({ setKeyword, setAuthorId, setCategoryId, setYear, setMonth }) {
+export default function PostFilterPane({ setKeyword, setAuthorId, setCategoryId, setYear, setMonth, setNonPublished }) {
     const [authors, setAuthors] = useState([]);
     const [categories, setCategories] = useState([]);
 
@@ -16,6 +16,7 @@ export default function PostFilterPane({ setKeyword, setAuthorId, setCategoryId,
     const categoryRef = useRef();
     const yearRef = useRef();
     const monthRef = useRef();
+    const nonPublishedRef = useRef();
 
     // Component's event handlers
     const handleFilterPosts = (e) => {
@@ -25,6 +26,7 @@ export default function PostFilterPane({ setKeyword, setAuthorId, setCategoryId,
         setCategoryId(categoryRef.current.value);
         setYear(yearRef.current.value);
         setMonth(monthRef.current.value);
+        setNonPublished(nonPublishedRef.current.checked);
     };
 
     const handleClearFilter = () => {
@@ -33,11 +35,13 @@ export default function PostFilterPane({ setKeyword, setAuthorId, setCategoryId,
         setCategoryId('');
         setYear('');
         setMonth('');
+        setNonPublished(false);
         keywordRef.current.value = '';
         authorRef.current.value = '';
         categoryRef.current.value = '';
         yearRef.current.value = '';
         monthRef.current.value = '';
+        nonPublishedRef.current.checked = false;
     };
 
     useEffect(() => {
@@ -94,6 +98,12 @@ export default function PostFilterPane({ setKeyword, setAuthorId, setCategoryId,
                         </option>
                     ))}
                 </Form.Select>
+            </Form.Group>
+            <Form.Group className="col-auto">
+                <input id="nonpublished" type="checkbox" ref={nonPublishedRef} />
+                <label htmlFor="nonpublished" className="ms-1">
+                    Chưa xuất bản
+                </label>
             </Form.Group>
             <Form.Group className="col-auto">
                 <Button variant="primary" type="submit">

@@ -183,7 +183,7 @@ namespace TatBlog.WebApi.Endpoints
 
             await blogRepo.AddOrUpdatePostAsync(post, model.SelectedTags);
 
-            return Results.Ok(ApiResponse.Success(mapper.Map<PostDetail>(post), HttpStatusCode.Created));
+            return Results.Ok(ApiResponse.Success(mapper.Map<PostItem>(post), HttpStatusCode.Created));
         }
 
         private static async Task<IResult> UpdatePost(
