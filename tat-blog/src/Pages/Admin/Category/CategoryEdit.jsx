@@ -3,35 +3,21 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 
-import { isEmptyOrSpaces, isInteger, decode } from '../../../Utils/utils';
+import { createCategory, getCategoryById, updateCategory } from '../../../Services/categories';
+import { isInteger, decode } from '../../../Utils/utils';
 
-import { createPost, getPostById, updatePost } from '../../../Services/posts';
-import { getAuthors } from '../../../Services/authors';
-import { getCategories } from '../../../Services/widgets';
-
-export default function Edit() {
+export default function CategoryEdit() {
     const navigate = useNavigate();
 
     const initialState = {
         id: 0,
-        title: '',
-        shortDescription: '',
-        description: '',
+        name: '',
         urlSlug: '',
-        meta: '',
-        imageUrl: '',
-        category: {},
-        author: {},
-        categoryId: 0,
-        authorId: 0,
-        tags: [],
-        selectedTags: '',
-        published: false,
+        description: '',
+        showOnMenu: false,
     };
 
-    const [authors, setAuthors] = useState([]);
-    const [categories, setCategories] = useState([]);
-    const [post, setPost] = useState(initialState);
+    const [category, setCategory] = useState(initialState);
     const [validated, setValidated] = useState(false);
 
     const { id } = useParams();
@@ -45,91 +31,50 @@ export default function Edit() {
         } else {
             let isSuccess = true;
             if (id > 0) {
-                const postData = {
-                    id,
-                    title: post.title,
-                    shortDescription: post.shortDescription,
-                    description: post.description,
-                    meta: post.meta,
-                    urlSlug: post.urlSlug,
-                    published: post.published,
-                    categoryId: post.category.id,
-                    authorId: post.author.id,
-                    selectedTags: post.selectedTags.split('\r\n'),
-                };
-                const data = await updatePost(id, postData);
+                const data = await updateCategory(id, category);
                 if (!data.isSuccess) isSuccess = false;
             } else {
-                console.log(post);
-                const postData = {
-                    id: 0,
-                    title: post.title,
-                    shortDescription: post.shortDescription,
-                    description: post.description,
-                    meta: post.meta,
-                    urlSlug: post.urlSlug,
-                    published: post.published,
-                    categoryId: post.categoryId,
-                    authorId: post.authorId,
-                    selectedTags: post.selectedTags.split('\n'),
-                };
-                const data = await createPost(postData);
+                const data = await createCategory(category);
                 if (!data.isSuccess) isSuccess = false;
             }
             if (isSuccess) alert('Đã lưu thành công!');
             else alert('Đã xảy ra lỗi!');
-            navigate('/admin/posts');
+            navigate('/admin/categories');
         }
     };
 
     useEffect(() => {
-        document.title = 'Thêm/cập nhật bài viết';
+        document.title = 'Thêm/cập nhật chủ đề';
 
-        fetchAuthors();
-        fetchCategories();
-        fetchPost();
+        fetchCategory();
 
-        async function fetchAuthors() {
-            const data = await getAuthors();
-            if (data) setAuthors(data.items);
-            else setAuthors([]);
-        }
-        async function fetchCategories() {
-            const data = await getCategories();
-            if (data) setCategories(data.items);
-            else setCategories([]);
-        }
-        async function fetchPost() {
-            const data = await getPostById(id);
-            if (data)
-                setPost({
-                    ...data,
-                    selectedTags: data.tags.map((tag) => tag?.name).join('\r\n'),
-                });
-            else setPost(initialState);
+        async function fetchCategory() {
+            const data = await getCategoryById(id);
+            if (data) setCategory(data);
+            else setCategory(initialState);
         }
         // eslint-disable-next-line
     }, [id]);
 
-    if (id && !isInteger(id)) return <Navigate to="/400?redirectTo=/admin/posts" />;
+    if (id && !isInteger(id)) return <Navigate to="/400?redirectTo=/admin/categories" />;
 
     return (
         <>
-            <h1 className="px-4 py-3 text-danger">Thêm/cập nhật bài viết</h1>
+            <h1 className="px-4 py-3 text-danger">Thêm/cập nhật chủ đề</h1>
             <Form className="mb-5 px-4" onSubmit={handleSubmit} noValidate validated={validated}>
-                <Form.Control type="hidden" name="id" value={post.id} />
+                <Form.Control type="hidden" name="id" value={category.id} />
                 <div className="row mb-3">
-                    <Form.Label className="col-sm-2 col-form-label">Tiêu đề</Form.Label>
+                    <Form.Label className="col-sm-2 col-form-label">Tên</Form.Label>
                     <div className="col-sm-10">
                         <Form.Control
                             type="text"
-                            name="title"
+                            name="name"
                             required
-                            value={post.title || ''}
+                            value={category.name || ''}
                             onChange={(e) =>
-                                setPost({
-                                    ...post,
-                                    title: e.target.value,
+                                setCategory({
+                                    ...category,
+                                    name: e.target.value,
                                 })
                             }
                         />
@@ -143,14 +88,16 @@ export default function Edit() {
                             type="text"
                             name="urlSlug"
                             title="Url slug"
-                            value={post.urlSlug || ''}
+                            value={category.urlSlug || ''}
                             onChange={(e) =>
-                                setPost({
-                                    ...post,
+                                setCategory({
+                                    ...category,
                                     urlSlug: e.target.value,
                                 })
                             }
+                            required
                         />
+                        <Form.Control.Feedback type="invalid">Không được bỏ trống</Form.Control.Feedback>
                     </div>
                 </div>
                 <div className="row mb-3">
@@ -159,152 +106,15 @@ export default function Edit() {
                         <Form.Control
                             as="textarea"
                             type="text"
-                            required
-                            name="shortDescription"
-                            title="Short description"
-                            value={decode(post.shortDescription || '')}
+                            name="description"
+                            title="description"
+                            value={decode(category.description || '')}
                             onChange={(e) =>
-                                setPost({
-                                    ...post,
-                                    shortDescription: e.target.value,
-                                })
-                            }
-                        />
-                        <Form.Control.Feedback type="invalid">Không được bỏ trống</Form.Control.Feedback>
-                    </div>
-                </div>
-                <div className="row mb-3">
-                    <Form.Label className="col-sm-2 col-form-label">Nội dung</Form.Label>
-                    <div className="col-sm-10">
-                        <Form.Control
-                            as="textarea"
-                            rows={10}
-                            type="text"
-                            required
-                            name="Description"
-                            title="Description"
-                            value={decode(post.description || '')}
-                            onChange={(e) =>
-                                setPost({
-                                    ...post,
+                                setCategory({
+                                    ...category,
                                     description: e.target.value,
                                 })
                             }
-                        />
-                        <Form.Control.Feedback type="invalid">Không được bỏ trống</Form.Control.Feedback>
-                    </div>
-                </div>
-                <div className="row mb-3">
-                    <Form.Label className="col-sm-2 col-form-label">Metadata</Form.Label>
-                    <div className="col-sm-10">
-                        <Form.Control
-                            type="text"
-                            name="meta"
-                            title="meta"
-                            value={decode(post.meta || '')}
-                            onChange={(e) =>
-                                setPost({
-                                    ...post,
-                                    meta: e.target.value,
-                                })
-                            }
-                        />
-                    </div>
-                </div>
-                <div className="row mb-3">
-                    <Form.Label className="col-sm-2 col-form-label">Tác giả</Form.Label>
-                    <div className="col-sm-10">
-                        <Form.Select
-                            name="authorId"
-                            title="Author Id"
-                            value={post.author.id}
-                            required
-                            onChange={(e) =>
-                                setPost({
-                                    ...post,
-                                    authorId: e.target.value,
-                                })
-                            }>
-                            <option value="">-- Chọn tác giả --</option>
-                            {authors.length > 0 &&
-                                authors.map((author) => (
-                                    <option key={author.id} value={author.id}>
-                                        {author.fullName}
-                                    </option>
-                                ))}
-                        </Form.Select>
-                        <Form.Control.Feedback type="invalid">Không được bỏ trống</Form.Control.Feedback>
-                    </div>
-                </div>
-                <div className="row mb-3">
-                    <Form.Label className="col-sm-2 col-form-label">Chủ đề</Form.Label>
-                    <div className="col-sm-10">
-                        <Form.Select
-                            name="categoryId"
-                            title="Category Id"
-                            value={post.category.id}
-                            required
-                            onChange={(e) =>
-                                setPost({
-                                    ...post,
-                                    categoryId: e.target.value,
-                                })
-                            }>
-                            <option value="">-- Chọn chủ đề --</option>
-                            {categories.length > 0 &&
-                                categories.map((category) => (
-                                    <option key={category.id} value={category.id}>
-                                        {category.name}
-                                    </option>
-                                ))}
-                        </Form.Select>
-                        <Form.Control.Feedback type="invalid">Không được bỏ trống</Form.Control.Feedback>
-                    </div>
-                </div>
-                <div className="row mb-3">
-                    <Form.Label className="col-sm-2 col-form-label">Từ khóa (mỗi từ 1 dòng)</Form.Label>
-                    <div className="col-sm-10">
-                        <Form.Control
-                            as="textarea"
-                            rows={5}
-                            type="text"
-                            required
-                            name="selectedTags"
-                            title="Selected Tags"
-                            value={post.selectedTags}
-                            onChange={(e) =>
-                                setPost({
-                                    ...post,
-                                    selectedTags: e.target.value,
-                                })
-                            }
-                        />
-                        <Form.Control.Feedback type="invalid">Không được bỏ trống</Form.Control.Feedback>
-                    </div>
-                </div>
-                {!isEmptyOrSpaces(post.imageUrl) && (
-                    <div className="row mb-3">
-                        <Form.Label className="col-sm-2 col-form-label">Hình hiện tại</Form.Label>
-                        <div className="col-sm-10">
-                            <img src={process.env.REACT_APP_API_ROOT_URL + post.imageUrl} alt={post.title} />
-                        </div>
-                    </div>
-                )}
-                <div className="row mb-3">
-                    <Form.Label className="col-sm-2 col-form-label">Chọn hình ảnh</Form.Label>
-                    <div className="col-sm-10">
-                        <Form.Control
-                            type="file"
-                            name="imageFile"
-                            accept="image/*"
-                            title="Image file"
-                            onChange={(e) => {
-                                console.log(e.target.files[0]);
-                                setPost({
-                                    ...post,
-                                    imageFile: e.target.files[0],
-                                });
-                            }}
                         />
                     </div>
                 </div>
@@ -314,17 +124,17 @@ export default function Edit() {
                             <input
                                 className="form-check-input"
                                 type="checkbox"
-                                name="published"
-                                checked={post.published}
-                                title="Published"
+                                name="showOnMenu"
+                                checked={category.showOnMenu}
+                                title="showOnMenu"
                                 onChange={(e) => {
-                                    setPost({
-                                        ...post,
-                                        published: e.target.checked,
+                                    setCategory({
+                                        ...category,
+                                        showOnMenu: e.target.checked,
                                     });
                                 }}
                             />
-                            <Form.Label className="form-check-label">Đã xuất bản</Form.Label>
+                            <Form.Label className="form-check-label">Hiển thị trên menu</Form.Label>
                         </div>
                     </div>
                 </div>
@@ -332,7 +142,7 @@ export default function Edit() {
                     <Button variant="primary" type="submit">
                         Lưu các thay đổi
                     </Button>
-                    <Link to="/admin/posts" className="btn btn-danger ms-2">
+                    <Link to="/admin/categories" className="btn btn-danger ms-2">
                         Hủy và quay lại
                     </Link>
                 </div>
