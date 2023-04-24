@@ -2,14 +2,13 @@ import { useEffect, useState } from 'react';
 import { Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import { getAuthorsByQueries } from '../../../Services/authors';
+import { getAuthorsByQueries, deleteAuthorById } from '../../../Services/authors';
 
 import Pager from '../../../Components/blog/Pager';
 import Loading from '../../../Components/blog/Loading';
 import AuthorFilterPane from '../../../Components/Admin/AuthorFilterPane';
 
 export default function Authors() {
-    // Component's states
     const [pageNumber, setPageNumber] = useState(1);
     const [authors, setAuthors] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -17,25 +16,34 @@ export default function Authors() {
     const [name, setName] = useState('');
     const [year, setYear] = useState();
     const [month, setMonth] = useState();
+    const [isChangeStatus, setIsChangeStatus] = useState(false);
 
-    // Component's event handlers
     const handleChangePage = (value) => {
         setPageNumber((current) => current + value);
         window.scroll(0, 0);
     };
 
-    useEffect(() => {
-        document.title = 'Danh sách bài viết';
-        fetchPosts();
+    const handleDeleteAuthor = async (e, id) => {
+        if (window.confirm('Bạn có chắc muốn xóa tác giả?')) {
+            const data = await deleteAuthorById(id);
+            if (data.isSuccess) alert(data.result);
+            else alert(data.errors[0]);
+            setIsChangeStatus(!isChangeStatus);
+        }
+    };
 
-        async function fetchPosts() {
+    useEffect(() => {
+        document.title = 'Danh sách tác giả';
+        fetchAuthors();
+
+        async function fetchAuthors() {
             const queries = new URLSearchParams({
                 PageNumber: pageNumber || 1,
                 PageSize: 10,
             });
             name && queries.append('name', name);
-            year && queries.append('Year', year);
-            month && queries.append('Month', month);
+            year && queries.append('JoinedYear', year);
+            month && queries.append('JoinedMonth', month);
 
             const data = await getAuthorsByQueries(queries);
             if (data) {
@@ -47,7 +55,7 @@ export default function Authors() {
             }
             setIsLoading(false);
         }
-    }, [pageNumber, name, year, month]);
+    }, [pageNumber, name, year, month, isChangeStatus]);
 
     return (
         <div className="mb-5">
@@ -60,8 +68,11 @@ export default function Authors() {
                     <Table striped responsive bordered>
                         <thead>
                             <tr>
-                                <th>Thông tin chi tiết</th>
-                                <th>Tổng số bài viết</th>
+                                <th>Tên</th>
+                                <th>Ngày tham gia</th>
+                                <th>Email</th>
+                                <th>Notes</th>
+                                <th>Xóa</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -72,17 +83,19 @@ export default function Authors() {
                                             <Link to={`/admin/authors/edit/${author.id}`} className="text-bold">
                                                 {author.fullName}
                                             </Link>
-                                            <p className="text-muted">
-                                                {new Date(author.joinedDate).toLocaleDateString('vi-VN')}
-                                            </p>
                                         </td>
-                                        <td>{author.postCount}</td>
+                                        <td>{new Date(author.joinedDate).toLocaleDateString('vi-VN')}</td>
+                                        <td>{author.email}</td>
+                                        <td>{author.notes}</td>
+                                        <td>
+                                            <button onClick={(e) => handleDeleteAuthor(e, author.id)}>Xóa</button>
+                                        </td>
                                     </tr>
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan={4}>
-                                        <h4 className="text-center text-danger">Không tìm thấy bài viết</h4>
+                                    <td colSpan={6}>
+                                        <h4 className="text-center text-danger">Không tìm thấy tác giả</h4>
                                     </td>
                                 </tr>
                             )}
