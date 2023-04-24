@@ -5,33 +5,21 @@ import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import { isEmptyOrSpaces, isInteger, decode } from '../../../Utils/utils';
 
-import { createPost, getPostById, updatePost } from '../../../Services/posts';
-import { getAuthors } from '../../../Services/authors';
-import { getCategories } from '../../../Services/widgets';
+import { createAuthor, getAuthorById, updateAuthor } from '../../../Services/authors';
 
-export default function Edit() {
+export default function AuthorEdit() {
     const navigate = useNavigate();
 
     const initialState = {
         id: 0,
-        title: '',
-        shortDescription: '',
-        description: '',
+        fullName: '',
         urlSlug: '',
-        meta: '',
         imageUrl: '',
-        category: {},
-        author: {},
-        categoryId: 0,
-        authorId: 0,
-        tags: [],
-        selectedTags: '',
-        published: false,
+        email: '',
+        notes: '',
     };
 
-    const [authors, setAuthors] = useState([]);
-    const [categories, setCategories] = useState([]);
-    const [post, setPost] = useState(initialState);
+    const [author, setAuthor] = useState([]);
     const [validated, setValidated] = useState(false);
 
     const { id } = useParams();
@@ -45,91 +33,54 @@ export default function Edit() {
         } else {
             let isSuccess = true;
             if (id > 0) {
-                const postData = {
-                    id,
-                    title: post.title,
-                    shortDescription: post.shortDescription,
-                    description: post.description,
-                    meta: post.meta,
-                    urlSlug: post.urlSlug,
-                    published: post.published,
-                    categoryId: post.category.id,
-                    authorId: post.author.id,
-                    selectedTags: post.selectedTags.split('\r\n'),
-                };
-                const data = await updatePost(id, postData);
+                const data = await updateAuthor(id, author);
                 if (!data.isSuccess) isSuccess = false;
             } else {
-                console.log(post);
-                const postData = {
-                    id: 0,
-                    title: post.title,
-                    shortDescription: post.shortDescription,
-                    description: post.description,
-                    meta: post.meta,
-                    urlSlug: post.urlSlug,
-                    published: post.published,
-                    categoryId: post.categoryId,
-                    authorId: post.authorId,
-                    selectedTags: post.selectedTags.split('\n'),
-                };
-                const data = await createPost(postData);
+                const date = new Date();
+                const data = await createAuthor({
+                    ...author,
+                    joinedDate: date.toJSON(),
+                });
                 if (!data.isSuccess) isSuccess = false;
             }
             if (isSuccess) alert('Đã lưu thành công!');
             else alert('Đã xảy ra lỗi!');
-            navigate('/admin/posts');
+            navigate('/admin/authors');
         }
     };
 
     useEffect(() => {
-        document.title = 'Thêm/cập nhật bài viết';
+        document.title = 'Thêm/cập nhật tác giả';
 
-        fetchAuthors();
-        fetchCategories();
-        fetchPost();
+        fetchAuthor();
 
-        async function fetchAuthors() {
-            const data = await getAuthors();
-            if (data) setAuthors(data.items);
-            else setAuthors([]);
-        }
-        async function fetchCategories() {
-            const data = await getCategories();
-            if (data) setCategories(data.items);
-            else setCategories([]);
-        }
-        async function fetchPost() {
-            const data = await getPostById(id);
-            if (data)
-                setPost({
-                    ...data,
-                    selectedTags: data.tags.map((tag) => tag?.name).join('\r\n'),
-                });
-            else setPost(initialState);
+        async function fetchAuthor() {
+            const data = await getAuthorById(id);
+            if (data) setAuthor(data);
+            else setAuthor(initialState);
         }
         // eslint-disable-next-line
     }, [id]);
 
-    if (id && !isInteger(id)) return <Navigate to="/400?redirectTo=/admin/posts" />;
+    if (id && !isInteger(id)) return <Navigate to="/400?redirectTo=/admin/authors" />;
 
     return (
         <>
-            <h1 className="px-4 py-3 text-danger">Thêm/cập nhật bài viết</h1>
+            <h1 className="px-4 py-3 text-danger">Thêm/cập nhật tác giả</h1>
             <Form className="mb-5 px-4" onSubmit={handleSubmit} noValidate validated={validated}>
-                <Form.Control type="hidden" name="id" value={post.id} />
+                <Form.Control type="hidden" name="id" value={author.id} />
                 <div className="row mb-3">
-                    <Form.Label className="col-sm-2 col-form-label">Tiêu đề</Form.Label>
+                    <Form.Label className="col-sm-2 col-form-label">Tên</Form.Label>
                     <div className="col-sm-10">
                         <Form.Control
                             type="text"
-                            name="title"
+                            name="fullName"
                             required
-                            value={post.title || ''}
+                            value={author.fullName || ''}
                             onChange={(e) =>
-                                setPost({
-                                    ...post,
-                                    title: e.target.value,
+                                setAuthor({
+                                    ...author,
+                                    fullName: e.target.value,
                                 })
                             }
                         />
@@ -143,14 +94,35 @@ export default function Edit() {
                             type="text"
                             name="urlSlug"
                             title="Url slug"
-                            value={post.urlSlug || ''}
+                            value={author.urlSlug || ''}
                             onChange={(e) =>
-                                setPost({
-                                    ...post,
+                                setAuthor({
+                                    ...author,
                                     urlSlug: e.target.value,
                                 })
                             }
+                            required
                         />
+                        <Form.Control.Feedback type="invalid">Không được bỏ trống</Form.Control.Feedback>
+                    </div>
+                </div>
+                <div className="row mb-3">
+                    <Form.Label className="col-sm-2 col-form-label">Email</Form.Label>
+                    <div className="col-sm-10">
+                        <Form.Control
+                            type="text"
+                            name="email"
+                            title="email"
+                            value={author.email || ''}
+                            onChange={(e) =>
+                                setAuthor({
+                                    ...author,
+                                    email: e.target.value,
+                                })
+                            }
+                            required
+                        />
+                        <Form.Control.Feedback type="invalid">Không được bỏ trống</Form.Control.Feedback>
                     </div>
                 </div>
                 <div className="row mb-3">
@@ -159,134 +131,23 @@ export default function Edit() {
                         <Form.Control
                             as="textarea"
                             type="text"
-                            required
-                            name="shortDescription"
-                            title="Short description"
-                            value={decode(post.shortDescription || '')}
+                            name="notes"
+                            title="notes"
+                            value={decode(author.notes || '')}
                             onChange={(e) =>
-                                setPost({
-                                    ...post,
-                                    shortDescription: e.target.value,
-                                })
-                            }
-                        />
-                        <Form.Control.Feedback type="invalid">Không được bỏ trống</Form.Control.Feedback>
-                    </div>
-                </div>
-                <div className="row mb-3">
-                    <Form.Label className="col-sm-2 col-form-label">Nội dung</Form.Label>
-                    <div className="col-sm-10">
-                        <Form.Control
-                            as="textarea"
-                            rows={10}
-                            type="text"
-                            required
-                            name="Description"
-                            title="Description"
-                            value={decode(post.description || '')}
-                            onChange={(e) =>
-                                setPost({
-                                    ...post,
-                                    description: e.target.value,
-                                })
-                            }
-                        />
-                        <Form.Control.Feedback type="invalid">Không được bỏ trống</Form.Control.Feedback>
-                    </div>
-                </div>
-                <div className="row mb-3">
-                    <Form.Label className="col-sm-2 col-form-label">Metadata</Form.Label>
-                    <div className="col-sm-10">
-                        <Form.Control
-                            type="text"
-                            name="meta"
-                            title="meta"
-                            value={decode(post.meta || '')}
-                            onChange={(e) =>
-                                setPost({
-                                    ...post,
-                                    meta: e.target.value,
+                                setAuthor({
+                                    ...author,
+                                    notes: e.target.value,
                                 })
                             }
                         />
                     </div>
                 </div>
-                <div className="row mb-3">
-                    <Form.Label className="col-sm-2 col-form-label">Tác giả</Form.Label>
-                    <div className="col-sm-10">
-                        <Form.Select
-                            name="authorId"
-                            title="Author Id"
-                            value={post.author.id}
-                            required
-                            onChange={(e) =>
-                                setPost({
-                                    ...post,
-                                    authorId: e.target.value,
-                                })
-                            }>
-                            <option value="">-- Chọn tác giả --</option>
-                            {authors.length > 0 &&
-                                authors.map((author) => (
-                                    <option key={author.id} value={author.id}>
-                                        {author.fullName}
-                                    </option>
-                                ))}
-                        </Form.Select>
-                        <Form.Control.Feedback type="invalid">Không được bỏ trống</Form.Control.Feedback>
-                    </div>
-                </div>
-                <div className="row mb-3">
-                    <Form.Label className="col-sm-2 col-form-label">Chủ đề</Form.Label>
-                    <div className="col-sm-10">
-                        <Form.Select
-                            name="categoryId"
-                            title="Category Id"
-                            value={post.category.id}
-                            required
-                            onChange={(e) =>
-                                setPost({
-                                    ...post,
-                                    categoryId: e.target.value,
-                                })
-                            }>
-                            <option value="">-- Chọn chủ đề --</option>
-                            {categories.length > 0 &&
-                                categories.map((category) => (
-                                    <option key={category.id} value={category.id}>
-                                        {category.name}
-                                    </option>
-                                ))}
-                        </Form.Select>
-                        <Form.Control.Feedback type="invalid">Không được bỏ trống</Form.Control.Feedback>
-                    </div>
-                </div>
-                <div className="row mb-3">
-                    <Form.Label className="col-sm-2 col-form-label">Từ khóa (mỗi từ 1 dòng)</Form.Label>
-                    <div className="col-sm-10">
-                        <Form.Control
-                            as="textarea"
-                            rows={5}
-                            type="text"
-                            required
-                            name="selectedTags"
-                            title="Selected Tags"
-                            value={post.selectedTags}
-                            onChange={(e) =>
-                                setPost({
-                                    ...post,
-                                    selectedTags: e.target.value,
-                                })
-                            }
-                        />
-                        <Form.Control.Feedback type="invalid">Không được bỏ trống</Form.Control.Feedback>
-                    </div>
-                </div>
-                {!isEmptyOrSpaces(post.imageUrl) && (
+                {!isEmptyOrSpaces(author.imageUrl) && (
                     <div className="row mb-3">
                         <Form.Label className="col-sm-2 col-form-label">Hình hiện tại</Form.Label>
                         <div className="col-sm-10">
-                            <img src={process.env.REACT_APP_API_ROOT_URL + post.imageUrl} alt={post.title} />
+                            <img src={process.env.REACT_APP_API_ROOT_URL + author.imageUrl} alt={author.fullName} />
                         </div>
                     </div>
                 )}
@@ -299,40 +160,19 @@ export default function Edit() {
                             accept="image/*"
                             title="Image file"
                             onChange={(e) => {
-                                console.log(e.target.files[0]);
-                                setPost({
-                                    ...post,
+                                setAuthor({
+                                    ...author,
                                     imageFile: e.target.files[0],
                                 });
                             }}
                         />
                     </div>
                 </div>
-                <div className="row mb-3">
-                    <div className="col-sm-10 offset-sm-2">
-                        <div className="form-check">
-                            <input
-                                className="form-check-input"
-                                type="checkbox"
-                                name="published"
-                                checked={post.published}
-                                title="Published"
-                                onChange={(e) => {
-                                    setPost({
-                                        ...post,
-                                        published: e.target.checked,
-                                    });
-                                }}
-                            />
-                            <Form.Label className="form-check-label">Đã xuất bản</Form.Label>
-                        </div>
-                    </div>
-                </div>
                 <div className="text-center">
                     <Button variant="primary" type="submit">
                         Lưu các thay đổi
                     </Button>
-                    <Link to="/admin/posts" className="btn btn-danger ms-2">
+                    <Link to="/admin/authors" className="btn btn-danger ms-2">
                         Hủy và quay lại
                     </Link>
                 </div>
