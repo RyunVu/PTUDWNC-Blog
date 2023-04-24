@@ -2,69 +2,63 @@ import { useEffect, useState } from 'react';
 import { Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import { getPostsByQueries } from '../../../Services/posts';
+import { getCategoriesByQueries, deleteCategoryById } from '../../../Services/categories';
 
 import Pager from '../../../Components/blog/Pager';
 import Loading from '../../../Components/blog/Loading';
-import PostFilterPane from '../../../Components/Admin/PostFilterPane';
+import CategoryFilterPane from '../../../Components/Admin/CategoryFilterPane';
 
 export default function Categories() {
-    // Component's states
     const [pageNumber, setPageNumber] = useState(1);
-    const [posts, setPosts] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [metadata, setMetadata] = useState({});
-    const [keyword, setKeyword] = useState('');
-    const [authorId, setAuthorId] = useState();
-    const [categoryId, setCategoryId] = useState();
-    const [year, setYear] = useState();
-    const [month, setMonth] = useState();
+    const [name, setName] = useState('');
+    const [showOnMenu, setShowOnMenu] = useState(false);
+    const [isChangeStatus, setIsChangeStatus] = useState(false);
 
-    // Component's event handlers
     const handleChangePage = (value) => {
         setPageNumber((current) => current + value);
         window.scroll(0, 0);
     };
 
-    useEffect(() => {
-        document.title = 'Danh sách bài viết';
-        fetchPosts();
+    const handleDeleteCategory = async (e, id) => {
+        if (window.confirm('Bạn có chắc muốn xóa chủ đề?')) {
+            const data = await deleteCategoryById(id);
+            if (data.isSuccess) alert(data.result);
+            else alert(data.errors[0]);
+            setIsChangeStatus(!isChangeStatus);
+        }
+    };
 
-        async function fetchPosts() {
+    useEffect(() => {
+        document.title = 'Danh sách chủ đề';
+        fetchCategories();
+
+        async function fetchCategories() {
             const queries = new URLSearchParams({
-                Published: true,
-                Unpublished: false,
                 PageNumber: pageNumber || 1,
                 PageSize: 10,
+                ShowOnMenu: showOnMenu || false,
             });
-            keyword && queries.append('Keyword', keyword);
-            authorId && queries.append('AuthorId', authorId);
-            categoryId && queries.append('CategoryId', categoryId);
-            year && queries.append('PostedYear', year);
-            month && queries.append('PostedMonth', month);
+            name && queries.append('name', name);
 
-            const data = await getPostsByQueries(queries);
+            const data = await getCategoriesByQueries(queries);
             if (data) {
-                setPosts(data.items);
+                setCategories(data.items);
                 setMetadata(data.metadata);
             } else {
-                setPosts([]);
+                setCategories([]);
                 setMetadata({});
             }
             setIsLoading(false);
         }
-    }, [pageNumber, keyword, authorId, categoryId, year, month]);
+    }, [pageNumber, name, showOnMenu, isChangeStatus]);
 
     return (
         <div className="mb-5">
-            <h1>Danh sách bài viết</h1>
-            <PostFilterPane
-                setKeyword={setKeyword}
-                setAuthorId={setAuthorId}
-                setCategoryId={setCategoryId}
-                setYear={setYear}
-                setMonth={setMonth}
-            />
+            <h1>Danh sách chủ đề</h1>
+            <CategoryFilterPane setName={setName} setShowOnMenu={setShowOnMenu} />
             {isLoading ? (
                 <Loading />
             ) : (
@@ -72,31 +66,32 @@ export default function Categories() {
                     <Table striped responsive bordered>
                         <thead>
                             <tr>
-                                <th>Tiêu đề</th>
-                                <th>Tác giả</th>
                                 <th>Chủ đề</th>
-                                <th>Xuất bản</th>
+                                <th>Hiện trên menu</th>
+                                <th>Số bài viết</th>
+                                <th>Xóa</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {posts.length > 0 ? (
-                                posts.map((post) => (
-                                    <tr key={post.id}>
+                            {categories.length > 0 ? (
+                                categories.map((category) => (
+                                    <tr key={category.id}>
                                         <td>
-                                            <Link to={`/admin/posts/edit/${post.id}`} className="text-bold">
-                                                {post.title}
+                                            <Link to={`/admin/categories/edit/${category.id}`} className="text-bold">
+                                                {category.name}
                                             </Link>
-                                            <p className="text-muted">{post.shortDescription}</p>
                                         </td>
-                                        <td>{post.author.fullName}</td>
-                                        <td>{post.category.name}</td>
-                                        <td>{post.published ? 'Có' : 'Không'}</td>
+                                        <td>{category.showOnMenu ? 'Có' : 'Không'}</td>
+                                        <td>{category.postCount}</td>
+                                        <td>
+                                            <button onClick={(e) => handleDeleteCategory(e, category.id)}>Xóa</button>
+                                        </td>
                                     </tr>
                                 ))
                             ) : (
                                 <tr>
                                     <td colSpan={4}>
-                                        <h4 className="text-center text-danger">Không tìm thấy bài viết</h4>
+                                        <h4 className="text-center text-danger">Không tìm thấy chủ đề</h4>
                                     </td>
                                 </tr>
                             )}
