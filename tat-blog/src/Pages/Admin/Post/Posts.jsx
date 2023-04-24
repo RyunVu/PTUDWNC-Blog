@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Table } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import { getPostsByQueries } from '../../../Services/posts';
+import { getPostsByQueries, deletePostById, togglePostPublishedStatus } from '../../../Services/posts';
 
 import Pager from '../../../Components/blog/Pager';
 import Loading from '../../../Components/blog/Loading';
 import PostFilterPane from '../../../Components/Admin/PostFilterPane';
 
 export default function Posts() {
-    // Component's states
     const [pageNumber, setPageNumber] = useState(1);
     const [posts, setPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -19,11 +18,26 @@ export default function Posts() {
     const [categoryId, setCategoryId] = useState();
     const [year, setYear] = useState();
     const [month, setMonth] = useState();
+    const [nonPublished, setNonPublished] = useState(false);
+    const [isChangeStatus, setIsChangeStatus] = useState(false);
 
-    // Component's event handlers
     const handleChangePage = (value) => {
         setPageNumber((current) => current + value);
         window.scroll(0, 0);
+    };
+
+    const handleTogglePublishedStatus = async (e, id) => {
+        await togglePostPublishedStatus(id);
+        setIsChangeStatus(!isChangeStatus);
+    };
+
+    const handleDeletePost = async (e, id) => {
+        if (window.confirm('Bạn có chắc muốn xóa bài viết?')) {
+            const data = await deletePostById(id);
+            if (data.isSuccess) alert(data.result);
+            else alert(data.errors[0]);
+            setIsChangeStatus(!isChangeStatus);
+        }
     };
 
     useEffect(() => {
@@ -53,7 +67,7 @@ export default function Posts() {
             }
             setIsLoading(false);
         }
-    }, [pageNumber, keyword, authorId, categoryId, year, month]);
+    }, [pageNumber, keyword, authorId, categoryId, year, month, nonPublished, isChangeStatus]);
 
     return (
         <div className="mb-5">
@@ -64,6 +78,7 @@ export default function Posts() {
                 setCategoryId={setCategoryId}
                 setYear={setYear}
                 setMonth={setMonth}
+                setNonPublished={setNonPublished}
             />
             {isLoading ? (
                 <Loading />
@@ -90,7 +105,24 @@ export default function Posts() {
                                         </td>
                                         <td>{post.author.fullName}</td>
                                         <td>{post.category.name}</td>
-                                        <td>{post.published ? 'Có' : 'Không'}</td>
+                                        <td>
+                                            {post.published ? (
+                                                <Button
+                                                    variant="primary"
+                                                    onClick={(e) => handleTogglePublishedStatus(e, post.id)}>
+                                                    Có
+                                                </Button>
+                                            ) : (
+                                                <Button
+                                                    variant="secondary"
+                                                    onClick={(e) => handleTogglePublishedStatus(e, post.id)}>
+                                                    Không
+                                                </Button>
+                                            )}
+                                        </td>
+                                        <td>
+                                            <button onClick={(e) => handleDeletePost(e, post.id)}>Xóa</button>
+                                        </td>
                                     </tr>
                                 ))
                             ) : (
