@@ -18,6 +18,8 @@ import {
     BadRequest,
 } from './Pages';
 import PostEdit from './Pages/Admin/Post/PostEdit';
+import AuthorEdit from './Pages/Admin/Author/AuthorEdit';
+import CategoryEdit from './Pages/Admin/Category/CategoryEdit';
 function App() {
     return (
         <Router>
@@ -33,7 +35,11 @@ function App() {
                 <Route path="/admin" element={<AdminLayout />}>
                     <Route path="/admin" element={<AdminHome />} />
                     <Route path="/admin/authors" element={<Authors />} />
+                    <Route path="/admin/authors/edit" element={<AuthorEdit />} />
+                    <Route path="/admin/authors/edit/:id" element={<AuthorEdit />} />
                     <Route path="/admin/categories" element={<Categories />} />
+                    <Route path="/admin/categories/edit" element={<CategoryEdit />} />
+                    <Route path="/admin/categories/edit/:id" element={<CategoryEdit />} />
                     <Route path="/admin/comments" element={<Comments />} />
                     <Route path="/admin/posts" element={<Posts />} />
                     <Route path="/admin/posts/edit" element={<PostEdit />} />
